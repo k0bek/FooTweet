@@ -8,7 +8,7 @@ interface SidebarItemProps {
 
 const SidebarItem = ({ icon: Icon, label }: SidebarItemProps) => {
 	return (
-		<li className="flex items-center gap-3 text-white cursor-pointer p-2 rounded-full transition-all hover:bg-white hover:text-sky-500 shadow">
+		<li className="flex items-center gap-3 text-white cursor-pointer p-2 rounded-full transition-all hover:bg-white hover:text-sky-500">
 			<Icon className="text-3xl" />
 			<p className="hidden md:block text-xl">{label}</p>
 		</li>

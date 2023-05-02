@@ -29,7 +29,7 @@ const sidebarItems = [
 		auth: true,
 	},
 	{
-		label: "Notifications",
+		label: "Messages",
 		icon: IoMdNotifications,
 		auth: true,
 	},
@@ -39,7 +39,7 @@ const Navbar = () => {
 	return (
 		<div className="h-full w-16 flex flex-col items-center text-3xl p-4 gap-8 bg-gray-800 md:w-52">
 			<BsTwitter className="text-sky-500" />
-			<ul className="flex flex-col gap-6">
+			<ul className="flex flex-col gap-6 md:gap-8">
 				{sidebarItems.map((item) => {
 					return (
 						<SidebarItem
@@ -51,10 +51,12 @@ const Navbar = () => {
 					);
 				})}
 			</ul>
-			<Button variant="rounded">
+			<Button variant="rounded" className="block md:hidden">
 				<FiFeather />
 			</Button>
-			<Button variant="rectangle">Tweet</Button>
+			<Button variant="rectangle" className="hidden md:block ">
+				Tweet
+			</Button>
 		</div>
 	);
 };
