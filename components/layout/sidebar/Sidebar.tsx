@@ -35,9 +35,13 @@ const sidebarItems = [
 	},
 ];
 
-const Navbar = () => {
+interface SideBarProps {
+	onClick: () => void;
+}
+
+const Sidebar = ({ onClick }: SideBarProps) => {
 	return (
-		<div className="h-full w-16 flex flex-col items-center text-3xl p-4 gap-8 bg-gray-800 md:w-52">
+		<div className="h-full flex flex-col items-center text-5xl p-10 gap-8 bg-gray-800 md:w-60">
 			<BsTwitter className="text-sky-500" />
 			<ul className="flex flex-col gap-6 md:gap-8">
 				{sidebarItems.map((item) => {
@@ -51,14 +55,14 @@ const Navbar = () => {
 					);
 				})}
 			</ul>
-			<Button variant="rounded" className="block md:hidden">
+			<Button className="block md:hidden">
 				<FiFeather />
 			</Button>
-			<Button variant="rectangle" className="hidden md:block ">
-				Tweet
+			<Button className="hidden md:block w-full text-3xl" onClick={onClick}>
+				Login
 			</Button>
 		</div>
 	);
 };
 
-export default Navbar;
+export default Sidebar;
