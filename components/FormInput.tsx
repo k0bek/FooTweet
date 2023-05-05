@@ -1,8 +1,11 @@
+import { UseFormRegisterReturn } from "react-hook-form";
 interface FormInputProps {
 	placeholder: string;
+	type: string;
+	register?: UseFormRegisterReturn;
 }
 
-const FormInput = ({ placeholder }: FormInputProps) => {
+const FormInput = ({ placeholder, register, type }: FormInputProps) => {
 	return (
 		<input
 			className="
@@ -22,6 +25,8 @@ const FormInput = ({ placeholder }: FormInputProps) => {
     disabled:cursor-not-allowed
     "
 			placeholder={placeholder}
+			type={type}
+			{...register}
 		/>
 	);
 };
