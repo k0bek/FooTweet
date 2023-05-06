@@ -1,13 +1,23 @@
 import { useFormLogin } from "./hooks/useFormLogin";
 import FormInput from "../FormInput";
 import { regexEmail } from "@/constants/regexEmail";
+import { useEffect } from "react";
 
 interface LoginModalProps {
 	changeFormHandler: () => void;
+	changeModalVisibilityHandler: () => void;
 }
 
-export default function LoginModal({ changeFormHandler }: LoginModalProps) {
-	const { handleSubmit, onSubmit, register, errors } = useFormLogin();
+export default function LoginModal({
+	changeFormHandler,
+	changeModalVisibilityHandler,
+}: LoginModalProps) {
+	const { handleSubmit, onSubmit, register, errors, isLoading, isModalClosed } =
+		useFormLogin();
+
+	useEffect(() => {
+		changeModalVisibilityHandler();
+	}, [isModalClosed]);
 
 	return (
 		<form
@@ -46,20 +56,25 @@ export default function LoginModal({ changeFormHandler }: LoginModalProps) {
 			)}
 
 			<input
-				className="mt-8 py-4 text-2xl rounded-full bg-sky-500 text-white font-bold cursor-pointer"
+				className={`mt-8 py-4 text-2xl rounded-full ${
+					isLoading ? "bg-gray-500 cursor-not-allowed" : "bg-sky-500"
+				} text-white font-bold cursor-pointer`}
 				name="Submit"
 				type="submit"
 				value="Submit"
+				disabled={isLoading}
 			/>
-
 			<p className="text-gray-300 text-[1.5rem] text-center mt-2">
 				Dont have an account?
-				<span
-					className="text-white font-semibold cursor-pointer ml-2"
+				<button
+					className={`text-white font-semibold cursor-pointer ml-2 ${
+						isLoading ? "cursor-not-allowed" : ""
+					}`}
 					onClick={changeFormHandler}
+					disabled={isLoading}
 				>
 					Register
-				</span>
+				</button>
 			</p>
 		</form>
 	);

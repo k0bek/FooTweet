@@ -6,6 +6,8 @@ import { IoMdNotifications } from "react-icons/io";
 import { FiFeather } from "react-icons/fi";
 import SidebarItem from "./SidebarItem";
 import Button from "@/components/Button";
+import { useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 
 const sidebarItems = [
 	{
@@ -40,6 +42,8 @@ interface SideBarProps {
 }
 
 const Sidebar = ({ onClick }: SideBarProps) => {
+	const { data: session, status } = useSession();
+
 	return (
 		<div className="h-full flex flex-col items-center text-5xl p-10 gap-8 bg-gray-800 md:w-60">
 			<BsTwitter className="text-sky-500" />
@@ -58,9 +62,15 @@ const Sidebar = ({ onClick }: SideBarProps) => {
 			<Button className="block md:hidden">
 				<FiFeather />
 			</Button>
-			<Button className="hidden md:block w-full text-3xl" onClick={onClick}>
-				Login
-			</Button>
+			{session ? (
+				<Button className="hidden md:block w-full text-3xl" onClick={signOut}>
+					Logout
+				</Button>
+			) : (
+				<Button className="hidden md:block w-full text-3xl" onClick={onClick}>
+					Login
+				</Button>
+			)}
 		</div>
 	);
 };

@@ -1,11 +1,19 @@
 import Layout from "@/components/Layout";
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
+import { SessionProvider } from "next-auth/react";
+import { Toaster } from "react-hot-toast";
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({
+	Component,
+	pageProps: { session, ...pageProps },
+}: AppProps) {
 	return (
-		<Layout>
-			<Component {...pageProps} />
-		</Layout>
+		<SessionProvider session={session}>
+			<Toaster />
+			<Layout>
+				<Component {...pageProps} />
+			</Layout>
+		</SessionProvider>
 	);
 }

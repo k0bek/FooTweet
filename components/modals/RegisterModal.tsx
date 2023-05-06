@@ -1,18 +1,30 @@
 import FormInput from "../FormInput";
 import { regexEmail } from "@/constants/regexEmail";
 import { useFormRegister } from "./hooks/useFormRegister";
-import { useForm } from "react-hook-form";
-import { type } from "os";
+import { useEffect } from "react";
 
 interface RegisterModalProps {
 	changeFormHandler: () => void;
+	changeModalVisibilityHandler: () => void;
 }
 
 export default function RegisterModal({
 	changeFormHandler,
+	changeModalVisibilityHandler,
 }: RegisterModalProps) {
-	const { handleSubmit, onSubmit, register, errors } = useFormRegister();
-	const { watch } = useForm();
+	const {
+		handleSubmit,
+		onSubmit,
+		register,
+		errors,
+		getValues,
+		isLoading,
+		isModalClosed,
+	} = useFormRegister();
+
+	useEffect(() => {
+		changeModalVisibilityHandler();
+	}, [isModalClosed]);
 
 	return (
 		<form
@@ -58,7 +70,9 @@ export default function RegisterModal({
 				register={register("repeatPassword", {
 					required: "You need to repeat your password.",
 					validate: (val: string) => {
-						if (watch("password") != val) {
+						const { password } = getValues();
+						if (password != val) {
+							console.log("what you doin");
 							return "Your passwords do no match";
 						}
 					},
@@ -71,20 +85,26 @@ export default function RegisterModal({
 			)}
 
 			<input
-				className="mt-8 py-4 text-2xl rounded-full bg-sky-500 text-white font-bold cursor-pointer"
+				className={`mt-8 py-4 text-2xl rounded-full ${
+					isLoading ? "bg-gray-500 cursor-not-allowed" : "bg-sky-500"
+				} text-white font-bold cursor-pointer`}
 				name="Submit"
 				type="submit"
 				value="Submit"
+				disabled={isLoading}
 			/>
 
 			<p className="text-gray-300 text-[1.5rem] text-center mt-2">
 				Already have an account?
-				<span
-					className="text-white font-semibold cursor-pointer ml-2"
+				<button
+					className={`text-white font-semibold cursor-pointer ml-2 ${
+						isLoading ? "cursor-not-allowed" : ""
+					}`}
 					onClick={changeFormHandler}
+					disabled={isLoading}
 				>
 					Login
-				</span>
+				</button>
 			</p>
 		</form>
 	);

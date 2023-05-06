@@ -27,9 +27,15 @@ const Modal = ({
 			</button>
 
 			{isLoginForm ? (
-				<LoginModal changeFormHandler={changeFormHandler} />
+				<LoginModal
+					changeFormHandler={changeFormHandler}
+					changeModalVisibilityHandler={changeModalVisibilityHandler}
+				/>
 			) : (
-				<RegisterModal changeFormHandler={changeFormHandler} />
+				<RegisterModal
+					changeFormHandler={changeFormHandler}
+					changeModalVisibilityHandler={changeModalVisibilityHandler}
+				/>
 			)}
 		</div>
 	);
