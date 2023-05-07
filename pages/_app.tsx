@@ -3,6 +3,9 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "react-hot-toast";
+import { QueryClient, QueryClientProvider, useQuery } from "react-query";
+
+const queryClient = new QueryClient();
 
 export default function App({
 	Component,
@@ -10,10 +13,12 @@ export default function App({
 }: AppProps) {
 	return (
 		<SessionProvider session={session}>
-			<Toaster />
-			<Layout>
-				<Component {...pageProps} />
-			</Layout>
+			<QueryClientProvider client={queryClient}>
+				<Toaster />
+				<Layout>
+					<Component {...pageProps} />
+				</Layout>
+			</QueryClientProvider>
 		</SessionProvider>
 	);
 }

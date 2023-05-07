@@ -15,6 +15,7 @@ export const useFormRegister = () => {
 		setError,
 	} = useForm({
 		defaultValues: {
+			username: "",
 			email: "",
 			password: "",
 			repeatPassword: "",
@@ -24,13 +25,13 @@ export const useFormRegister = () => {
 	});
 
 	const onSubmit = async () => {
-		const { email, password, repeatPassword } = getValues();
+		const { username, email, password, repeatPassword } = getValues();
 
 		const createUser = async () => {
 			setIsLoading(true);
 			const response = await fetch("api/auth/sign-up", {
 				method: "POST",
-				body: JSON.stringify({ email, password }),
+				body: JSON.stringify({ username, email, password }),
 				headers: {
 					"Content-Type": "application/json",
 				},

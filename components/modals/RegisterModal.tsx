@@ -32,6 +32,24 @@ export default function RegisterModal({
 			className="flex flex-col gap-3 bg-black py-20 px-10 rounded-2xl w-[50rem] relative"
 		>
 			<h1 className="font-bold text-5xl text-white mb-10">Register</h1>
+
+			<label className="font-medium">Username</label>
+			<FormInput
+				placeholder="Username"
+				register={register("username", {
+					required: "You need to enter your username.",
+					minLength: {
+						value: 5,
+						message: "Your username is too short.",
+					},
+				})}
+				type="text"
+			/>
+
+			{errors?.username?.message && (
+				<p className="text-white">{errors.username.message}</p>
+			)}
+
 			<label className="font-medium">Email address</label>
 			<FormInput
 				placeholder="Email address"

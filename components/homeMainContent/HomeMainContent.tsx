@@ -1,11 +1,7 @@
 import React from "react";
 import CreatePostBar from "./CreatePostBar";
 
-interface HomeMainContentPage {
-	children: React.ReactNode;
-}
-
-const HomeMainContent = ({ children }: HomeMainContentPage) => {
+const HomeMainContent = () => {
 	return (
 		<div className=" bg-gray-800 h-full w-full md:w-3/5">
 			<div className=" border-down border-b-2 border-gray-700">

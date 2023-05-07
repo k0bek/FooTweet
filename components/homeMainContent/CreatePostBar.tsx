@@ -15,7 +15,7 @@ const CreatePostBar = () => {
 					className="rounded-full"
 				/>
 				<textarea
-					className="h-[5.5rem] rounded-2xl w-full bg-slate-500 text-xl p-4 text-white outline-none sm:text-4xl "
+					className="h-[6.5rem] min-h-[6.5rem] max-h-[6.5rem] rounded-2xl w-full bg-slate-500 text-xl p-4 text-white outline-none sm:text-4xl "
 					placeholder="What's happening?"
 				></textarea>
 			</div>

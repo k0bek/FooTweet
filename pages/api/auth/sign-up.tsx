@@ -7,7 +7,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 		return;
 	}
 
-	const { email, password } = req.body;
+	const { username, email, password } = req.body;
 
 	const client = await connectToDatabase();
 	const db = client.db();
@@ -20,9 +20,23 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 		return;
 	}
 
+	const existingUsername = await db
+		.collection("users")
+		.findOne({ username: username });
+
+	if (existingUsername) {
+		res.status(422).json({
+			message: "User with this name exists already",
+			field: "username",
+		});
+		client.close();
+		return;
+	}
+
 	const hashedPasword = await hashPassword(password);
 
 	const result = await db.collection("users").insertOne({
+		username,
 		email,
 		password: hashedPasword,
 	});

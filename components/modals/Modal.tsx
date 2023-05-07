@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import LoginModal from "./LoginModal";
 import RegisterModal from "./RegisterModal";
 import { AiOutlineClose } from "react-icons/ai";
-import { useFormRegister } from "./hooks/useFormRegister";
-import { useFormLogin } from "./hooks/useFormLogin";
 
 interface ModalProps {
 	isLoginForm: boolean;
