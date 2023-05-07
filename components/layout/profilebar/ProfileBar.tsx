@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const ProfileBar = () => {
 	return (
-		<div className="bg-gray-800 rounded-lg mr-10 hidden xl:flex flex-col items-center relative py-4">
+		<div className="bg-gray-800 rounded-2xl hidden xl:flex flex-col items-center relative py-4">
 			<Image
 				src={lewy}
 				width={50}

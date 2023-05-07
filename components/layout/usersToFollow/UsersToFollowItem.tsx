@@ -6,7 +6,7 @@ import Button from "@/components/Button";
 
 const UsersToFollowItem = () => {
 	return (
-		<li className="flex justify-between items-center cursor-pointer hover:bg-gray-700 transition-all w-full px-4 py-4 gap-8">
+		<li className="flex justify-between items-center cursor-pointer hover:bg-gray-700 transition-all w-full px-4 py-4 gap-10">
 			<div className="flex gap-4 items-center justify-center">
 				<Image
 					src={lewy}

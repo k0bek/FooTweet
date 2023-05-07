@@ -25,21 +25,22 @@ const Layout = ({ children }: LayoutProps) => {
 	};
 
 	return (
-		<div className="h-screen flex justify-between items-center">
+		<div className="h-screen flex justify-between items-center max-w-[1700px]">
 			<SideBar onClick={changeModalVisibilityHandler} />
 			{children}
 			<div className="flex flex-col gap-5">
 				<ProfileBar />
 				<UsersToFollow />
-				{isModalVisible && (
-					<Modal
-						isLoginForm={isLoginForm}
-						isModalVisible={isModalVisible}
-						changeFormHandler={changeFormHandler}
-						changeModalVisibilityHandler={changeModalVisibilityHandler}
-					/>
-				)}
 			</div>
+
+			{isModalVisible && (
+				<Modal
+					isLoginForm={isLoginForm}
+					isModalVisible={isModalVisible}
+					changeFormHandler={changeFormHandler}
+					changeModalVisibilityHandler={changeModalVisibilityHandler}
+				/>
+			)}
 		</div>
 	);
 };
