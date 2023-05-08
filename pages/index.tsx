@@ -1,5 +1,4 @@
 import HomeMainContent from "@/components/homeMainContent/HomeMainContent";
-import { useUsers } from "@/hooks/useUsers";
 import { GetServerSidePropsContext } from "next";
 import { getSession, useSession } from "next-auth/react";
 

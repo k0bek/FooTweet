@@ -10,8 +10,6 @@ const UsersToFollow = () => {
 		data: items,
 	} = useQuery("users", () => fetch("api/users").then((res) => res.json()));
 
-	console.log(isLoading);
-
 	return (
 		<div className="bg-gray-800 py-6 h-82 rounded-2xl hidden xl:block min-w-[26rem]">
 			<h2 className="text-white font-bold text-3xl px-4">Who to follow</h2>

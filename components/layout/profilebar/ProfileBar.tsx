@@ -1,7 +1,13 @@
-import lewy from "./../../../assets/images/lewy.jpg";
+import { useSession } from "next-auth/react";
+import { Session } from "next-auth";
 import Image from "next/image";
+import lewy from "./../../../assets/images/lewy.jpg";
 
 const ProfileBar = () => {
+	const { data: session, status } = useSession();
+
+	console.log(session?.user);
+
 	return (
 		<div className="bg-gray-800 rounded-2xl hidden xl:flex flex-col items-center relative py-4">
 			<Image
@@ -18,8 +24,12 @@ const ProfileBar = () => {
 				alt="User's profile image"
 				className="rounded-full z-[1] mt-4"
 			/>
-			<p className="text-white font-medium text-3xl mt-3">Kubusieg</p>
-			<span className=" text-gray-500 text-xl">@kubusieg</span>
+			<p className="text-white font-medium text-3xl mt-3">
+				{session?.user && session.user.username}
+			</p>
+			<span className=" text-gray-500 text-xl mt-2">
+				@{session?.user.username}
+			</span>
 
 			<div className="flex border-t-2 border-b-2 border-gray-700 w-full mt-3">
 				<div className="text-center w-1/2 border-r-2 border-gray-700 p-2">

@@ -11,6 +11,10 @@ export const authOptions: NextAuthOptions = {
 		CredentialsProvider({
 			name: "Credentials",
 			credentials: {
+				username: {
+					label: "Username",
+					type: "text",
+				},
 				email: {
 					label: "Email",
 					type: "email",
@@ -54,6 +58,21 @@ export const authOptions: NextAuthOptions = {
 			},
 		}),
 	],
+
+	callbacks: {
+		session: async ({ session, token }) => {
+			session.user.username = token.username as string;
+			return Promise.resolve(session);
+		},
+		jwt: async ({ token, user }) => {
+			console.log(user);
+			if (user) {
+				token.id = user.id;
+				token.username = user.username;
+			}
+			return Promise.resolve(token);
+		},
+	},
 	secret: process.env.NEXTAUTH_SECRET,
 };
 
