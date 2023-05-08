@@ -2,6 +2,7 @@ import FormInput from "../FormInput";
 import { regexEmail } from "@/constants/regexEmail";
 import { useFormRegister } from "./hooks/useFormRegister";
 import { useEffect } from "react";
+import { AiOutlineClose } from "react-icons/ai";
 
 interface RegisterModalProps {
 	changeFormHandler: () => void;
@@ -31,7 +32,15 @@ export default function RegisterModal({
 			onSubmit={handleSubmit(onSubmit)}
 			className="flex flex-col gap-3 bg-black py-20 px-10 rounded-2xl w-[50rem] relative"
 		>
-			<h1 className="font-bold text-5xl text-white mb-10">Register</h1>
+			<div className="flex w-full items-center justify-between">
+				<h1 className="font-bold text-5xl text-white ">Register</h1>
+				<button>
+					<AiOutlineClose
+						className="text-white text-4xl  hover:bg-gray-500 hover:rounded-full p-1 transition-all"
+						onClick={changeModalVisibilityHandler}
+					/>
+				</button>
+			</div>
 
 			<label className="font-medium">Username</label>
 			<FormInput

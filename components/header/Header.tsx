@@ -11,7 +11,7 @@ const Header = ({ children, heading }: HeaderProps) => {
 			<div className=" border-down border-b-2 border-gray-700">
 				<h1 className="text-white font-medium text-4xl p-10 ">{heading}</h1>
 			</div>
-			<div className="flex justify-center p-12">{children}</div>
+			<div className="flex flex-col gap-5 justify-center p-12">{children}</div>
 		</div>
 	);
 };

@@ -2,6 +2,7 @@ import { useFormLogin } from "./hooks/useFormLogin";
 import FormInput from "../FormInput";
 import { regexEmail } from "@/constants/regexEmail";
 import { useEffect } from "react";
+import { AiOutlineClose } from "react-icons/ai";
 
 interface LoginModalProps {
 	changeFormHandler: () => void;
@@ -24,7 +25,15 @@ export default function LoginModal({
 			onSubmit={handleSubmit(onSubmit)}
 			className="flex flex-col gap-3 bg-black py-20 px-10 rounded-2xl w-[50rem] relative"
 		>
-			<h1 className="font-bold text-5xl text-white mb-10">Login</h1>
+			<div className="flex w-full items-center justify-between">
+				<h1 className="font-bold text-5xl text-white ">Login</h1>
+				<button>
+					<AiOutlineClose
+						className="text-white text-4xl  hover:bg-gray-500 hover:rounded-full p-1 transition-all"
+						onClick={changeModalVisibilityHandler}
+					/>
+				</button>
+			</div>
 			<label className="font-medium">Email address</label>
 			<FormInput
 				placeholder="Email address"
