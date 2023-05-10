@@ -45,7 +45,7 @@ const Sidebar = ({ onClick }: SideBarProps) => {
 	const { data: session, status } = useSession();
 
 	return (
-		<div className="h-full flex flex-col items-center text-5xl p-10 gap-8 bg-gray-800 md:w-60 border-r-2 border-gray-700">
+		<div className="h-full flex flex-col items-center text-5xl py-10 px-4 sm:p-10 gap-8 bg-gray-800 md:w-60 border-r-2 border-gray-700">
 			<BsTwitter className="text-sky-500" />
 			<ul className="flex flex-col gap-6 md:gap-8">
 				{sidebarItems.map((item) => {

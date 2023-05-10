@@ -4,9 +4,14 @@ import Image from "next/image";
 import { AiFillHeart, AiOutlineRetweet } from "react-icons/ai";
 import { FaComments } from "react-icons/fa";
 
-const Post = () => {
+interface PostProps {
+	username: string;
+	postValue: string;
+}
+
+const Post = ({ username, postValue }: PostProps) => {
 	return (
-		<div className="flex items-center flex-col bg-slate-700 rounded-2xl w-full p-7">
+		<div className="flex items-center flex-col bg-slate-700 rounded-2xl w-full p-7 cursor-pointer hover:bg-slate-700/90 transition-all">
 			<div className="h-full w-full flex flex-col items-center gap-4 sm:flex-row">
 				<div className="flex items-start gap-3">
 					<Image
@@ -21,10 +26,10 @@ const Post = () => {
 							<div className="flex flex-col">
 								<div className="flex items-start flex-col sm:flex-row sm:items-end sm:gap-2">
 									<span className="text-white font-semibold text-xl sm:text-2xl">
-										Robert Lewandowski
+										{username}
 									</span>
 									<span className=" text-gray-400 font-medium sm:text-xl">
-										@lewandowski
+										@{username}
 									</span>
 								</div>
 								<span className="text-gray-400 sm:text-xl">
@@ -33,12 +38,7 @@ const Post = () => {
 							</div>
 						</div>
 
-						<p className="text-white text-lg sm:text-2xl">
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum
-							iure facere provident doloremque corrupti dicta adipisci, nemo
-							tempore ipsa mollitia autem quam dignissimos pariatur fuga?
-							Voluptas eaque eum enim dolorem!
-						</p>
+						<p className="text-white text-lg sm:text-2xl">{postValue}</p>
 					</div>
 				</div>
 			</div>
