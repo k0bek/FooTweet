@@ -24,7 +24,7 @@ const HomeMainContent = () => {
 	console.log(posts);
 
 	return (
-		<div className=" bg-gray-800 h-full w-full md:w-3/5">
+		<div className="bg-gray-800 w-full md:w-3/5 ml-24 md:ml-0 xl:ml-[-13rem] absolute top-0">
 			<Header heading="Home" />
 			<div className="flex flex-col items-center gap-5 justify-center p-12">
 				<CreatePostBar refetch={refetch} />

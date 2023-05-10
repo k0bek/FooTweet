@@ -6,8 +6,6 @@ import lewy from "./../../../assets/images/lewy.jpg";
 const ProfileBar = () => {
 	const { data: session, status } = useSession();
 
-	console.log(session?.user);
-
 	return (
 		<div className="bg-gray-800 rounded-2xl hidden xl:flex flex-col items-center relative py-4">
 			<Image
