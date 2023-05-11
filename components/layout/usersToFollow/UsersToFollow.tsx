@@ -8,13 +8,15 @@ const UsersToFollow = () => {
 		isLoading,
 		error,
 		data: items,
-	} = useQuery("users", () => fetch("api/users").then((res) => res.json()));
+	} = useQuery("users", () => fetch("../api/users").then((res) => res.json()));
+
+	console.log(items);
 
 	return (
 		<div className="bg-gray-800 py-6 h-82 rounded-2xl hidden xl:block min-w-[26rem]">
 			<h2 className="text-white font-bold text-3xl px-4">Who to follow</h2>
 			<ul className="py-5 flex flex-col items-center">
-				{!isLoading ? (
+				{!isLoading && items ? (
 					items.map((item: { image: string; username: string }) => {
 						return <UsersToFollowItem username={item.username} image="" />;
 					})

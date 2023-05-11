@@ -30,7 +30,7 @@ export default function RegisterModal({
 	return (
 		<form
 			onSubmit={handleSubmit(onSubmit)}
-			className="flex flex-col gap-3 bg-black py-20 px-10 rounded-2xl w-[50rem] relative"
+			className="flex flex-col gap-3 bg-black py-20 px-10 rounded-2xl w-[30rem] xs:w-[40rem] sm:w-[50rem] relative"
 		>
 			<div className="flex w-full items-center justify-between">
 				<h1 className="font-bold text-5xl text-white ">Register</h1>

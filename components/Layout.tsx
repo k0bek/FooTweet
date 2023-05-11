@@ -25,11 +25,11 @@ const Layout = ({ children }: LayoutProps) => {
 	};
 
 	return (
-		<div className="relative h-screen flex justify-center items-center max-w-[1700px]">
+		<div className="relative flex justify-center max-w-[1700px]">
 			<SideBar onClick={changeModalVisibilityHandler} />
 			{children}
-			<div className="absolute right-8">
-				<div className="flex flex-col gap-5 relative top-0 z-50">
+			<div className="absolute right-8 top-[25vh]">
+				<div className="flex flex-col gap-5">
 					<ProfileBar />
 					<UsersToFollow />
 				</div>
