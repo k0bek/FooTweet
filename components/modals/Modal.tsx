@@ -1,34 +1,35 @@
-import React, { useState } from "react";
-import LoginModal from "./LoginModal";
-import RegisterModal from "./RegisterModal";
+import React, { useState } from 'react';
+
+import LoginModal from './LoginModal';
+import RegisterModal from './RegisterModal';
 
 interface ModalProps {
-	isLoginForm: boolean;
-	isModalVisible: boolean;
-	changeFormHandler: () => void;
-	changeModalVisibilityHandler: () => void;
+  isLoginForm: boolean;
+  isModalVisible: boolean;
+  changeFormHandler: () => void;
+  changeModalVisibilityHandler: () => void;
 }
 
 const Modal = ({
-	isLoginForm,
-	changeFormHandler,
-	changeModalVisibilityHandler,
+  isLoginForm,
+  changeFormHandler,
+  changeModalVisibilityHandler,
 }: ModalProps) => {
-	return (
-		<div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-30 flex flex-col items-center justify-center z-10 px-5 overflow-hidden">
-			{isLoginForm ? (
-				<LoginModal
-					changeFormHandler={changeFormHandler}
-					changeModalVisibilityHandler={changeModalVisibilityHandler}
-				/>
-			) : (
-				<RegisterModal
-					changeFormHandler={changeFormHandler}
-					changeModalVisibilityHandler={changeModalVisibilityHandler}
-				/>
-			)}
-		</div>
-	);
+  return (
+    <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-30 flex flex-col items-center justify-center z-10 px-5 overflow-hidden">
+      {isLoginForm ? (
+        <LoginModal
+          changeFormHandler={changeFormHandler}
+          changeModalVisibilityHandler={changeModalVisibilityHandler}
+        />
+      ) : (
+        <RegisterModal
+          changeFormHandler={changeFormHandler}
+          changeModalVisibilityHandler={changeModalVisibilityHandler}
+        />
+      )}
+    </div>
+  );
 };
 
 export default Modal;

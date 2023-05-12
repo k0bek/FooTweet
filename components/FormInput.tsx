@@ -1,14 +1,14 @@
-import { UseFormRegisterReturn } from "react-hook-form";
+import { UseFormRegisterReturn } from 'react-hook-form';
 interface FormInputProps {
-	placeholder: string;
-	type: string;
-	register?: UseFormRegisterReturn;
+  placeholder: string;
+  type: string;
+  register?: UseFormRegisterReturn;
 }
 
 const FormInput = ({ placeholder, register, type }: FormInputProps) => {
-	return (
-		<input
-			className="
+  return (
+    <input
+      className="
     p-4 
     text-xl 
     bg-black 
@@ -24,11 +24,11 @@ const FormInput = ({ placeholder, register, type }: FormInputProps) => {
     disabled:opacity-70
     disabled:cursor-not-allowed
     "
-			placeholder={placeholder}
-			type={type}
-			{...register}
-		/>
-	);
+      placeholder={placeholder}
+      type={type}
+      {...register}
+    />
+  );
 };
 
 export default FormInput;
