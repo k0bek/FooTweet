@@ -1,26 +1,27 @@
-import axios from 'axios';
 import { GetServerSidePropsContext } from 'next';
+import { useRouter } from 'next/router';
 import React from 'react';
-import { useMutation } from 'react-query';
 
+import CreateCommentBar from '@/components/createCommentBar/CreateCommentBar';
 import Header from '@/components/header/Header';
-import CreatePostBar from '@/components/homeMainContent/CreatePostBar';
+import Post from '@/components/post/Post';
 import Wrapper from '@/components/wrapper/Wrapper';
+import useComments from '@/hooks/useComments';
 import usePost from '@/hooks/usePost';
 
-const postid = ({ data }) => {
-  const mutation = useMutation({
-    mutationFn: (newPost) => {
-      return axios.post(`/api/comments/${data._id}`, newPost);
-    },
-  });
+const postid = ({ commentedPost, comments }) => {
+  const router = useRouter();
 
-  console.log(data);
   return (
     <Wrapper>
       <Header heading="Post" />
       <div className="flex flex-col gap-5 p-5">
-        <CreatePostBar />
+        <Post isComment={false} postValue={commentedPost.postValue} />
+        <CreateCommentBar commentedPost={commentedPost} />
+        {comments &&
+          comments.comments.map((comment) => {
+            return <Post postValue={comment.commentValue} isComment={true} />;
+          })}
       </div>
     </Wrapper>
   );
@@ -30,8 +31,8 @@ export default postid;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const postId = context?.params?.postId;
-  const response = await usePost(postId);
-  const data = await response.json();
+  const commentedPost = await usePost(postId);
+  const comments = await useComments(postId);
 
-  return { props: { data } };
+  return { props: { commentedPost, comments } };
 }

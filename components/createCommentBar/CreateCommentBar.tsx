@@ -1,35 +1,32 @@
 import axios from 'axios';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useSession } from 'next-auth/react';
 import React, { useState } from 'react';
 import { ChangeEvent } from 'react';
 import { toast } from 'react-hot-toast';
-import { BsFillImageFill } from 'react-icons/bs';
-import { useMutation } from 'react-query';
+import { QueryClient, useMutation } from 'react-query';
 
-import getCurrentData from '@/hooks/useCurrentData';
+import useCurrentData from '@/hooks/useCurrentData';
 
 import Textarea from '../Textarea';
 import lewy from './../../assets/images/lewy.jpg';
 
-const CreatePostBar = () => {
-  const [postValue, setPostValue] = useState('');
-  const { data: session, status } = useSession();
+const CreateCommentBar = ({ commentedPost }) => {
+  const [commentValue, setCommentValue] = useState('');
   const router = useRouter();
 
   const mutation = useMutation({
-    mutationFn: (newPost) => {
-      return axios.post('/api/posts', newPost);
+    mutationFn: (newComment) => {
+      return axios.post(`/api/comments/${commentedPost._id}`, newComment);
     },
-    onSuccess: () => {
+    onSuccess: async () => {
+      setCommentValue('');
+      toast.success('Added comment correctly!');
       router.replace(router.asPath);
-      setPostValue('');
-      toast.success('Added tweet correctly!');
     },
 
     onError: () => {
-      toast.error('Error with adding posts. Please try again');
+      toast.error('Error with adding comments. Please try again');
     },
   });
 
@@ -45,29 +42,20 @@ const CreatePostBar = () => {
         />
         <Textarea
           placeholder="What's happening?"
-          value={postValue}
+          value={commentValue}
           disabled={mutation.isLoading}
           onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
-            setPostValue(event.target.value);
+            setCommentValue(event.target.value);
           }}
         />
       </div>
       <div className="mt-5 flex gap-1 sm:gap-5 w-full justify-end">
         <button
-          className={`border border-gray-600 text-lg sm:text-xl py-3 px-3 sm:px-6 rounded-3xl text-gray-300 font-medium flex items-center gap-3 ${
-            mutation.isLoading ? 'bg-gray-500 cursor-not-allowed' : 'text-gray-300'
-          }`}
-          disabled={mutation.isLoading}
-        >
-          <BsFillImageFill className="text-emerald-400 shadow-xl shadow-emerald-500" />
-          Photo
-        </button>
-        <button
           onClick={async () => {
             mutation.mutate({
-              ...session?.user,
-              postValue,
-              data_time: getCurrentData(),
+              commentValue,
+              data_time: useCurrentData(),
+              postId: router.query.postId,
             });
           }}
           className={`border border-gray-600  text-lg sm:text-xl py-3 px-3 sm:px-6 rounded-3xl text-gray-300 font-bold flex items-center gap-3 ${
@@ -75,11 +63,11 @@ const CreatePostBar = () => {
           }`}
           disabled={mutation.isLoading}
         >
-          Tweet
+          Comment
         </button>
       </div>
     </div>
   );
 };
 
-export default CreatePostBar;
+export default CreateCommentBar;
