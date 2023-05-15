@@ -33,7 +33,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         .collection('posts')
         .updateOne({ _id: new ObjectId(postId) }, { $set: { comments: comments } });
 
-      return res.status(200).json(post);
+      return res.status(200).json(comments);
     }
     return res.status(405).end();
   } catch (error) {

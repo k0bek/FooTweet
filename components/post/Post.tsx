@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { AiFillHeart, AiOutlineRetweet } from 'react-icons/ai';
 import { FaComments } from 'react-icons/fa';
+import moment from 'moment';
 
 import lewy from './../../assets/images/lewy.jpg';
 interface PostProps {
@@ -12,7 +13,7 @@ interface PostProps {
   isComment: boolean;
 }
 
-const Post = ({ username, postValue, id, isComment }: PostProps) => {
+const Post = ({ username, postValue, id, isComment, data_time }: PostProps) => {
   const router = useRouter();
 
   const goToPost = (event: Event) => {
@@ -42,7 +43,9 @@ const Post = ({ username, postValue, id, isComment }: PostProps) => {
                     @{username}
                   </span>
                 </div>
-                <span className="text-gray-400 xs:text-xl">Few minutes ago</span>
+                <span className="text-gray-400 xs:text-xl">
+                  {moment(data_time, 'YYYY-MM-DDTHH:mm:ss.SSSZ').fromNow()}
+                </span>
               </div>
             </div>
 

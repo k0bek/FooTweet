@@ -10,17 +10,25 @@ import useComments from '@/hooks/useComments';
 import usePost from '@/hooks/usePost';
 
 const postid = ({ commentedPost, comments }) => {
-  const router = useRouter();
-
   return (
     <Wrapper>
       <Header heading="Post" />
       <div className="flex flex-col gap-5 p-5">
-        <Post isComment={false} postValue={commentedPost.postValue} />
+        <Post
+          isComment={false}
+          postValue={commentedPost.postValue}
+          data_time={commentedPost.data_time}
+        />
         <CreateCommentBar commentedPost={commentedPost} />
         {comments &&
-          comments.comments.map((comment) => {
-            return <Post postValue={comment.commentValue} isComment={true} />;
+          comments.map((comment) => {
+            return (
+              <Post
+                postValue={comment.commentValue}
+                isComment={true}
+                data_time={comment.data_time}
+              />
+            );
           })}
       </div>
     </Wrapper>

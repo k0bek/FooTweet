@@ -6,6 +6,7 @@ import Wrapper from '../wrapper/Wrapper';
 import CreatePostBar from './CreatePostBar';
 
 const HomeMainContent = ({ posts }) => {
+  console.log(posts);
   return (
     <Wrapper>
       <Header heading="Home" />
@@ -14,7 +15,12 @@ const HomeMainContent = ({ posts }) => {
         {posts &&
           posts.map((post) => {
             return (
-              <Post username={post.username} postValue={post.postValue} id={post._id} />
+              <Post
+                username={post.username}
+                postValue={post.postValue}
+                id={post._id}
+                data_time={post.data_time}
+              />
             );
           })}
         {/* {isLoading && <Loader />} */}

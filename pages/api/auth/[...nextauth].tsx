@@ -8,6 +8,7 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: 'jwt',
   },
+
   providers: [
     CredentialsProvider({
       name: 'Credentials',
@@ -60,12 +61,14 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     session: async ({ session, token }) => {
       session.user.username = token.username as string;
+      session.user.id = token.uid as string;
       return Promise.resolve(session);
     },
     jwt: async ({ token, user }) => {
       if (user) {
         token.id = user.id;
         token.username = user.username;
+        token.uid = user.id;
       }
       return Promise.resolve(token);
     },
