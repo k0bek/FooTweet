@@ -8,8 +8,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const { userId } = req.query;
 
-  console.log(userId);
-
   if (req.method !== 'GET') {
     return res.status(400).end();
   }

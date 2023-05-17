@@ -8,8 +8,12 @@ import { GetServerSidePropsContext } from 'next';
 import useUser from '@/hooks/useUser';
 import Post from '@/components/post/Post';
 import moment from 'moment';
+import axios from 'axios';
+import useProfilePosts from '@/hooks/useProfilePosts';
+import CreatePostBar from '@/components/homeMainContent/CreatePostBar';
 
-const Profile = ({ userSession, usersPosts }) => {
+const Profile = ({ userSession, profilePosts }) => {
+  console.log(profilePosts);
   return (
     <Wrapper>
       <Header heading="Profile" />
@@ -54,10 +58,19 @@ const Profile = ({ userSession, usersPosts }) => {
           </div>
         </div>
       </div>
-      <div>
-        {usersPosts &&
-          usersPosts.map((userPost) => {
-            return <Post isComment={false} postValue={userPost.postValue} />;
+      <div className="flex flex-col gap-10 py-10 px-5">
+        <CreatePostBar />
+        {profilePosts &&
+          profilePosts.map((profilePost) => {
+            return (
+              <Post
+                isComment={false}
+                postValue={profilePost.postValue}
+                username={profilePost.username}
+                data_time={profilePost.data_time}
+                id={profilePost._id}
+              />
+            );
           })}
       </div>
     </Wrapper>
@@ -69,7 +82,8 @@ export default Profile;
 export const getServerSideProps = async (context: GetServerSidePropsContext) => {
   const session = await getSession({ req: context.req });
   const userSession = session?.user;
-  const usersPosts = await useUser(context?.params?.profileId);
+  console.log(userSession?.id);
+  const profilePosts = await useProfilePosts(userSession?.id);
 
   if (!userSession) {
     return {
@@ -81,6 +95,6 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
   }
 
   return {
-    props: { userSession, usersPosts },
+    props: { userSession, profilePosts },
   };
 };

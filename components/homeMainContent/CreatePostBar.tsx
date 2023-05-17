@@ -18,6 +18,8 @@ const CreatePostBar = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
 
+  const user = session?.user;
+
   const mutation = useMutation({
     mutationFn: (newPost) => {
       return axios.post('/api/posts', newPost);
@@ -65,7 +67,7 @@ const CreatePostBar = () => {
         <button
           onClick={async () => {
             mutation.mutate({
-              ...session?.user,
+              ...user,
               postValue,
               data_time: getCurrentData(),
             });

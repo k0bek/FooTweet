@@ -11,6 +11,7 @@ interface PostProps {
   postValue: string;
   id: string;
   isComment: boolean;
+  data_time: string;
 }
 
 const Post = ({ username, postValue, id, isComment, data_time }: PostProps) => {

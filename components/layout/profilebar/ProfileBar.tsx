@@ -4,15 +4,12 @@ import { useSession } from 'next-auth/react';
 
 import lewy from './../../../assets/images/lewy.jpg';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 const ProfileBar = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
   const user = session?.user;
-
-  const goToProfilePage = async () => {
-    await router.push(`/profile/${user?.id}`);
-  };
 
   return (
     <div className="bg-gray-800 rounded-2xl hidden xl:flex flex-col items-center relative py-4">
@@ -45,12 +42,12 @@ const ProfileBar = () => {
           <span className="text-gray-500 text-xl">Followers</span>
         </div>
       </div>
-      <p
+      <Link
+        href={`/profile/${user?.id}`}
         className="text-blue-500 cursor-pointer px-4 text-2xl mt-4"
-        onClick={goToProfilePage}
       >
         My profile
-      </p>
+      </Link>
     </div>
   );
 };

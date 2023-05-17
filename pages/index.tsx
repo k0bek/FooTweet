@@ -3,7 +3,7 @@ import axios from 'axios';
 import HomeMainContent from '@/components/homeMainContent/HomeMainContent';
 
 export default function Home({ posts }) {
-  return <HomeMainContent posts={posts} />;
+  return <HomeMainContent posts={posts.posts} />;
 }
 
 export async function getServerSideProps() {

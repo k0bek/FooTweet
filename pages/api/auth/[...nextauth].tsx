@@ -62,7 +62,7 @@ export const authOptions: NextAuthOptions = {
     session: async ({ session, token }) => {
       session.user.username = token.username as string;
       session.user.id = token.uid as string;
-      return Promise.resolve(session);
+      return session;
     },
     jwt: async ({ token, user }) => {
       if (user) {
@@ -73,7 +73,28 @@ export const authOptions: NextAuthOptions = {
       return Promise.resolve(token);
     },
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.AUTH_SECRET,
 };
 
 export default NextAuth(authOptions);
+
+// callbacks: {
+//   session: async ({ session, token }) => {
+//     session.accessToken = token.accessToken;
+//     session.user.username = token.username as string;
+//     session.user.id = token.uid as string;
+//     return Promise.resolve(session);
+//   },
+//   jwt: async ({ token, user }) => {
+//     if (user) {
+//       token.id = user.id;
+//       token.username = user.username;
+//       token.uid = user.id;
+//     }
+//     return Promise.resolve(token);
+//   },
+// },
+// jwt: {
+//   encryption: true,
+//   secret: process.env.NEXT_AUTH_JWT_SECRET,
+// },
