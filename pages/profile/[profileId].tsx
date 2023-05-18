@@ -43,7 +43,7 @@ const Profile = ({ userSession, profilePosts }) => {
               2020asdddddddddddddddddd
             </span>
             <span className="text-gray-400 text-xl md:text-2xl">
-              Joined {moment().format(`MMMM Do YYYY`, userSession.data_time)}
+              Joined {moment(userSession.data_time).format(`MMMM Do YYYY`)}
             </span>
           </div>
           <div className="flex gap-5 text-white mt-5 hover:text-gray-300 transition-all">

@@ -6,7 +6,6 @@ import Wrapper from '../wrapper/Wrapper';
 import CreatePostBar from './CreatePostBar';
 
 const HomeMainContent = ({ posts }) => {
-  console.log(posts);
   return (
     <Wrapper>
       <Header heading="Home" />
@@ -20,6 +19,7 @@ const HomeMainContent = ({ posts }) => {
                 postValue={post.postValue}
                 id={post._id}
                 data_time={post.data_time}
+                quantityOfComments={post.comments.length}
               />
             );
           })}

@@ -6,21 +6,48 @@ import { FaComments } from 'react-icons/fa';
 import moment from 'moment';
 
 import lewy from './../../assets/images/lewy.jpg';
+import { toast } from 'react-hot-toast';
+import axios from 'axios';
+import { useMutation } from 'react-query';
 interface PostProps {
   username: string;
   postValue: string;
   id: string;
   isComment: boolean;
   data_time: string;
+  quantityOfComments: number;
 }
 
-const Post = ({ username, postValue, id, isComment, data_time }: PostProps) => {
+const Post = ({
+  username,
+  postValue,
+  id,
+  isComment,
+  data_time,
+  quantityOfComments,
+}: PostProps) => {
   const router = useRouter();
 
   const goToPost = (event: Event) => {
     event.preventDefault();
     router.push(`/posts/${id}`);
   };
+
+  const retweetPost = useMutation({
+    mutationFn: (newComment) => {
+      return axios.post(`/api/retweet`, newComment);
+    },
+    onSuccess: async () => {
+      toast.success('Added comment correctly!');
+      router.replace(router.asPath);
+    },
+
+    onError: () => {
+      toast.error('Error with adding comments. Please try again');
+    },
+  });
+
+  console.log(quantityOfComments);
 
   return (
     <div className="flex flex-col bg-slate-700 rounded-2xl w-full p-7 cursor-pointer hover:bg-slate-700/90 transition-all">
@@ -60,7 +87,17 @@ const Post = ({ username, postValue, id, isComment, data_time }: PostProps) => {
             <AiFillHeart />
             Like
           </button>
-          <button className="border border-gray-600 text-xs xs:text-xl py-3 px-3 xs:px-6 rounded-3xl text-gray-300 font-medium flex items-center gap-3 hover:bg-blue-500 transition-all">
+          <button
+            className="border border-gray-600 text-xs xs:text-xl py-3 px-3 xs:px-6 rounded-3xl text-gray-300 font-medium flex items-center gap-3 hover:bg-blue-500 transition-all"
+            onClick={async () => {
+              retweetPost.mutate({
+                postValue,
+                username,
+                id,
+                data_time,
+              });
+            }}
+          >
             <AiOutlineRetweet />
             Retweet
           </button>
@@ -69,7 +106,7 @@ const Post = ({ username, postValue, id, isComment, data_time }: PostProps) => {
             onClick={goToPost}
           >
             <FaComments />
-            Comment
+            Comment {quantityOfComments}
           </button>
         </div>
       )}
