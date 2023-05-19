@@ -1,6 +1,7 @@
-import { connectToDatabase } from '@/lib/connectToDatabase';
-import { NextApiRequest, NextApiResponse } from 'next';
 import { ObjectId } from 'mongodb';
+import { NextApiRequest, NextApiResponse } from 'next';
+
+import { connectToDatabase } from '@/lib/connectToDatabase';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const client = await connectToDatabase();

@@ -19,11 +19,11 @@ const HomeMainContent = ({ posts }) => {
                 postValue={post.postValue}
                 id={post._id}
                 data_time={post.data_time}
-                quantityOfComments={post.comments.length}
+                quantityOfComments={post.comments ? post.comments.length : 0}
+                retweeted={post.retweeted}
               />
             );
           })}
-        {/* {isLoading && <Loader />} */}
       </div>
     </Wrapper>
   );

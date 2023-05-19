@@ -15,6 +15,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         commentValue: data.commentValue,
         data_time: data.data_time,
         postId: data.postId,
+        username: data.username,
       });
 
       return res.status(201).json(result);

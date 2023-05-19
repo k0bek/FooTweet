@@ -1,11 +1,12 @@
+import { Session } from 'inspector';
+import { ObjectId } from 'mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { getServerSession } from 'next-auth';
+import { getSession } from 'next-auth/react';
 
 import { connectToDatabase } from '@/lib/connectToDatabase';
-import { ObjectId } from 'mongodb';
-import { getSession } from 'next-auth/react';
-import { getServerSession } from 'next-auth';
+
 import { authOptions } from '../auth/[...nextauth]';
-import { Session } from 'inspector';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const client = await connectToDatabase();

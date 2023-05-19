@@ -67,9 +67,10 @@ const CreatePostBar = () => {
         <button
           onClick={async () => {
             mutation.mutate({
-              ...user,
+              userId: user.id,
               postValue,
               data_time: getCurrentData(),
+              username: user?.username,
             });
           }}
           className={`border border-gray-600  text-lg sm:text-xl py-3 px-3 sm:px-6 rounded-3xl text-gray-300 font-bold flex items-center gap-3 ${

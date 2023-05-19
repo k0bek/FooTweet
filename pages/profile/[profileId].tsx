@@ -1,19 +1,18 @@
-import Header from '@/components/header/Header';
-import Wrapper from '@/components/wrapper/Wrapper';
-import Image from 'next/image';
-import React from 'react';
-import lewy from './../../assets/images/lewy.jpg';
-import { getSession, useSession } from 'next-auth/react';
-import { GetServerSidePropsContext } from 'next';
-import useUser from '@/hooks/useUser';
-import Post from '@/components/post/Post';
 import moment from 'moment';
-import axios from 'axios';
-import useProfilePosts from '@/hooks/useProfilePosts';
+import { GetServerSidePropsContext } from 'next';
+import Image from 'next/image';
+import { getSession, useSession } from 'next-auth/react';
+import React from 'react';
+
+import Header from '@/components/header/Header';
 import CreatePostBar from '@/components/homeMainContent/CreatePostBar';
+import Post from '@/components/post/Post';
+import Wrapper from '@/components/wrapper/Wrapper';
+import useProfilePosts from '@/hooks/useProfilePosts';
+
+import lewy from './../../assets/images/lewy.jpg';
 
 const Profile = ({ userSession, profilePosts }) => {
-  console.log(profilePosts);
   return (
     <Wrapper>
       <Header heading="Profile" />
@@ -69,6 +68,9 @@ const Profile = ({ userSession, profilePosts }) => {
                 username={profilePost.username}
                 data_time={profilePost.data_time}
                 id={profilePost._id}
+                quantityOfComments={
+                  profilePost.comments ? profilePost.comments.length : 0
+                }
               />
             );
           })}
@@ -82,7 +84,7 @@ export default Profile;
 export const getServerSideProps = async (context: GetServerSidePropsContext) => {
   const session = await getSession({ req: context.req });
   const userSession = session?.user;
-  console.log(userSession?.id);
+
   const profilePosts = await useProfilePosts(userSession?.id);
 
   if (!userSession) {

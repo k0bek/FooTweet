@@ -1,11 +1,12 @@
+import { Session } from 'inspector';
+import { ObjectId } from 'mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { getServerSession } from 'next-auth';
+import { getSession } from 'next-auth/react';
 
 import { connectToDatabase } from '@/lib/connectToDatabase';
-import { ObjectId } from 'mongodb';
-import { getSession } from 'next-auth/react';
-import { getServerSession } from 'next-auth';
+
 import { authOptions } from '../auth/[...nextauth]';
-import { Session } from 'inspector';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const client = await connectToDatabase();
@@ -18,7 +19,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === 'GET') {
       const profilePosts = await db
         .collection('posts')
-        .find({ id: req.query.profileId })
+        .find({ userId: req.query.profileId })
         .sort({ data_time: -1 })
         .toArray();
 
