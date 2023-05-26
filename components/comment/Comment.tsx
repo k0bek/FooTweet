@@ -4,17 +4,14 @@ import React from 'react';
 import { AiOutlineRetweet } from 'react-icons/ai';
 
 import lewy from './../../assets/images/lewy.jpg';
-interface PostProps {
+interface CommentProps {
   username: string;
   commentValue: string;
-  id: string;
-  isComment: boolean;
   data_time: string;
-  quantityOfComments: number;
-  retweeted: boolean;
+  retweeted?: boolean;
 }
 
-const Comment = ({ username, commentValue, id, data_time, retweeted }: PostProps) => {
+const Comment = ({ username, commentValue, data_time, retweeted }: CommentProps) => {
   return (
     <div className="flex flex-col bg-slate-700 rounded-2xl w-full p-7 cursor-pointer hover:bg-slate-700/90 transition-all">
       <span className="font-medium xs:text-xl text-gray-200 px-5 mb-5">

@@ -9,17 +9,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const retweetedPost = req?.body;
 
   if (req.method === 'POST') {
-    const result = await db.collection('retweet').insertOne(retweetedPost);
-    const user = db
-      .collection('users')
-      .findOne({ _id: new ObjectId(retweetedPost.userId) });
+    const post = db
+      .collection('posts')
+      .findOne({ _id: new ObjectId(retweetedPost.postId) });
 
-    if (user) {
-      await db
-        .collection('users')
-        .updateOne({ _id: new ObjectId(user._id) }, { $push: { retweetedPosts: user } });
-    }
-    return res.status(200).json(user);
+    await db
+      .collection('posts')
+      .updateOne(
+        { _id: new ObjectId(retweetedPost.postId) },
+        { $set: { retweeted: !retweetedPost.isRetweeted } },
+      );
+    return res.status(200).json(post);
   }
 };
 

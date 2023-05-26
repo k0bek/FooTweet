@@ -1,8 +1,6 @@
 import { Session } from 'inspector';
-import { ObjectId } from 'mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from 'next-auth';
-import { getSession } from 'next-auth/react';
 
 import { connectToDatabase } from '@/lib/connectToDatabase';
 
@@ -23,11 +21,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     if (req.method === 'GET') {
       const posts = await db.collection('posts').find().sort({ data_time: -1 }).toArray();
-
-      const userPosts = await db
-        .collection('posts')
-        .find({ id: new ObjectId(session?.user.id) })
-        .toArray();
 
       return res.status(200).json({ posts });
     }

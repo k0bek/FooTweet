@@ -8,7 +8,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
 
-  const { username, email, password } = req.body;
+  const { username, email, password, bio, name } = req.body;
 
   const client = await connectToDatabase();
   const db = client.db();
@@ -38,9 +38,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     username,
     email,
     password: hashedPasword,
+    bio,
+    name,
   });
 
-  res.status(201).json({ message: 'User created correctly!' });
+  res.status(201).json(result);
   client.close();
 };
 

@@ -26,9 +26,7 @@ const UsersToFollowItem = ({ image, username }: UsersToFollowItemProps) => {
           <span className=" text-gray-500 text-xl">@{username}</span>
         </div>
       </div>
-      <Button variant="rectangle" className="hidden md:block w-28 text-xl font-semibold">
-        Follow
-      </Button>
+      <Button className="hidden md:block w-28 text-xl font-semibold">Follow</Button>
     </li>
   );
 };

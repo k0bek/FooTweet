@@ -1,18 +1,31 @@
 import moment from 'moment';
 import { GetServerSidePropsContext } from 'next';
 import Image from 'next/image';
-import { getSession, useSession } from 'next-auth/react';
-import React from 'react';
+import React, { useState } from 'react';
 
+import lewy from '@/assets/images/lewy.jpg';
 import Header from '@/components/header/Header';
 import CreatePostBar from '@/components/homeMainContent/CreatePostBar';
+import ChangeUserInfoModal from '@/components/modals/ChangeUserInfoModal';
 import Post from '@/components/post/Post';
 import Wrapper from '@/components/wrapper/Wrapper';
 import useProfilePosts from '@/hooks/useProfilePosts';
+import useUser from '@/hooks/useUser';
+import { Session, User } from '@/types/next-auth';
 
-import lewy from './../../assets/images/lewy.jpg';
+interface ProfileProps {
+  userSession: Session;
+  profilePosts: User[];
+}
 
-const Profile = ({ userSession, profilePosts }) => {
+const Profile = ({ userSession, profilePosts }: ProfileProps) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleModal = () => {
+    setIsModalOpen((prev) => {
+      return !prev;
+    });
+  };
   return (
     <Wrapper>
       <Header heading="Profile" />
@@ -24,7 +37,10 @@ const Profile = ({ userSession, profilePosts }) => {
             className="rounded-full absolute top-[-5.5rem] md:top-[-8rem] left-5 h-32 w-32 md:w-48 md:h-48"
             alt="Profile image"
           />
-          <button className="absolute right-2 top-3 border border-gray-600 text-xl xs:text-2xl py-3 px-3 xs:px-6 rounded-3xl text-black font-medium flex items-center gap-3 bg-white transition-all">
+          <button
+            className="absolute right-2 top-3 border border-gray-600 text-xl xs:text-2xl py-3 px-3 xs:px-6 rounded-3xl text-black font-medium flex items-center gap-3 bg-white transition-all"
+            onClick={handleModal}
+          >
             Edit profile
           </button>
         </div>
@@ -32,14 +48,14 @@ const Profile = ({ userSession, profilePosts }) => {
           <div className="flex flex-col gap-6">
             <div className="flex items-start flex-col xs:gap-2">
               <span className="text-white font-semibold text-4xl md:text-5xl">
-                {userSession.username}
+                {userSession.name === undefined ? userSession.username : userSession.name}
               </span>
               <span className=" text-gray-400 font-medium text-2xl">
                 @{userSession.username}
               </span>
             </div>
             <span className="text-white text-xl md:text-2xl">
-              2020asdddddddddddddddddd
+              {!userSession.bio ? 'Bio is empty' : userSession.bio}
             </span>
             <span className="text-gray-400 text-xl md:text-2xl">
               Joined {moment(userSession.data_time).format(`MMMM Do YYYY`)}
@@ -63,7 +79,6 @@ const Profile = ({ userSession, profilePosts }) => {
           profilePosts.map((profilePost) => {
             return (
               <Post
-                isComment={false}
                 postValue={profilePost.postValue}
                 username={profilePost.username}
                 data_time={profilePost.data_time}
@@ -71,10 +86,12 @@ const Profile = ({ userSession, profilePosts }) => {
                 quantityOfComments={
                   profilePost.comments ? profilePost.comments.length : 0
                 }
+                key={profilePost.id}
               />
             );
           })}
       </div>
+      {isModalOpen && <ChangeUserInfoModal handleModal={handleModal} />}
     </Wrapper>
   );
 };
@@ -82,10 +99,9 @@ const Profile = ({ userSession, profilePosts }) => {
 export default Profile;
 
 export const getServerSideProps = async (context: GetServerSidePropsContext) => {
-  const session = await getSession({ req: context.req });
-  const userSession = session?.user;
+  const userSession = await useUser(context.query.profileId as string);
 
-  const profilePosts = await useProfilePosts(userSession?.id);
+  const profilePosts = await useProfilePosts(userSession?._id as string);
 
   if (!userSession) {
     return {

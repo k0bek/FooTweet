@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import ProfileBar from './layout/profilebar/ProfileBar';
 import SideBar from './layout/sidebar/Sidebar';
 import UsersToFollow from './layout/usersToFollow/UsersToFollow';
-import Modal from './modals/Modal';
+import Modal from './modals/AuthModal';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -44,6 +44,7 @@ const Layout = ({ children }: LayoutProps) => {
           changeModalVisibilityHandler={changeModalVisibilityHandler}
         />
       )}
+      {/* <ChangeUserInfo /> */}
     </div>
   );
 };

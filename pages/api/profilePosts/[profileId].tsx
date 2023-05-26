@@ -1,19 +1,10 @@
-import { Session } from 'inspector';
-import { ObjectId } from 'mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getServerSession } from 'next-auth';
-import { getSession } from 'next-auth/react';
 
 import { connectToDatabase } from '@/lib/connectToDatabase';
-
-import { authOptions } from '../auth/[...nextauth]';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const client = await connectToDatabase();
   const db = client.db();
-  const body = await req.body;
-
-  console.log(req.query);
 
   try {
     if (req.method === 'GET') {

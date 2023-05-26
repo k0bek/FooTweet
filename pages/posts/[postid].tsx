@@ -1,5 +1,4 @@
 import { GetServerSidePropsContext } from 'next';
-import { useRouter } from 'next/router';
 import React from 'react';
 
 import Comment from '@/components/comment/Comment';
@@ -9,9 +8,14 @@ import Post from '@/components/post/Post';
 import Wrapper from '@/components/wrapper/Wrapper';
 import useComments from '@/hooks/useComments';
 import usePost from '@/hooks/usePost';
+import { CommentAttributes } from '@/types/next-auth';
 
-const postid = ({ commentedPost, comments }) => {
-  console.log(commentedPost);
+interface PostProps {
+  commentedPost: CommentAttributes;
+  comments: CommentAttributes[];
+}
+
+const postid = ({ commentedPost, comments }: PostProps) => {
   return (
     <Wrapper>
       <Header heading="Post" />
@@ -24,13 +28,13 @@ const postid = ({ commentedPost, comments }) => {
         />
         <CreateCommentBar commentedPost={commentedPost} />
         {comments &&
-          comments.map((comment) => {
+          comments.map((comment: CommentAttributes) => {
             return (
               <Comment
                 username={comment.username}
                 commentValue={comment.commentValue}
                 data_time={comment.data_time}
-                username={comment.username}
+                key={comment.username}
               />
             );
           })}
@@ -43,8 +47,8 @@ export default postid;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const postId = context?.params?.postId;
-  const commentedPost = await usePost(postId);
-  const comments = await useComments(postId);
+  const commentedPost = await usePost(postId as string);
+  const comments = await useComments(postId as string);
 
   return { props: { commentedPost, comments } };
 }

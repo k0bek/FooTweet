@@ -1,11 +1,17 @@
 import React from 'react';
 
+import { PostAttributes } from '@/types/next-auth';
+
 import Header from '../header/Header';
 import Post from '../post/Post';
 import Wrapper from '../wrapper/Wrapper';
 import CreatePostBar from './CreatePostBar';
 
-const HomeMainContent = ({ posts }) => {
+interface HomeMainContentProps {
+  posts: (typeof PostAttributes)[];
+}
+
+const HomeMainContent = ({ posts }: HomeMainContentProps) => {
   return (
     <Wrapper>
       <Header heading="Home" />
@@ -21,6 +27,7 @@ const HomeMainContent = ({ posts }) => {
                 data_time={post.data_time}
                 quantityOfComments={post.comments ? post.comments.length : 0}
                 retweeted={post.retweeted}
+                key={post._id}
               />
             );
           })}

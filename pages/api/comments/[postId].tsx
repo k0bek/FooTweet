@@ -28,11 +28,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         .sort({ data_time: -1 })
         .toArray();
 
-      const post = await db.collection('posts').findOne({ _id: new ObjectId(postId) });
-
       await db
         .collection('posts')
-        .updateOne({ _id: new ObjectId(postId) }, { $set: { comments: comments } });
+        .updateOne(
+          { _id: new ObjectId(postId as string) },
+          { $set: { comments: comments } },
+        );
 
       return res.status(200).json(comments);
     }

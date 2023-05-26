@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useQuery } from 'react-query';
 
 import Loader from '@/components/loader/Loader';
@@ -6,11 +6,9 @@ import Loader from '@/components/loader/Loader';
 import UsersToFollowItem from './UsersToFollowItem';
 
 const UsersToFollow = () => {
-  const {
-    isLoading,
-    error,
-    data: items,
-  } = useQuery('users', () => fetch('../api/users').then((res) => res.json()));
+  const { isLoading, data: items } = useQuery('users', () =>
+    fetch('../api/users').then((res) => res.json()),
+  );
 
   return (
     <div className="bg-gray-800 py-6 h-82 rounded-2xl hidden xl:block min-w-[26rem]">
@@ -18,7 +16,9 @@ const UsersToFollow = () => {
       <ul className="py-5 flex flex-col items-center">
         {!isLoading && items ? (
           items.map((item: { image: string; username: string }) => {
-            return <UsersToFollowItem username={item.username} image="" />;
+            return (
+              <UsersToFollowItem username={item.username} image="" key={item.username} />
+            );
           })
         ) : (
           <Loader />

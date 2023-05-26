@@ -24,7 +24,7 @@ export const authOptions: NextAuthOptions = {
         },
         password: { label: 'Password', type: 'password' },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         if (!credentials) {
           throw new Error('Credentials not provided');
         }
@@ -53,6 +53,8 @@ export const authOptions: NextAuthOptions = {
           email: user.email,
           username: user.username,
           id: user._id.toString(),
+          bio: user.bio,
+          name: user.name,
         };
       },
     }),
@@ -62,12 +64,16 @@ export const authOptions: NextAuthOptions = {
     session: async ({ session, token }) => {
       session.user.username = token.username as string;
       session.user.id = token.uid as string;
+      session.user.bio = token.bio as string;
+      session.user.name = token.name as string;
       return session;
     },
     jwt: async ({ token, user }) => {
       if (user) {
         token.id = user.id;
         token.username = user.username;
+        token.name = user.name;
+        token.bio = user.bio;
         token.uid = user.id;
       }
       return Promise.resolve(token);
@@ -77,24 +83,3 @@ export const authOptions: NextAuthOptions = {
 };
 
 export default NextAuth(authOptions);
-
-// callbacks: {
-//   session: async ({ session, token }) => {
-//     session.accessToken = token.accessToken;
-//     session.user.username = token.username as string;
-//     session.user.id = token.uid as string;
-//     return Promise.resolve(session);
-//   },
-//   jwt: async ({ token, user }) => {
-//     if (user) {
-//       token.id = user.id;
-//       token.username = user.username;
-//       token.uid = user.id;
-//     }
-//     return Promise.resolve(token);
-//   },
-// },
-// jwt: {
-//   encryption: true,
-//   secret: process.env.NEXT_AUTH_JWT_SECRET,
-// },

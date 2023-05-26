@@ -6,24 +6,33 @@ import { connectToDatabase } from '@/lib/connectToDatabase';
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const client = await connectToDatabase();
   const db = client.db();
-
   const { userId } = req.query;
+  const body = req.body;
+  const user = await db
+    .collection('users')
+    .findOne({ _id: new ObjectId(userId as string) });
 
-  if (req.method !== 'GET') {
-    return res.status(400).end();
+  if (req.method === 'POST') {
+    const updatedUser = await db.collection('users').updateOne(
+      { _id: new ObjectId(userId as string) },
+      {
+        $set: {
+          name: body.name !== undefined ? body.name : user?.name,
+          bio: body.bio !== undefined ? body.bio : user?.bio,
+        },
+      },
+    );
+    return res.status(201).json(updatedUser);
   }
 
   try {
     if (req.method === 'GET') {
-      const posts = await db
+      const user = await db
         .collection('users')
-        .find({ _id: new ObjectId(userId as string) })
-        .toArray();
+        .findOne({ _id: new ObjectId(userId as string) });
 
-      return res.status(200).json(posts);
+      return res.status(200).json(user);
     }
-
-    return res.status(405).end();
   } catch (error) {
     console.log(error);
     return res.status(400).end();

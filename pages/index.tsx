@@ -2,7 +2,13 @@ import axios from 'axios';
 
 import HomeMainContent from '@/components/homeMainContent/HomeMainContent';
 
-export default function Home({ posts }) {
+import { PostAttributes } from './../types/next-auth';
+
+interface HomeProps {
+  posts: PostAttributes[];
+}
+
+export default function Home({ posts }: HomeProps) {
   return <HomeMainContent posts={posts} />;
 }
 

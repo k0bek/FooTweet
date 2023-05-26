@@ -25,7 +25,7 @@ export const useFormRegister = () => {
   });
 
   const onSubmit = async () => {
-    const { username, email, password, repeatPassword } = getValues();
+    const { username, email, password } = getValues();
 
     const createUser = async () => {
       setIsLoading(true);

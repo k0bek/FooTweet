@@ -1,24 +1,30 @@
 import axios from 'axios';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { CommentAttributes } from 'next-auth';
 import { useSession } from 'next-auth/react';
 import React, { useState } from 'react';
 import { ChangeEvent } from 'react';
 import { toast } from 'react-hot-toast';
-import { QueryClient, useMutation } from 'react-query';
+import { useMutation } from 'react-query';
 
 import useCurrentData from '@/hooks/useCurrentData';
+import { PostAttributes } from '@/types/next-auth';
 
 import Textarea from '../Textarea';
 import lewy from './../../assets/images/lewy.jpg';
 
-const CreateCommentBar = ({ commentedPost }) => {
+interface CreateCommentBarProps {
+  commentedPost: PostAttributes;
+}
+
+const CreateCommentBar = ({ commentedPost }: CreateCommentBarProps) => {
   const [commentValue, setCommentValue] = useState('');
   const router = useRouter();
   const session = useSession();
 
   const createdComment = useMutation({
-    mutationFn: (newComment) => {
+    mutationFn: (newComment: CommentAttributes) => {
       return axios.post(`/api/comments/${commentedPost._id}`, newComment);
     },
     onSuccess: async () => {
@@ -31,8 +37,6 @@ const CreateCommentBar = ({ commentedPost }) => {
       toast.error('Error with adding comments. Please try again');
     },
   });
-
-  console.log(session.data?.user.username);
 
   return (
     <div className="flex items-center flex-col bg-slate-700 rounded-2xl w-full p-7">

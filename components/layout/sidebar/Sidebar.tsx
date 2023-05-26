@@ -46,7 +46,7 @@ interface SideBarProps {
 
 const Sidebar = ({ onClick }: SideBarProps) => {
   const router = useRouter();
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
 
   const goToHome = () => {
     router.push('/');

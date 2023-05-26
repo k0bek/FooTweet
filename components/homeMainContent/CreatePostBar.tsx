@@ -9,19 +9,20 @@ import { BsFillImageFill } from 'react-icons/bs';
 import { useMutation } from 'react-query';
 
 import getCurrentData from '@/hooks/useCurrentData';
+import { PostAttributes } from '@/types/next-auth';
 
 import Textarea from '../Textarea';
 import lewy from './../../assets/images/lewy.jpg';
 
 const CreatePostBar = () => {
   const [postValue, setPostValue] = useState('');
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const router = useRouter();
 
   const user = session?.user;
 
-  const mutation = useMutation({
-    mutationFn: (newPost) => {
+  const createdPost = useMutation({
+    mutationFn: (newPost: PostAttributes) => {
       return axios.post('/api/posts', newPost);
     },
     onSuccess: () => {
@@ -48,7 +49,7 @@ const CreatePostBar = () => {
         <Textarea
           placeholder="What's happening?"
           value={postValue}
-          disabled={mutation.isLoading}
+          disabled={createdPost.isLoading}
           onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
             setPostValue(event.target.value);
           }}
@@ -57,26 +58,26 @@ const CreatePostBar = () => {
       <div className="mt-5 flex gap-1 sm:gap-5 w-full justify-end">
         <button
           className={`border border-gray-600 text-lg sm:text-xl py-3 px-3 sm:px-6 rounded-3xl text-gray-300 font-medium flex items-center gap-3 ${
-            mutation.isLoading ? 'bg-gray-500 cursor-not-allowed' : 'text-gray-300'
+            createdPost.isLoading ? 'bg-gray-500 cursor-not-allowed' : 'text-gray-300'
           }`}
-          disabled={mutation.isLoading}
+          disabled={createdPost.isLoading}
         >
           <BsFillImageFill className="text-emerald-400 shadow-xl shadow-emerald-500" />
           Photo
         </button>
         <button
           onClick={async () => {
-            mutation.mutate({
-              userId: user.id,
+            createdPost.mutate({
+              userId: user?.id,
               postValue,
               data_time: getCurrentData(),
               username: user?.username,
             });
           }}
           className={`border border-gray-600  text-lg sm:text-xl py-3 px-3 sm:px-6 rounded-3xl text-gray-300 font-bold flex items-center gap-3 ${
-            mutation.isLoading ? 'bg-gray-500 cursor-not-allowed' : 'bg-sky-500'
+            createdPost.isLoading ? 'bg-gray-500 cursor-not-allowed' : 'bg-sky-500'
           }`}
-          disabled={mutation.isLoading}
+          disabled={createdPost.isLoading}
         >
           Tweet
         </button>

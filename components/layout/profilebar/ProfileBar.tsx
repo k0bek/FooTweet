@@ -1,14 +1,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { Session } from 'next-auth';
 import { useSession } from 'next-auth/react';
 
 import lewy from './../../../assets/images/lewy.jpg';
 
 const ProfileBar = () => {
-  const { data: session, status } = useSession();
-  const router = useRouter();
+  const { data: session } = useSession();
   const user = session?.user;
 
   return (
