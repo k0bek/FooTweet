@@ -5,22 +5,16 @@ import { regexEmail } from '@/constants/regexEmail';
 
 import FormInput from '../FormInput';
 import { useFormLogin } from './hooks/useFormLogin';
+import { useModalStore } from '@/hooks/useStore';
 
 interface LoginModalProps {
   changeFormHandler: () => void;
-  changeModalVisibilityHandler: () => void;
 }
 
-export default function LoginModal({
-  changeFormHandler,
-  changeModalVisibilityHandler,
-}: LoginModalProps) {
-  const { handleSubmit, onSubmit, register, errors, isLoading, isModalClosed } =
-    useFormLogin();
+export default function LoginModal({ changeFormHandler }: LoginModalProps) {
+  const { handleSubmit, onSubmit, register, errors, isLoading } = useFormLogin();
 
-  useEffect(() => {
-    changeModalVisibilityHandler();
-  }, [isModalClosed]);
+  const [handlIsAuthModalOpen] = useModalStore((state) => [state.handleIsAuthModalOpen]);
 
   return (
     <form
@@ -32,7 +26,7 @@ export default function LoginModal({
         <button>
           <AiOutlineClose
             className="text-white text-4xl  hover:bg-gray-500 hover:rounded-full p-1 transition-all"
-            onClick={changeModalVisibilityHandler}
+            onClick={handlIsAuthModalOpen}
           />
         </button>
       </div>

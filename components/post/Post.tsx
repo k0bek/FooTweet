@@ -1,11 +1,9 @@
-import axios from 'axios';
 import moment from 'moment';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { AiFillHeart, AiOutlineRetweet } from 'react-icons/ai';
 import { FaComments } from 'react-icons/fa';
-import { useMutation } from 'react-query';
 
 import lewy from './../../assets/images/lewy.jpg';
 interface PostProps {
@@ -13,41 +11,17 @@ interface PostProps {
   postValue: string;
   id?: string;
   data_time: string;
-  quantityOfComments: number;
-  retweeted?: boolean;
 }
 
-const Post = ({
-  username,
-  postValue,
-  id,
-  data_time,
-  quantityOfComments,
-  retweeted,
-}: PostProps) => {
+const Post = ({ username, postValue, id, data_time }: PostProps) => {
   const router = useRouter();
 
   const goToPost = () => {
     router.push(`/posts/${id}`);
   };
 
-  const retweet = useMutation({
-    mutationFn: (newRetweet: { postId: string; isRetweeted: boolean | undefined }) => {
-      return axios.post('/api/retweet', newRetweet);
-    },
-    onSuccess: () => {
-      router.replace(router.asPath);
-    },
-  });
-
   return (
     <div className="flex flex-col bg-slate-700 rounded-2xl w-full p-7 cursor-pointer hover:bg-slate-700/90 transition-all font-semibold">
-      {retweeted && (
-        <div className="flex items-center gap-3 text-xl px-4 mb-3 text-slate-300">
-          <AiOutlineRetweet />
-          <span>You retweeted this post</span>
-        </div>
-      )}
       <div className="h-full w-full flex flex-col items-start gap-4 xs:flex-row">
         <div className="flex items-start gap-3">
           <Image
@@ -73,7 +47,7 @@ const Post = ({
               </div>
             </div>
 
-            <p className="text-white text-lg xs:text-2xl">{postValue}</p>
+            <p className="text-white text-lg xs:text-2xl break-all">{postValue}</p>
           </div>
         </div>
       </div>
@@ -83,16 +57,9 @@ const Post = ({
           Like
         </button>
         <button
-          className={`border border-gray-600 text-xs xs:text-xl py-3 px-3 xs:px-6 rounded-3xl font-medium flex items-center gap-3 transition-all text-white ${
-            retweeted ? 'bg-blue-500 text-white' : ''
+          className={`border border-gray-600 text-xs xs:text-xl py-3 px-3 xs:px-6 rounded-3xl font-medium flex items-center gap-3 transition-all text-white
           }
           }`}
-          onClick={async () => {
-            retweet.mutate({
-              postId: id as string,
-              isRetweeted: retweeted,
-            });
-          }}
         >
           <AiOutlineRetweet />
           Retweet
@@ -102,7 +69,7 @@ const Post = ({
           onClick={goToPost}
         >
           <FaComments />
-          Comment {quantityOfComments}
+          {/* Comment {comments && comments.length} */}
         </button>
       </div>
     </div>

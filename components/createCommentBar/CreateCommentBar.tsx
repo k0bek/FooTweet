@@ -9,32 +9,31 @@ import { toast } from 'react-hot-toast';
 import { useMutation } from 'react-query';
 
 import useCurrentData from '@/hooks/useCurrentData';
-import { PostAttributes } from '@/types/next-auth';
 
 import Textarea from '../Textarea';
 import lewy from './../../assets/images/lewy.jpg';
 
 interface CreateCommentBarProps {
-  commentedPost: PostAttributes;
+  refetchComments: () => void;
 }
 
-const CreateCommentBar = ({ commentedPost }: CreateCommentBarProps) => {
+const CreateCommentBar = ({ refetchComments }: CreateCommentBarProps) => {
   const [commentValue, setCommentValue] = useState('');
   const router = useRouter();
   const session = useSession();
 
-  const createdComment = useMutation({
+  const mutation = useMutation({
     mutationFn: (newComment: CommentAttributes) => {
-      return axios.post(`/api/comments/${commentedPost._id}`, newComment);
+      return axios.post('/api/comments', newComment);
     },
-    onSuccess: async () => {
+    onSuccess: () => {
       setCommentValue('');
-      toast.success('Added comment correctly!');
-      router.replace(router.asPath);
+      toast.success('Added tweet correctly!');
+      refetchComments();
     },
 
     onError: () => {
-      toast.error('Error with adding comments. Please try again');
+      toast.error('Error with adding posts. Please try again');
     },
   });
 
@@ -51,7 +50,7 @@ const CreateCommentBar = ({ commentedPost }: CreateCommentBarProps) => {
         <Textarea
           placeholder="Add your comment"
           value={commentValue}
-          disabled={createdComment.isLoading}
+          disabled={mutation.isLoading}
           onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
             setCommentValue(event.target.value);
           }}
@@ -60,7 +59,7 @@ const CreateCommentBar = ({ commentedPost }: CreateCommentBarProps) => {
       <div className="mt-5 flex gap-1 sm:gap-5 w-full justify-end">
         <button
           onClick={async () => {
-            createdComment.mutate({
+            mutation.mutate({
               commentValue,
               data_time: useCurrentData(),
               postId: router.query.postId,
@@ -68,9 +67,9 @@ const CreateCommentBar = ({ commentedPost }: CreateCommentBarProps) => {
             });
           }}
           className={`border border-gray-600  text-lg sm:text-xl py-3 px-3 sm:px-6 rounded-3xl text-gray-300 font-bold flex items-center gap-3 ${
-            createdComment.isLoading ? 'bg-gray-500 cursor-not-allowed' : 'bg-sky-500'
+            mutation.isLoading ? 'bg-gray-500 cursor-not-allowed' : 'bg-sky-500'
           }`}
-          disabled={createdComment.isLoading}
+          disabled={mutation.isLoading}
         >
           Comment
         </button>

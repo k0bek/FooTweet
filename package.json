@@ -9,7 +9,10 @@
     "lint:fix": "eslint ./ --ext .jsx,.js,.ts,.tsx --quiet --fix --ignore-path ./.gitignore",
     "lint:format": "prettier --loglevel warn --write \"./**/*.{js,jsx,ts,tsx,css,md,json}\" ",
     "lint": "npm run lint:format && npm run lint:fix",
-    "type-check": "tsc"
+    "type-check": "tsc",
+    "prepare": "husky install",
+    "prettier-check": "prettier --check .",
+    "test": "echo \"No test specified\""
   },
   "dependencies": {
     "@chakra-ui/react": "^2.6.1",
@@ -27,6 +30,7 @@
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-simple-import-sort": "^10.0.0",
+    "eslint-plugin-testing-library": "^5.10.2",
     "framer-motion": "^10.12.12",
     "moment": "^2.29.4",
     "mongodb": "^5.4.0",
@@ -38,10 +42,15 @@
     "react-hook-form": "^7.43.9",
     "react-hot-toast": "^2.4.1",
     "react-icons": "^4.8.0",
+    "react-loading-skeleton": "^3.3.1",
     "react-query": "^3.39.3",
+    "react-router-dom": "^6.11.2",
+    "styled-components": "^5.3.11",
+    "swr": "^2.1.5",
     "tailwindcss": "3.3.2",
     "typescript": "5.0.4",
-    "yup": "^1.1.1"
+    "yup": "^1.1.1",
+    "zustand": "^4.3.8"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
@@ -51,6 +60,7 @@
     "eslint-config-prettier": "^8.8.0",
     "eslint-import-resolver-typescript": "^3.5.5",
     "eslint-plugin-prettier": "^4.2.1",
-    "prettier": "^2.8.8"
+    "husky": "^8.0.3",
+    "prettier": "2.8.8"
   }
 }

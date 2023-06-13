@@ -14,11 +14,14 @@ import { PostAttributes } from '@/types/next-auth';
 import Textarea from '../Textarea';
 import lewy from './../../assets/images/lewy.jpg';
 
-const CreatePostBar = () => {
+interface CreatePostBarProps {
+  refetchProfilePosts?: () => void;
+}
+
+const CreatePostBar = ({ refetchProfilePosts }: CreatePostBarProps) => {
   const [postValue, setPostValue] = useState('');
   const { data: session } = useSession();
   const router = useRouter();
-
   const user = session?.user;
 
   const createdPost = useMutation({
@@ -29,6 +32,9 @@ const CreatePostBar = () => {
       router.replace(router.asPath);
       setPostValue('');
       toast.success('Added tweet correctly!');
+      {
+        refetchProfilePosts && refetchProfilePosts();
+      }
     },
 
     onError: () => {
@@ -38,7 +44,7 @@ const CreatePostBar = () => {
 
   return (
     <div className="flex items-center flex-col bg-slate-700 rounded-2xl w-full p-7">
-      <div className="h-full w-full flex items-center gap-4 flex-col sm:flex-row">
+      <div className="w-full flex items-center gap-4 flex-col sm:flex-row">
         <Image
           src={lewy}
           width={67}

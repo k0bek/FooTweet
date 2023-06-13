@@ -9,18 +9,22 @@ import Layout from '@/components/Layout';
 
 const queryClient = new QueryClient();
 
+import { SkeletonTheme } from 'react-loading-skeleton';
+
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
 }: AppProps) {
   return (
-    <SessionProvider session={session}>
-      <QueryClientProvider client={queryClient}>
-        <Toaster />
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </QueryClientProvider>
-    </SessionProvider>
+    <SkeletonTheme baseColor="#334155" highlightColor="#1F2937">
+      <SessionProvider session={session}>
+        <QueryClientProvider client={queryClient}>
+          <Toaster />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </QueryClientProvider>
+      </SessionProvider>
+    </SkeletonTheme>
   );
 }

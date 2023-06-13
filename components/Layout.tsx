@@ -4,6 +4,7 @@ import ProfileBar from './layout/profilebar/ProfileBar';
 import SideBar from './layout/sidebar/Sidebar';
 import UsersToFollow from './layout/usersToFollow/UsersToFollow';
 import Modal from './modals/AuthModal';
+import { useModalStore } from '@/hooks/useStore';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -11,7 +12,7 @@ interface LayoutProps {
 
 const Layout = ({ children }: LayoutProps) => {
   const [isLoginForm, setIsLoginForm] = useState(true);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isAuthModalOpen] = useModalStore((state) => [state.isAuthModalOpen]);
 
   const changeFormHandler = () => {
     setIsLoginForm((prev) => {
@@ -19,15 +20,9 @@ const Layout = ({ children }: LayoutProps) => {
     });
   };
 
-  const changeModalVisibilityHandler = () => {
-    setIsModalVisible((prev) => {
-      return !prev;
-    });
-  };
-
   return (
     <div className="relative flex justify-center max-w-[1700px]">
-      <SideBar onClick={changeModalVisibilityHandler} />
+      <SideBar />
       {children}
       <div className="absolute right-8 top-[25vh]">
         <div className="flex flex-col gap-5">
@@ -36,15 +31,9 @@ const Layout = ({ children }: LayoutProps) => {
         </div>
       </div>
 
-      {isModalVisible && (
-        <Modal
-          isLoginForm={isLoginForm}
-          isModalVisible={isModalVisible}
-          changeFormHandler={changeFormHandler}
-          changeModalVisibilityHandler={changeModalVisibilityHandler}
-        />
+      {isAuthModalOpen && (
+        <Modal isLoginForm={isLoginForm} changeFormHandler={changeFormHandler} />
       )}
-      {/* <ChangeUserInfo /> */}
     </div>
   );
 };

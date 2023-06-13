@@ -1,3 +1,4 @@
+import { useModalStore } from '@/hooks/useStore';
 import { signIn } from 'next-auth/react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -5,7 +6,7 @@ import { toast } from 'react-hot-toast';
 
 export const useFormRegister = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [isModalClosed, setIsModalClosed] = useState(false);
+  const [handleIsAuthModalOpen] = useModalStore((state) => [state.handleIsAuthModalOpen]);
 
   const {
     register,
@@ -46,8 +47,8 @@ export const useFormRegister = () => {
         setIsLoading(false);
         return;
       } else {
-        setIsModalClosed(true);
         toast.success('Successfully registered!');
+        handleIsAuthModalOpen();
       }
 
       await signIn('credentials', {
@@ -69,6 +70,5 @@ export const useFormRegister = () => {
     getValues,
     setError,
     isLoading,
-    isModalClosed,
   };
 };

@@ -17,3 +17,7 @@ html {
 body {
   background-color: #04131b;
 }
+
+.card-skeleton {
+  width: 100%;
+}

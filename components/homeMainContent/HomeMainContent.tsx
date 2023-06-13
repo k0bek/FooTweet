@@ -18,15 +18,13 @@ const HomeMainContent = ({ posts }: HomeMainContentProps) => {
       <div className="flex flex-col items-center gap-5 justify-center p-12">
         <CreatePostBar />
         {posts &&
-          posts.map((post) => {
+          posts.map((post: PostAttributes) => {
             return (
               <Post
                 username={post.username}
                 postValue={post.postValue}
                 id={post._id}
                 data_time={post.data_time}
-                quantityOfComments={post.comments ? post.comments.length : 0}
-                retweeted={post.retweeted}
                 key={post._id}
               />
             );

@@ -1,34 +1,27 @@
-import { Session } from 'inspector';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getServerSession } from 'next-auth';
 
 import { connectToDatabase } from '@/lib/connectToDatabase';
 
-import { authOptions } from '../auth/[...nextauth]';
-
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const client = await connectToDatabase();
-  const db = client.db();
-  const session: Session | null = await getServerSession(req, res, authOptions);
-  const body = await req.body;
-
   try {
-    console.log(session);
+    const client = await connectToDatabase();
+    const db = client.db();
+    const { body: data } = req;
+
     if (req.method === 'POST') {
-      const result = await db.collection('posts').insertOne(body);
+      const result = await db.collection('posts').insertOne(data);
+      client.close();
       return res.status(201).json(result);
     }
 
     if (req.method === 'GET') {
       const posts = await db.collection('posts').find().sort({ data_time: -1 }).toArray();
-
+      client.close();
       return res.status(200).json({ posts });
     }
-
-    return res.status(405).end();
   } catch (error) {
     console.log(error);
-    return res.status(400).end();
+    return res.status(401).end();
   }
 };
 

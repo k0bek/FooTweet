@@ -11,42 +11,46 @@ import { IoMdNotifications } from 'react-icons/io';
 import Button from '@/components/Button';
 
 import SidebarItem from './SidebarItem';
+import { useModalStore } from '@/hooks/useStore';
 
 const sidebarItems = [
   {
     label: 'Home',
     icon: AiFillHome,
     auth: false,
+    href: '/',
   },
   {
     label: 'Search',
     icon: BiSearch,
     auth: true,
+    href: '/search',
   },
   {
     label: 'Hashtags',
     icon: FaHashtag,
     auth: true,
+    href: '/hashtags',
   },
   {
     label: 'Profile',
     icon: FaUserAlt,
     auth: true,
+    href: '/profile',
   },
   {
     label: 'Messages',
     icon: IoMdNotifications,
     auth: true,
+    href: '/messages',
   },
 ];
 
-interface SideBarProps {
-  onClick: () => void;
-}
-
-const Sidebar = ({ onClick }: SideBarProps) => {
+const Sidebar = () => {
   const router = useRouter();
   const { data: session } = useSession();
+
+  const [handleIsAuthModalOpen] = useModalStore((state) => [state.handleIsAuthModalOpen]);
 
   const goToHome = () => {
     router.push('/');
@@ -64,6 +68,7 @@ const Sidebar = ({ onClick }: SideBarProps) => {
               label={item.label}
               icon={item.icon}
               auth={item.auth}
+              href={item.href}
               key={item.label}
             />
           );
@@ -77,7 +82,10 @@ const Sidebar = ({ onClick }: SideBarProps) => {
           Logout
         </Button>
       ) : (
-        <Button className="hidden md:block w-3/4 text-3xl" onClick={onClick}>
+        <Button
+          className="hidden md:block w-3/4 text-3xl"
+          onClick={handleIsAuthModalOpen}
+        >
           Login
         </Button>
       )}

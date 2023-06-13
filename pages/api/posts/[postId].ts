@@ -1,17 +1,12 @@
 import { ObjectId } from 'mongodb';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiRequest, NextApiResponse } from 'next/types';
 
 import { connectToDatabase } from '@/lib/connectToDatabase';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const client = await connectToDatabase();
   const db = client.db();
-
   const { postId } = req.query;
-
-  if (req.method !== 'GET') {
-    return res.status(400).end();
-  }
 
   try {
     if (req.method === 'GET') {
@@ -19,13 +14,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         .collection('posts')
         .findOne({ _id: new ObjectId(postId as string) });
 
+      console.log(post);
+
       return res.status(200).json(post);
     }
-
-    return res.status(405).end();
   } catch (error) {
     console.log(error);
-    return res.status(400).end();
+    return res.status(401).end();
   }
 };
 

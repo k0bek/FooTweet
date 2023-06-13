@@ -10,16 +10,24 @@ import { AiFillCloseCircle, AiOutlineClose } from 'react-icons/ai';
 import { MdAddPhotoAlternate } from 'react-icons/md';
 import { useMutation } from 'react-query';
 
+import { useUser } from '@/lib/hooks';
+
 import lewy from './../../assets/images/lewy.jpg';
+import { useModalStore } from '@/hooks/useStore';
 
 interface ChangeUserInfoModalProps {
-  handleModal: () => void;
+  refetchUser: () => void;
 }
 
-const ChangeUserInfoModal = ({ handleModal }: ChangeUserInfoModalProps) => {
+const ChangeUserInfoModal = ({ refetchUser }: ChangeUserInfoModalProps) => {
   const session = useSession();
-  const user = session.data?.user;
+  const userId = session.data?.user.id as string;
+  const user = useUser(userId);
   const router = useRouter();
+
+  const [handleIsUserInfoModalOpen] = useModalStore((state) => [
+    state.handleIsUserInfoModalOpen,
+  ]);
 
   const { register, handleSubmit, getValues } = useForm({
     defaultValues: {
@@ -37,7 +45,8 @@ const ChangeUserInfoModal = ({ handleModal }: ChangeUserInfoModalProps) => {
       return axios.post(`/api/users/${router.query.profileId}`, newInfo);
     },
     onSuccess: () => {
-      router.replace(router.asPath);
+      toast.success('Changed password succesfully');
+      refetchUser();
     },
 
     onError: () => {
@@ -50,7 +59,6 @@ const ChangeUserInfoModal = ({ handleModal }: ChangeUserInfoModalProps) => {
       return axios.post(`/api/users/change-password`, passwords);
     },
     onSuccess: async () => {
-      router.replace(router.asPath);
       toast.success('Changed password succesfully');
     },
 
@@ -67,8 +75,10 @@ const ChangeUserInfoModal = ({ handleModal }: ChangeUserInfoModalProps) => {
       ...(bio !== '' && { bio }),
     };
 
+    if (newPassword && oldPassword) {
+      changePassword.mutate({ oldPassword, newPassword });
+    }
     editUserInfo.mutate(nameAndBio);
-    changePassword.mutate({ oldPassword, newPassword });
   };
 
   return (
@@ -78,7 +88,7 @@ const ChangeUserInfoModal = ({ handleModal }: ChangeUserInfoModalProps) => {
           <div className="flex items-center gap-8 text-4xl font-medium">
             <button
               className="cursor-pointer hover:text-gray-500 transition-all"
-              onClick={handleModal}
+              onClick={handleIsUserInfoModalOpen}
             >
               <AiOutlineClose />
             </button>
@@ -129,7 +139,7 @@ const ChangeUserInfoModal = ({ handleModal }: ChangeUserInfoModalProps) => {
     disabled:cursor-not-allowed
     w-full
     "
-              placeholder={user?.username}
+              placeholder={user?.user.name}
               {...register('name')}
             />
           </div>
@@ -154,7 +164,9 @@ const ChangeUserInfoModal = ({ handleModal }: ChangeUserInfoModalProps) => {
     disabled:cursor-not-allowed
     w-full
     "
-              placeholder={!user?.bio === undefined ? 'You have no bio' : user?.bio}
+              placeholder={
+                !user?.user.bio === undefined ? 'You have no bio' : user?.user.bio
+              }
               {...register('bio')}
             />
           </div>

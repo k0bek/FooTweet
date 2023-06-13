@@ -1,33 +1,20 @@
-import { useEffect } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 
 import { regexEmail } from '@/constants/regexEmail';
 
 import FormInput from '../FormInput';
 import { useFormRegister } from './hooks/useFormRegister';
+import { useModalStore } from '@/hooks/useStore';
 
 interface RegisterModalProps {
   changeFormHandler: () => void;
-  changeModalVisibilityHandler: () => void;
 }
 
-export default function RegisterModal({
-  changeFormHandler,
-  changeModalVisibilityHandler,
-}: RegisterModalProps) {
-  const {
-    handleSubmit,
-    onSubmit,
-    register,
-    errors,
-    getValues,
-    isLoading,
-    isModalClosed,
-  } = useFormRegister();
+export default function RegisterModal({ changeFormHandler }: RegisterModalProps) {
+  const { handleSubmit, onSubmit, register, errors, getValues, isLoading } =
+    useFormRegister();
 
-  useEffect(() => {
-    changeModalVisibilityHandler();
-  }, [isModalClosed]);
+  const [handlIsAuthModalOpen] = useModalStore((state) => [state.handleIsAuthModalOpen]);
 
   return (
     <form
@@ -39,7 +26,7 @@ export default function RegisterModal({
         <button>
           <AiOutlineClose
             className="text-white text-4xl  hover:bg-gray-500 hover:rounded-full p-1 transition-all"
-            onClick={changeModalVisibilityHandler}
+            onClick={handlIsAuthModalOpen}
           />
         </button>
       </div>
