@@ -14,9 +14,11 @@ export default function Home({ posts }: HomeProps) {
 
 export async function getServerSideProps() {
   try {
-    const response = await axios.get('http://localhost:3000/api/posts');
+    const response = await axios.get(process.env.NEXT_PUBLIC_API_ROUTE + '/posts');
 
     const posts = await response.data.posts;
+
+    console.log();
 
     return {
       props: { posts },
