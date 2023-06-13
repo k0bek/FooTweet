@@ -3,7 +3,8 @@ import 'react-loading-skeleton/dist/skeleton.css';
 import moment from 'moment';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import { PostAttributes } from 'next-auth';
+import React from 'react';
 import Skeleton from 'react-loading-skeleton';
 
 import lewy from '@/assets/images/lewy.jpg';
@@ -13,9 +14,8 @@ import Loader from '@/components/loader/Loader';
 import ChangeUserInfoModal from '@/components/modals/ChangeUserInfoModal';
 import Post from '@/components/post/Post';
 import Wrapper from '@/components/wrapper/Wrapper';
-import { useProfilePosts, useUser } from '@/lib/hooks';
-import { PostAttributes } from 'next-auth';
 import { useModalStore } from '@/hooks/useStore';
+import { useProfilePosts, useUser } from '@/lib/hooks';
 
 const Profile = () => {
   const { profileId } = useRouter().query;

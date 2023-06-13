@@ -1,8 +1,9 @@
-import { useModalStore } from '@/hooks/useStore';
 import { signIn } from 'next-auth/react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
+
+import { useModalStore } from '@/hooks/useStore';
 
 export const useFormLogin = () => {
   const [isLoading, setIsLoading] = useState(false);

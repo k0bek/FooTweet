@@ -1,11 +1,10 @@
-import { useEffect } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 
 import { regexEmail } from '@/constants/regexEmail';
+import { useModalStore } from '@/hooks/useStore';
 
 import FormInput from '../FormInput';
 import { useFormLogin } from './hooks/useFormLogin';
-import { useModalStore } from '@/hooks/useStore';
 
 interface LoginModalProps {
   changeFormHandler: () => void;

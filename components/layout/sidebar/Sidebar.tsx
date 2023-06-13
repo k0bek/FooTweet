@@ -9,9 +9,9 @@ import { FiFeather } from 'react-icons/fi';
 import { IoMdNotifications } from 'react-icons/io';
 
 import Button from '@/components/Button';
+import { useModalStore } from '@/hooks/useStore';
 
 import SidebarItem from './SidebarItem';
-import { useModalStore } from '@/hooks/useStore';
 
 const sidebarItems = [
   {

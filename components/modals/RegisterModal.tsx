@@ -1,10 +1,10 @@
 import { AiOutlineClose } from 'react-icons/ai';
 
 import { regexEmail } from '@/constants/regexEmail';
+import { useModalStore } from '@/hooks/useStore';
 
 import FormInput from '../FormInput';
 import { useFormRegister } from './hooks/useFormRegister';
-import { useModalStore } from '@/hooks/useStore';
 
 interface RegisterModalProps {
   changeFormHandler: () => void;

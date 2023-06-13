@@ -6,14 +6,14 @@ import { useSession } from 'next-auth/react';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
-import { AiFillCloseCircle, AiOutlineClose } from 'react-icons/ai';
+import { AiOutlineClose } from 'react-icons/ai';
 import { MdAddPhotoAlternate } from 'react-icons/md';
 import { useMutation } from 'react-query';
 
+import { useModalStore } from '@/hooks/useStore';
 import { useUser } from '@/lib/hooks';
 
 import lewy from './../../assets/images/lewy.jpg';
-import { useModalStore } from '@/hooks/useStore';
 
 interface ChangeUserInfoModalProps {
   refetchUser: () => void;

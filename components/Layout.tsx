@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 
+import { useModalStore } from '@/hooks/useStore';
+
 import ProfileBar from './layout/profilebar/ProfileBar';
 import SideBar from './layout/sidebar/Sidebar';
 import UsersToFollow from './layout/usersToFollow/UsersToFollow';
 import Modal from './modals/AuthModal';
-import { useModalStore } from '@/hooks/useStore';
 
 interface LayoutProps {
   children: React.ReactNode;
