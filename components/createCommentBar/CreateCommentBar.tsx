@@ -22,6 +22,8 @@ const CreateCommentBar = ({ refetchComments }: CreateCommentBarProps) => {
   const router = useRouter();
   const session = useSession();
 
+  console.log(session);
+
   const mutation = useMutation({
     mutationFn: (newComment: CommentAttributes) => {
       return axios.post('/api/comments', newComment);
@@ -50,7 +52,7 @@ const CreateCommentBar = ({ refetchComments }: CreateCommentBarProps) => {
         <Textarea
           placeholder="Add your comment"
           value={commentValue}
-          disabled={mutation.isLoading}
+          disabled={mutation.isLoading || !session.data}
           onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
             setCommentValue(event.target.value);
           }}
@@ -67,9 +69,11 @@ const CreateCommentBar = ({ refetchComments }: CreateCommentBarProps) => {
             });
           }}
           className={`border border-gray-600  text-lg sm:text-xl py-3 px-3 sm:px-6 rounded-3xl text-gray-300 font-bold flex items-center gap-3 ${
-            mutation.isLoading ? 'bg-gray-500 cursor-not-allowed' : 'bg-sky-500'
+            mutation.isLoading || !session.data
+              ? 'bg-gray-500 cursor-not-allowed'
+              : 'bg-sky-500'
           }`}
-          disabled={mutation.isLoading}
+          disabled={mutation.isLoading || !session.data}
         >
           Comment
         </button>

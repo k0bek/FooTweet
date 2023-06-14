@@ -55,7 +55,7 @@ const CreatePostBar = ({ refetchProfilePosts }: CreatePostBarProps) => {
         <Textarea
           placeholder="What's happening?"
           value={postValue}
-          disabled={createdPost.isLoading}
+          disabled={createdPost.isLoading || !user}
           onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
             setPostValue(event.target.value);
           }}
@@ -81,9 +81,11 @@ const CreatePostBar = ({ refetchProfilePosts }: CreatePostBarProps) => {
             });
           }}
           className={`border border-gray-600  text-lg sm:text-xl py-3 px-3 sm:px-6 rounded-3xl text-gray-300 font-bold flex items-center gap-3 ${
-            createdPost.isLoading ? 'bg-gray-500 cursor-not-allowed' : 'bg-sky-500'
+            createdPost.isLoading || !user
+              ? 'bg-gray-500 cursor-not-allowed'
+              : 'bg-sky-500'
           }`}
-          disabled={createdPost.isLoading}
+          disabled={createdPost.isLoading || !user}
         >
           Tweet
         </button>

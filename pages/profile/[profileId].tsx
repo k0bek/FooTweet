@@ -16,6 +16,9 @@ import Post from '@/components/post/Post';
 import Wrapper from '@/components/wrapper/Wrapper';
 import { useModalStore } from '@/hooks/useStore';
 import { useProfilePosts, useUser } from '@/lib/hooks';
+import { redirect } from 'next/dist/server/api-utils';
+import { getSession } from 'next-auth/react';
+import { GetServerSidePropsContext } from 'next';
 
 const Profile = () => {
   const { profileId } = useRouter().query;
@@ -144,3 +147,22 @@ const Profile = () => {
 };
 
 export default Profile;
+
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
+  const session = await getSession({ req: context.req });
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/',
+        permament: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+      session,
+    },
+  };
+};
