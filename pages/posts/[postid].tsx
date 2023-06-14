@@ -13,10 +13,10 @@ import { CommentAttributes } from '@/types/next-auth'
 
 const SinglePost = () => {
   const router = useRouter()
-  const { postId } = router.query
+  const { postid } = router.query
 
-  const { post, isLoadingSinglePost } = useSinglePost(postId as string)
-  const { comments, isLoadingComments, refetchComments } = useComments(postId as string)
+  const { post, isLoadingSinglePost } = useSinglePost(postid as string)
+  const { comments, isLoadingComments, refetchComments } = useComments(postid as string)
 
   return (
     <Wrapper>
