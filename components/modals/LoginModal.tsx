@@ -1,35 +1,37 @@
-import { AiOutlineClose } from 'react-icons/ai';
+import { AiOutlineClose } from 'react-icons/ai'
 
-import { regexEmail } from '@/constants/regexEmail';
-import { useModalStore } from '@/hooks/useStore';
+import { regexEmail } from '@/constants/regexEmail'
+import { useModalStore } from '@/hooks/useStore'
 
-import FormInput from '../FormInput';
-import { useFormLogin } from './hooks/useFormLogin';
+import FormInput from '../FormInput'
+import { useFormLogin } from './hooks/useFormLogin'
 
 interface LoginModalProps {
-  changeFormHandler: () => void;
+  changeFormHandler: () => void
 }
 
 export default function LoginModal({ changeFormHandler }: LoginModalProps) {
-  const { handleSubmit, onSubmit, register, errors, isLoading } = useFormLogin();
+  const { handleSubmit, onSubmit, register, errors, isLoading } = useFormLogin()
 
-  const [handlIsAuthModalOpen] = useModalStore((state) => [state.handleIsAuthModalOpen]);
+  const [handlIsAuthModalOpen] = useModalStore((state) => [state.handleIsAuthModalOpen])
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col gap-3 bg-black py-20 px-10 rounded-2xl w-[30rem] xs:w-[40rem] sm:w-[50rem] relative"
+      className="relative flex w-[30rem] flex-col gap-3 rounded-2xl bg-black px-10 py-20 xs:w-[40rem] sm:w-[50rem]"
     >
       <div className="flex w-full items-center justify-between">
-        <h1 className="font-bold text-5xl text-white ">Login</h1>
+        <h1 className="text-5xl font-bold text-white ">Login</h1>
         <button>
           <AiOutlineClose
-            className="text-white text-4xl  hover:bg-gray-500 hover:rounded-full p-1 transition-all"
+            className="p-1 text-4xl  text-white transition-all hover:rounded-full hover:bg-gray-500"
             onClick={handlIsAuthModalOpen}
           />
         </button>
       </div>
-      <label className="font-medium">Email address</label>
+      <label className="font-medium" htmlFor="email">
+        Email address
+      </label>
       <FormInput
         placeholder="Email address"
         register={register('email', {
@@ -44,7 +46,9 @@ export default function LoginModal({ changeFormHandler }: LoginModalProps) {
 
       {errors?.email?.message && <p className="text-white">{errors?.email?.message}</p>}
 
-      <label className="font-medium">Password</label>
+      <label className="font-medium" htmlFor="password">
+        Password
+      </label>
       <FormInput
         placeholder="Password"
         register={register('password', {
@@ -53,25 +57,21 @@ export default function LoginModal({ changeFormHandler }: LoginModalProps) {
         type="password"
       />
 
-      {errors?.password?.message && (
-        <p className="text-white">{errors?.password?.message}</p>
-      )}
+      {errors?.password?.message && <p className="text-white">{errors?.password?.message}</p>}
 
       <input
-        className={`mt-8 py-4 text-2xl rounded-full ${
-          isLoading ? 'bg-gray-500 cursor-not-allowed' : 'bg-sky-500'
-        } text-white font-bold cursor-pointer`}
+        className={`mt-8 rounded-full py-4 text-2xl ${
+          isLoading ? 'cursor-not-allowed bg-gray-500' : 'bg-sky-500'
+        } cursor-pointer font-bold text-white`}
         name="Submit"
         type="submit"
         value="Submit"
         disabled={isLoading}
       />
-      <p className="text-gray-300 text-[1.5rem] text-center mt-2">
+      <p className="mt-2 text-center text-[1.5rem] text-gray-300">
         Dont have an account?
         <button
-          className={`text-white font-semibold cursor-pointer ml-2 ${
-            isLoading ? 'cursor-not-allowed' : ''
-          }`}
+          className={`ml-2 cursor-pointer font-semibold text-white ${isLoading ? 'cursor-not-allowed' : ''}`}
           onClick={changeFormHandler}
           disabled={isLoading}
         >
@@ -79,5 +79,5 @@ export default function LoginModal({ changeFormHandler }: LoginModalProps) {
         </button>
       </p>
     </form>
-  );
+  )
 }

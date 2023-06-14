@@ -1,32 +1,25 @@
-import React from 'react';
-import { useQuery } from 'react-query';
-
-import Loader from '@/components/loader/Loader';
-
-import UsersToFollowItem from './UsersToFollowItem';
+import { useQuery } from 'react-query'
+import Loader from '@/components/loader/Loader'
+import UsersToFollowItem from './UsersToFollowItem'
 
 const UsersToFollow = () => {
-  const { isLoading, data: items } = useQuery('users', () =>
-    fetch('../api/users').then((res) => res.json()),
-  );
+  const { isLoading, data: items } = useQuery('users', () => fetch('../api/users').then((res) => res.json()))
 
   return (
-    <div className="bg-gray-800 py-6 h-82 rounded-2xl hidden xl:block min-w-[26rem]">
-      <h2 className="text-white font-bold text-3xl px-4">Who to follow</h2>
-      <ul className="py-5 flex flex-col items-center">
+    <div className="h-82 hidden min-w-[26rem] rounded-2xl bg-gray-800 py-6 xl:block">
+      <h2 className="px-4 text-3xl font-bold text-white">Who to follow</h2>
+      <ul className="flex flex-col items-center py-5">
         {!isLoading && items ? (
           items.map((item: { image: string; username: string }) => {
-            return (
-              <UsersToFollowItem username={item.username} image="" key={item.username} />
-            );
+            return <UsersToFollowItem username={item.username} image="" key={item.username} />
           })
         ) : (
           <Loader />
         )}
       </ul>
-      <p className="text-blue-500 cursor-pointer mt-1 px-4 text-2xl">Show more</p>
+      <p className="mt-1 cursor-pointer px-4 text-2xl text-blue-500">Show more</p>
     </div>
-  );
-};
+  )
+}
 
-export default UsersToFollow;
+export default UsersToFollow

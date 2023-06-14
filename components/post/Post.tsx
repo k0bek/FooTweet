@@ -1,45 +1,35 @@
-import moment from 'moment';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
-import React from 'react';
-import { AiFillHeart, AiOutlineRetweet } from 'react-icons/ai';
-import { FaComments } from 'react-icons/fa';
+import moment from 'moment'
+import Image from 'next/image'
+import { useRouter } from 'next/router'
+import { AiFillHeart, AiOutlineRetweet } from 'react-icons/ai'
+import { FaComments } from 'react-icons/fa'
 
-import lewy from './../../assets/images/lewy.jpg';
+import lewy from './../../assets/images/lewy.jpg'
 interface PostProps {
-  username: string;
-  postValue: string;
-  id?: string;
-  data_time: string;
+  username: string
+  postValue: string
+  id?: string
+  data_time: string
 }
 
 const Post = ({ username, postValue, id, data_time }: PostProps) => {
-  const router = useRouter();
+  const router = useRouter()
 
   const goToPost = () => {
-    router.push(`/posts/${id}`);
-  };
+    router.push(`/posts/${id}`)
+  }
 
   return (
-    <div className="flex flex-col bg-slate-700 rounded-2xl w-full p-7 cursor-pointer hover:bg-slate-700/90 transition-all font-semibold">
-      <div className="h-full w-full flex flex-col items-start gap-4 xs:flex-row">
+    <div className="flex w-full cursor-pointer flex-col rounded-2xl bg-slate-700 p-7 font-semibold transition-all hover:bg-slate-700/90">
+      <div className="flex h-full w-full flex-col items-start gap-4 xs:flex-row">
         <div className="flex items-start gap-3">
-          <Image
-            src={lewy}
-            height={50}
-            alt="User's profile image"
-            className="rounded-full"
-          />
+          <Image src={lewy} height={50} alt="User's profile image" className="rounded-full" />
           <div className="flex flex-col gap-2">
             <div className="flex items-center">
               <div className="flex flex-col">
-                <div className="flex items-start flex-col xs:flex-row xs:items-end xs:gap-2">
-                  <span className="text-white font-semibold text-xl xs:text-2xl">
-                    {username}
-                  </span>
-                  <span className=" text-gray-400 font-medium xs:text-xl">
-                    @{username}
-                  </span>
+                <div className="flex flex-col items-start xs:flex-row xs:items-end xs:gap-2">
+                  <span className="text-xl font-semibold text-white xs:text-2xl">{username}</span>
+                  <span className=" font-medium text-gray-400 xs:text-xl">@{username}</span>
                 </div>
                 <span className="text-gray-400 xs:text-xl">
                   {moment(data_time, 'YYYY-MM-DDTHH:mm:ss.SSSZ').fromNow()}
@@ -47,25 +37,25 @@ const Post = ({ username, postValue, id, data_time }: PostProps) => {
               </div>
             </div>
 
-            <p className="text-white text-lg xs:text-2xl break-all">{postValue}</p>
+            <p className="break-all text-lg text-white xs:text-2xl">{postValue}</p>
           </div>
         </div>
       </div>
-      <div className="mt-5 flex gap-1 xs:gap-5 w-full justify-center">
-        <button className="border border-gray-600 text-xs xs:text-xl py-3 px-3 xs:px-6 rounded-3xl text-gray-300 font-medium flex items-center gap-3 hover:bg-red-500 transition-all">
+      <div className="mt-5 flex w-full justify-center gap-1 xs:gap-5">
+        <button className="flex items-center gap-3 rounded-3xl border border-gray-600 px-3 py-3 text-xs font-medium text-gray-300 transition-all hover:bg-red-500 xs:px-6 xs:text-xl">
           <AiFillHeart />
           Like
         </button>
         <button
-          className={`border border-gray-600 text-xs xs:text-xl py-3 px-3 xs:px-6 rounded-3xl font-medium flex items-center gap-3 transition-all text-white
-          }
-          }`}
+          className={`} } flex items-center gap-3 rounded-3xl border border-gray-600 px-3 py-3 text-xs font-medium text-white transition-all
+          xs:px-6
+          xs:text-xl`}
         >
           <AiOutlineRetweet />
           Retweet
         </button>
         <button
-          className="border border-gray-600 text-xs xs:text-xl py-3 px-3 xs:px-6 rounded-3xl text-gray-300 font-medium flex items-center gap-3 hover:bg-zinc-500 transition-all"
+          className="flex items-center gap-3 rounded-3xl border border-gray-600 px-3 py-3 text-xs font-medium text-gray-300 transition-all hover:bg-zinc-500 xs:px-6 xs:text-xl"
           onClick={goToPost}
         >
           <FaComments />
@@ -73,7 +63,7 @@ const Post = ({ username, postValue, id, data_time }: PostProps) => {
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Post;
+export default Post

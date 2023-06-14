@@ -1,73 +1,61 @@
-import 'react-loading-skeleton/dist/skeleton.css';
+import 'react-loading-skeleton/dist/skeleton.css'
 
-import moment from 'moment';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
-import { PostAttributes } from 'next-auth';
-import React from 'react';
-import Skeleton from 'react-loading-skeleton';
+import moment from 'moment'
+import Image from 'next/image'
+import { useRouter } from 'next/router'
+import { PostAttributes } from 'next-auth'
 
-import lewy from '@/assets/images/lewy.jpg';
-import Header from '@/components/header/Header';
-import CreatePostBar from '@/components/homeMainContent/CreatePostBar';
-import Loader from '@/components/loader/Loader';
-import ChangeUserInfoModal from '@/components/modals/ChangeUserInfoModal';
-import Post from '@/components/post/Post';
-import Wrapper from '@/components/wrapper/Wrapper';
-import { useModalStore } from '@/hooks/useStore';
-import { useProfilePosts, useUser } from '@/lib/hooks';
-import { redirect } from 'next/dist/server/api-utils';
-import { getSession } from 'next-auth/react';
-import { GetServerSidePropsContext } from 'next';
+import Skeleton from 'react-loading-skeleton'
+
+import lewy from '@/assets/images/lewy.jpg'
+import Header from '@/components/header/Header'
+import CreatePostBar from '@/components/homeMainContent/CreatePostBar'
+import Loader from '@/components/loader/Loader'
+import ChangeUserInfoModal from '@/components/modals/ChangeUserInfoModal'
+import Post from '@/components/post/Post'
+import Wrapper from '@/components/wrapper/Wrapper'
+import { useModalStore } from '@/hooks/useStore'
+import { useProfilePosts, useUser } from '@/lib/hooks'
+import { getSession } from 'next-auth/react'
+import { GetServerSidePropsContext } from 'next'
 
 const Profile = () => {
-  const { profileId } = useRouter().query;
-  const { user, isLoadingUser, refetchUser } = useUser(profileId as string);
-  const { profilePosts, isLoadingProfilePosts, refetchProfilePosts } = useProfilePosts(
-    profileId as string,
-  );
+  const { profileId } = useRouter().query
+  const { user, isLoadingUser, refetchUser } = useUser(profileId as string)
+  const { profilePosts, isLoadingProfilePosts, refetchProfilePosts } = useProfilePosts(profileId as string)
 
   const [isUserInfoModalOpen, handleIsUserInfoModalOpen] = useModalStore((state) => [
     state.isUserInfoModalOpen,
     state.handleIsUserInfoModalOpen,
-  ]);
+  ])
 
   return (
     <Wrapper>
       <Header heading="Profile" />
       <div className="h-60 bg-gray-700"></div>
-      <div className="w-full flex flex-col gap-10 border-down border-b-2 border-gray-700 py-4">
+      <div className="border-down flex w-full flex-col gap-10 border-b-2 border-gray-700 py-4">
         <div className="relative w-full p-4 md:p-7">
           {!isLoadingUser ? (
             <Image
               src={lewy}
-              className="rounded-full absolute top-[-5.5rem] md:top-[-8rem] left-5 h-32 w-32 md:w-48 md:h-48"
+              className="absolute left-5 top-[-5.5rem] h-32 w-32 rounded-full md:top-[-8rem] md:h-48 md:w-48"
               alt="Profile image"
             />
           ) : (
-            <Skeleton
-              circle
-              width={105}
-              height={105}
-              className="rounded-full absolute top-[-8.5rem] md:top-[-8rem]"
-            />
+            <Skeleton circle width={105} height={105} className="absolute top-[-8.5rem] rounded-full md:top-[-8rem]" />
           )}
           <button
-            className="absolute right-2 top-3 border border-gray-600 text-xl xs:text-2xl py-3 px-3 xs:px-6 rounded-3xl text-black font-medium flex items-center gap-3 bg-white  disabled:bg-gray-500  transition-all"
+            className="absolute right-2 top-3 flex items-center gap-3 rounded-3xl border border-gray-600 bg-white px-3 py-3 text-xl font-medium text-black transition-all disabled:bg-gray-500  xs:px-6  xs:text-2xl"
             onClick={handleIsUserInfoModalOpen}
             disabled={isLoadingUser}
           >
             Edit profile
           </button>
         </div>
-        <div
-          className={`${'flex items-start px-8 flex-col'} ${
-            isLoadingUser && 'mt-[-10em]'
-          }`}
-        >
+        <div className={`${'flex flex-col items-start px-8'} ${isLoadingUser && 'mt-[-10em]'}`}>
           <div className="flex flex-col gap-6">
-            <div className="flex items-start flex-col xs:gap-2">
-              <span className="text-white font-semibold text-4xl md:text-5xl">
+            <div className="flex flex-col items-start xs:gap-2">
+              <span className="text-4xl font-semibold text-white md:text-5xl">
                 {!isLoadingUser && user ? (
                   !user?.name ? (
                     user?.username
@@ -78,26 +66,14 @@ const Profile = () => {
                   <Skeleton width={150} height={30} />
                 )}
               </span>
-              <span className=" text-gray-400 font-medium text-2xl">
-                {!isLoadingUser && user ? (
-                  `@${user.username}`
-                ) : (
-                  <Skeleton width={100} height={20} />
-                )}
+              <span className=" text-2xl font-medium text-gray-400">
+                {!isLoadingUser && user ? `@${user.username}` : <Skeleton width={100} height={20} />}
               </span>
             </div>
-            <span className="text-white text-xl md:text-2xl">
-              {!isLoadingUser && user ? (
-                !user?.bio ? (
-                  'Bio is empty'
-                ) : (
-                  user.bio
-                )
-              ) : (
-                <Skeleton width={150} height={20} />
-              )}
+            <span className="text-xl text-white md:text-2xl">
+              {!isLoadingUser && user ? !user?.bio ? 'Bio is empty' : user.bio : <Skeleton width={150} height={20} />}
             </span>
-            <span className="text-gray-400 text-xl md:text-2xl">
+            <span className="text-xl text-gray-400 md:text-2xl">
               {!isLoadingUser && user ? (
                 `Joined ${moment(user?.data_time).format('MMMM Do YYYY')}`
               ) : (
@@ -105,16 +81,16 @@ const Profile = () => {
               )}
             </span>
           </div>
-          <div className="flex gap-5 text-white mt-5 hover:text-gray-300 transition-all">
+          <div className="mt-5 flex gap-5 text-white transition-all hover:text-gray-300">
             {!isLoadingUser && user ? (
               <>
-                <p className="text-xl md:text-2xl cursor-pointer">
+                <p className="cursor-pointer text-xl md:text-2xl">
                   Following
-                  <span className="font-bold ml-2">123</span>
+                  <span className="ml-2 font-bold">123</span>
                 </p>
-                <p className="text-xl md:text-2xl cursor-pointer hover:text-gray-300 transition-all">
+                <p className="cursor-pointer text-xl transition-all hover:text-gray-300 md:text-2xl">
                   Followers
-                  <span className="font-bold ml-2">123</span>
+                  <span className="ml-2 font-bold">123</span>
                 </p>
               </>
             ) : (
@@ -123,7 +99,7 @@ const Profile = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col gap-10 py-10 px-5 items-center">
+      <div className="flex flex-col items-center gap-10 px-5 py-10">
         <CreatePostBar refetchProfilePosts={refetchProfilePosts} />
         {profilePosts && !isLoadingProfilePosts ? (
           profilePosts.map((profilePost: PostAttributes) => {
@@ -135,7 +111,7 @@ const Profile = () => {
                 id={profilePost._id}
                 key={profilePost._id}
               />
-            );
+            )
           })
         ) : (
           <Loader />
@@ -143,13 +119,13 @@ const Profile = () => {
       </div>
       {isUserInfoModalOpen && <ChangeUserInfoModal refetchUser={refetchUser} />}
     </Wrapper>
-  );
-};
+  )
+}
 
-export default Profile;
+export default Profile
 
 export const getServerSideProps = async (context: GetServerSidePropsContext) => {
-  const session = await getSession({ req: context.req });
+  const session = await getSession({ req: context.req })
 
   if (!session) {
     return {
@@ -157,12 +133,12 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
         destination: '/',
         permament: false,
       },
-    };
+    }
   }
 
   return {
     props: {
       session,
     },
-  };
-};
+  }
+}
