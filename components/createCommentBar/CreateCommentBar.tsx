@@ -56,7 +56,7 @@ const CreateCommentBar = ({ refetchComments }: CreateCommentBarProps) => {
             mutation.mutate({
               commentValue,
               data_time: currentData,
-              postId: router.query.postId,
+              postId: router.query.postid,
               username: session.data?.user.username,
             })
           }}
