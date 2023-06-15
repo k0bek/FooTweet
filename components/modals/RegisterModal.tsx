@@ -3,7 +3,7 @@ import { AiOutlineClose } from 'react-icons/ai'
 import { regexEmail } from '@/constants/regexEmail'
 import { useModalStore } from '@/hooks/useStore'
 
-import FormInput from '../FormInput'
+import { Input } from '../Input'
 import { useFormRegister } from './hooks/useFormRegister'
 
 interface RegisterModalProps {
@@ -33,8 +33,10 @@ export default function RegisterModal({ changeFormHandler }: RegisterModalProps)
       <label className="font-medium" htmlFor="username">
         Username
       </label>
-      <FormInput
+      <Input
         placeholder="Username"
+        type="text"
+        id="username"
         register={register('username', {
           required: 'You need to enter your username.',
           minLength: {
@@ -42,7 +44,7 @@ export default function RegisterModal({ changeFormHandler }: RegisterModalProps)
             message: 'Your username is too short.',
           },
         })}
-        type="text"
+        variant="auth"
       />
 
       {errors?.username?.message && <p className="text-white">{errors.username.message}</p>}
@@ -50,8 +52,10 @@ export default function RegisterModal({ changeFormHandler }: RegisterModalProps)
       <label className="font-medium" htmlFor="email">
         Email address
       </label>
-      <FormInput
+      <Input
         placeholder="Email address"
+        type="email"
+        id="email"
         register={register('email', {
           required: 'You need to enter your email.',
           pattern: {
@@ -59,15 +63,17 @@ export default function RegisterModal({ changeFormHandler }: RegisterModalProps)
             message: 'This email is invalid.',
           },
         })}
-        type="email"
+        variant="auth"
       />
       {errors?.email?.message && <p className="text-white">{errors.email.message}</p>}
 
       <label className="font-medium" htmlFor="password">
         Password
       </label>
-      <FormInput
+      <Input
         placeholder="Password"
+        type="password"
+        id="password"
         register={register('password', {
           required: 'You need to enter your password.',
           minLength: {
@@ -75,27 +81,28 @@ export default function RegisterModal({ changeFormHandler }: RegisterModalProps)
             message: 'Your password is too short.',
           },
         })}
-        type="password"
+        variant="auth"
       />
       {errors?.password?.message && <p className="text-white">{errors?.password?.message}</p>}
 
       <label className="font-medium" htmlFor="repeatPassword">
         Repeat password
       </label>
-      <FormInput
+      <Input
         placeholder="Repeat password"
+        type="password"
+        id="repeatPassword"
         register={register('repeatPassword', {
           required: 'You need to repeat your password.',
           validate: (val: string) => {
             const { password } = getValues()
             // eslint-disable-next-line security/detect-possible-timing-attacks
             if (password != val) {
-              console.log('what you doin')
               return 'Your passwords do no match'
             }
           },
         })}
-        type="password"
+        variant="auth"
       />
 
       {errors?.repeatPassword?.message && <p className="text-white">{errors?.repeatPassword?.message}</p>}

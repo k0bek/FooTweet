@@ -3,7 +3,7 @@ import { AiOutlineClose } from 'react-icons/ai'
 import { regexEmail } from '@/constants/regexEmail'
 import { useModalStore } from '@/hooks/useStore'
 
-import FormInput from '../FormInput'
+import { Input } from '../Input'
 import { useFormLogin } from './hooks/useFormLogin'
 
 interface LoginModalProps {
@@ -32,8 +32,11 @@ export default function LoginModal({ changeFormHandler }: LoginModalProps) {
       <label className="font-medium" htmlFor="email">
         Email address
       </label>
-      <FormInput
+
+      <Input
         placeholder="Email address"
+        type="email"
+        id="email"
         register={register('email', {
           required: 'You need to enter your email.',
           pattern: {
@@ -41,7 +44,7 @@ export default function LoginModal({ changeFormHandler }: LoginModalProps) {
             message: 'This email is invalid.',
           },
         })}
-        type="email"
+        variant="auth"
       />
 
       {errors?.email?.message && <p className="text-white">{errors?.email?.message}</p>}
@@ -49,12 +52,14 @@ export default function LoginModal({ changeFormHandler }: LoginModalProps) {
       <label className="font-medium" htmlFor="password">
         Password
       </label>
-      <FormInput
+      <Input
         placeholder="Password"
+        type="password"
+        id="password"
         register={register('password', {
           required: 'You need to enter your password.',
         })}
-        type="password"
+        variant="auth"
       />
 
       {errors?.password?.message && <p className="text-white">{errors?.password?.message}</p>}

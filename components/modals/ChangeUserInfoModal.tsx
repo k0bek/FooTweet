@@ -13,6 +13,7 @@ import { useModalStore } from '@/hooks/useStore'
 import { useUser } from '@/lib/hooks'
 
 import lewy from './../../assets/images/lewy.jpg'
+import { Input } from '../Input'
 
 interface ChangeUserInfoModalProps {
   refetchUser: () => void
@@ -113,53 +114,19 @@ const ChangeUserInfoModal = ({ refetchUser }: ChangeUserInfoModalProps) => {
             <label className="text-2xl font-medium" htmlFor="name">
               Name
             </label>
-            <input
-              className="
-    w-full 
-    rounded-md 
-    border-2 
-    border-neutral-200
-    bg-white 
-    p-4
-    text-xl
-    text-black
-    outline-none
-    transition
-    focus:border-2
-    focus:border-sky-500
-    disabled:cursor-not-allowed
-    disabled:bg-neutral-900
-    disabled:opacity-70
-    "
-              placeholder={user?.user.name}
-              {...register('name')}
-            />
+            <Input placeholder={user?.user.name} type="text" id="name" {...register('name')} variant="changeInfo" />
           </div>
 
           <div className="flex flex-col gap-2">
             <label className="text-2xl font-medium" htmlFor="bio">
               Bio
             </label>
-            <input
-              className="
-    w-full 
-    rounded-md 
-    border-2 
-    border-neutral-200
-    bg-white 
-    p-4
-    text-xl
-    text-black
-    outline-none
-    transition
-    focus:border-2
-    focus:border-sky-500
-    disabled:cursor-not-allowed
-    disabled:bg-neutral-900
-    disabled:opacity-70
-    "
+            <Input
               placeholder={!user?.user.bio === undefined ? 'You have no bio' : user?.user.bio}
+              type="text"
+              id="bio"
               {...register('bio')}
+              variant="changeInfo"
             />
           </div>
 
@@ -167,57 +134,16 @@ const ChangeUserInfoModal = ({ refetchUser }: ChangeUserInfoModalProps) => {
             <label className="text-2xl font-medium" htmlFor="oldPassword">
               Old Password
             </label>
-            <input
-              className="
-    w-full 
-    rounded-md 
-    border-2 
-    border-neutral-200
-    bg-white 
-    p-4
-    text-xl
-    text-black
-    outline-none
-    transition
-    focus:border-2
-    focus:border-sky-500
-    disabled:cursor-not-allowed
-    disabled:bg-neutral-900
-    disabled:opacity-70
-    "
-              type="password"
-              {...register('oldPassword')}
-            />
+            <Input type="password" id="oldPassword" {...register('oldPassword')} variant="changeInfo" />
           </div>
 
           <div className="flex flex-col gap-2">
             <label className="text-2xl font-medium" htmlFor="newPassword">
               New Password
             </label>
-            <input
-              className="
-    w-full 
-    rounded-md 
-    border-2 
-    border-neutral-200
-    bg-white 
-    p-4
-    text-xl
-    text-black
-    outline-none
-    transition
-    focus:border-2
-    focus:border-sky-500
-    disabled:cursor-not-allowed
-    disabled:bg-neutral-900
-    disabled:opacity-70
-    "
-              {...register('newPassword')}
-              type="password"
-            />
+            <Input type="password" id="newPassword" {...register('newPassword')} variant="changeInfo" />
           </div>
         </form>
-        <div className="flex w-full items-center justify-between"></div>
       </div>
     </div>
   )
