@@ -6,7 +6,7 @@ const UsersToFollow = () => {
   const { isLoading, data: items } = useQuery('users', () => fetch('../api/users').then((res) => res.json()))
 
   return (
-    <div className="h-82 hidden min-w-[26rem] max-w-[26rem] rounded-2xl bg-gray-800 py-6 xl:block">
+    <div className="h-82 hidden min-w-[29rem] max-w-[29rem] rounded-2xl bg-gray-800 py-6 xl:block">
       <h2 className="px-4 text-3xl font-bold text-white">Who to follow</h2>
       <ul className="flex flex-col items-center py-5">
         {!isLoading && items ? (

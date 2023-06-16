@@ -5,6 +5,7 @@ import { useModalStore } from '@/hooks/useStore'
 
 import { Input } from '../Input'
 import { useFormLogin } from './hooks/useFormLogin'
+import { Button } from '../Button'
 
 interface LoginModalProps {
   changeFormHandler: () => void
@@ -22,12 +23,9 @@ export default function LoginModal({ changeFormHandler }: LoginModalProps) {
     >
       <div className="flex w-full items-center justify-between">
         <h1 className="text-5xl font-bold text-white ">Login</h1>
-        <button>
-          <AiOutlineClose
-            className="p-1 text-4xl  text-white transition-all hover:rounded-full hover:bg-gray-500"
-            onClick={handlIsAuthModalOpen}
-          />
-        </button>
+        <Button onClick={handlIsAuthModalOpen} size="default">
+          <AiOutlineClose />
+        </Button>
       </div>
       <label className="font-medium" htmlFor="email">
         Email address
@@ -44,7 +42,8 @@ export default function LoginModal({ changeFormHandler }: LoginModalProps) {
             message: 'This email is invalid.',
           },
         })}
-        variant="auth"
+        variant="default"
+        theme="black"
       />
 
       {errors?.email?.message && <p className="text-white">{errors?.email?.message}</p>}
@@ -59,20 +58,18 @@ export default function LoginModal({ changeFormHandler }: LoginModalProps) {
         register={register('password', {
           required: 'You need to enter your password.',
         })}
-        variant="auth"
+        variant="default"
+        theme="black"
       />
 
       {errors?.password?.message && <p className="text-white">{errors?.password?.message}</p>}
 
-      <input
-        className={`mt-8 rounded-full py-4 text-2xl ${
-          isLoading ? 'cursor-not-allowed bg-gray-500' : 'bg-sky-500'
-        } cursor-pointer font-bold text-white`}
-        name="Submit"
-        type="submit"
-        value="Submit"
-        disabled={isLoading}
-      />
+      <div className="py-2"></div>
+
+      <Button disabled={isLoading} type="submit" size="lg" theme="blue">
+        Login
+      </Button>
+
       <p className="mt-2 text-center text-[1.5rem] text-gray-300">
         Dont have an account?
         <button

@@ -4,7 +4,6 @@ import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 import { useState, ChangeEvent } from 'react'
 import { toast } from 'react-hot-toast'
-import { BsFillImageFill } from 'react-icons/bs'
 import { useMutation } from 'react-query'
 
 import getCurrentData from '@/hooks/useCurrentData'
@@ -12,6 +11,7 @@ import { PostAttributes } from '@/types/next-auth'
 
 import Textarea from '../Textarea'
 import lewy from './../../assets/images/lewy.jpg'
+import { Button } from '../Button'
 
 interface CreatePostBarProps {
   refetchProfilePosts?: () => void
@@ -55,16 +55,7 @@ const CreatePostBar = ({ refetchProfilePosts }: CreatePostBarProps) => {
         />
       </div>
       <div className="mt-5 flex w-full justify-end gap-1 sm:gap-5">
-        <button
-          className={`flex items-center gap-3 rounded-3xl border border-gray-600 px-3 py-3 text-lg font-medium text-gray-300 sm:px-6 sm:text-xl ${
-            createdPost.isLoading ? 'cursor-not-allowed bg-gray-500' : 'text-gray-300'
-          }`}
-          disabled={createdPost.isLoading}
-        >
-          <BsFillImageFill className="text-emerald-400 shadow-xl shadow-emerald-500" />
-          Photo
-        </button>
-        <button
+        <Button
           onClick={async () => {
             createdPost.mutate({
               userId: user?.id,
@@ -73,13 +64,12 @@ const CreatePostBar = ({ refetchProfilePosts }: CreatePostBarProps) => {
               username: user?.username,
             })
           }}
-          className={`flex items-center  gap-3 rounded-3xl border border-gray-600 px-3 py-3 text-lg font-bold text-gray-300 sm:px-6 sm:text-xl ${
-            createdPost.isLoading || !user ? 'cursor-not-allowed bg-gray-500' : 'bg-sky-500'
-          }`}
+          size="default"
+          theme="blue"
           disabled={createdPost.isLoading || !user}
         >
           Tweet
-        </button>
+        </Button>
       </div>
     </div>
   )

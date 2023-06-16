@@ -14,6 +14,7 @@ import { useUser } from '@/lib/hooks'
 
 import lewy from './../../assets/images/lewy.jpg'
 import { Input } from '../Input'
+import { Button } from '../Button'
 
 interface ChangeUserInfoModalProps {
   refetchUser: () => void
@@ -84,28 +85,25 @@ const ChangeUserInfoModal = ({ refetchUser }: ChangeUserInfoModalProps) => {
       <div className="relative flex w-[30rem] flex-col gap-3 rounded-2xl bg-white px-2 py-8 xs:w-[40rem] sm:w-[50rem]">
         <div className="mb-5 flex w-full justify-between px-5">
           <div className="flex items-center gap-8 text-4xl font-medium">
-            <button className="cursor-pointer transition-all hover:text-gray-500" onClick={handleIsUserInfoModalOpen}>
+            <Button onClick={handleIsUserInfoModalOpen} theme="white" size="default">
               <AiOutlineClose />
-            </button>
-            <p>Edit profile</p>
+            </Button>
+            <p className="ml-[-1rem]">Edit profile</p>
           </div>
-          <button
-            className="rounded-full bg-black px-10 py-3 text-2xl font-semibold text-white"
-            onClick={handleSubmit(onSubmit)}
-          >
+          <Button size="default" theme="black" onClick={handleSubmit(onSubmit)}>
             Save
-          </button>
+          </Button>
         </div>
         <div className="relative flex h-52 w-full items-center justify-center bg-gray-700">
-          <button className="cursor-pointer text-6xl text-white transition-all hover:opacity-90">
+          <Button size="xxl">
             <MdAddPhotoAlternate />
-          </button>
+          </Button>
           <div className="absolute left-4 top-32">
             <Image src={lewy} className="h-32 w-32 rounded-full md:h-36 md:w-36" alt="Profile image" />
             <div className="absolute inset-0 flex items-center justify-center text-4xl text-white">
-              <button className="rounded-full bg-black bg-opacity-70 p-2 transition-all hover:bg-opacity-60">
+              <Button size="xl">
                 <MdAddPhotoAlternate />
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -114,7 +112,14 @@ const ChangeUserInfoModal = ({ refetchUser }: ChangeUserInfoModalProps) => {
             <label className="text-2xl font-medium" htmlFor="name">
               Name
             </label>
-            <Input placeholder={user?.user.name} type="text" id="name" {...register('name')} variant="changeInfo" />
+            <Input
+              placeholder={user?.user.name}
+              type="text"
+              id="name"
+              {...register('name')}
+              variant="default"
+              theme="white"
+            />
           </div>
 
           <div className="flex flex-col gap-2">
@@ -126,7 +131,8 @@ const ChangeUserInfoModal = ({ refetchUser }: ChangeUserInfoModalProps) => {
               type="text"
               id="bio"
               {...register('bio')}
-              variant="changeInfo"
+              theme="white"
+              variant="default"
             />
           </div>
 
@@ -134,14 +140,14 @@ const ChangeUserInfoModal = ({ refetchUser }: ChangeUserInfoModalProps) => {
             <label className="text-2xl font-medium" htmlFor="oldPassword">
               Old Password
             </label>
-            <Input type="password" id="oldPassword" {...register('oldPassword')} variant="changeInfo" />
+            <Input type="password" id="oldPassword" {...register('oldPassword')} variant="default" theme="white" />
           </div>
 
           <div className="flex flex-col gap-2">
             <label className="text-2xl font-medium" htmlFor="newPassword">
               New Password
             </label>
-            <Input type="password" id="newPassword" {...register('newPassword')} variant="changeInfo" />
+            <Input type="password" id="newPassword" {...register('newPassword')} variant="default" theme="white" />
           </div>
         </form>
       </div>

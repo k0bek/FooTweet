@@ -11,6 +11,7 @@ import useCurrentData from '@/hooks/useCurrentData'
 
 import Textarea from '../Textarea'
 import lewy from './../../assets/images/lewy.jpg'
+import { Button } from '../Button'
 
 interface CreateCommentBarProps {
   refetchComments: () => void
@@ -51,7 +52,7 @@ const CreateCommentBar = ({ refetchComments }: CreateCommentBarProps) => {
         />
       </div>
       <div className="mt-5 flex w-full justify-end gap-1 sm:gap-5">
-        <button
+        <Button
           onClick={async () => {
             mutation.mutate({
               commentValue,
@@ -60,13 +61,12 @@ const CreateCommentBar = ({ refetchComments }: CreateCommentBarProps) => {
               username: session.data?.user.username,
             })
           }}
-          className={`flex items-center  gap-3 rounded-3xl border border-gray-600 px-3 py-3 text-lg font-bold text-gray-300 sm:px-6 sm:text-xl ${
-            mutation.isLoading || !session.data ? 'cursor-not-allowed bg-gray-500' : 'bg-sky-500'
-          }`}
           disabled={mutation.isLoading || !session.data}
+          theme="blue"
+          size="sm"
         >
           Comment
-        </button>
+        </Button>
       </div>
     </div>
   )

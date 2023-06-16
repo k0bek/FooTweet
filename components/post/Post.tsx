@@ -5,6 +5,7 @@ import { AiFillHeart, AiOutlineRetweet } from 'react-icons/ai'
 import { FaComments } from 'react-icons/fa'
 
 import lewy from './../../assets/images/lewy.jpg'
+import { Button } from '../Button'
 interface PostProps {
   username: string
   postValue: string
@@ -42,12 +43,12 @@ const Post = ({ username, postValue, id, data_time }: PostProps) => {
         </div>
       </div>
       <div className="mt-5 flex w-full justify-center gap-1 xs:gap-5">
-        <button className="flex items-center gap-3 rounded-3xl border border-gray-600 px-3 py-3 text-xs font-medium text-gray-300 transition-all hover:bg-red-500 xs:px-6 xs:text-xl">
+        <Button className="flex items-center gap-3 rounded-3xl border border-gray-600 px-3 py-3 text-xs font-medium text-gray-300 transition-all hover:bg-red-500 xs:px-6 xs:text-xl">
           <AiFillHeart />
           Like
-        </button>
+        </Button>
         <button
-          className={`} } flex items-center gap-3 rounded-3xl border border-gray-600 px-3 py-3 text-xs font-medium text-white transition-all
+          className={`flex items-center gap-3 rounded-3xl border border-gray-600 px-3 py-3 text-xs font-medium text-white transition-all
           xs:px-6
           xs:text-xl`}
         >
@@ -59,7 +60,6 @@ const Post = ({ username, postValue, id, data_time }: PostProps) => {
           onClick={goToPost}
         >
           <FaComments />
-          {/* Comment {comments && comments.length} */}
         </button>
       </div>
     </div>

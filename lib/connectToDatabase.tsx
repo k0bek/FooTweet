@@ -1,9 +1,9 @@
-import { MongoClient } from 'mongodb';
+import { MongoClient } from 'mongodb'
 
 export const connectToDatabase = async () => {
-  const URL = 'mongodb+srv://kuba:kuba@footweet.dma2zio.mongodb.net/test';
+  const URL = process.env.NEXTAUTH_URL_MONGO
 
-  const client = await MongoClient.connect(URL);
+  const client = await MongoClient.connect(URL as string)
 
-  return client;
-};
+  return client
+}

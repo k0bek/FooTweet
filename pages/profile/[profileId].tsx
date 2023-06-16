@@ -18,6 +18,7 @@ import { useModalStore } from '@/hooks/useStore'
 import { useProfilePosts, useUser } from '@/lib/hooks'
 import { getSession } from 'next-auth/react'
 import { GetServerSidePropsContext } from 'next'
+import { Button } from '@/components/Button'
 
 const Profile = () => {
   const { profileId } = useRouter().query
@@ -44,13 +45,12 @@ const Profile = () => {
           ) : (
             <Skeleton circle width={105} height={105} className="absolute top-[-8.5rem] rounded-full md:top-[-8rem]" />
           )}
-          <button
-            className="absolute right-2 top-3 flex items-center gap-3 rounded-3xl border border-gray-600 bg-white px-3 py-3 text-xl font-medium text-black transition-all disabled:bg-gray-500  xs:px-6  xs:text-2xl"
-            onClick={handleIsUserInfoModalOpen}
-            disabled={isLoadingUser}
-          >
-            Edit profile
-          </button>
+
+          <div className="absolute right-2 top-3 md:p-6">
+            <Button theme="white" size="default" onClick={handleIsUserInfoModalOpen} disabled={isLoadingUser}>
+              Edit profile
+            </Button>
+          </div>
         </div>
         <div className={`${'flex flex-col items-start px-8'} ${isLoadingUser && 'mt-[-10em]'}`}>
           <div className="flex flex-col gap-6">

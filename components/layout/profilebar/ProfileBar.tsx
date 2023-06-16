@@ -11,7 +11,7 @@ const ProfileBar = () => {
   const { data: session } = useSession()
 
   return (
-    <div className="relative hidden max-w-[26rem] flex-col items-center rounded-2xl bg-gray-800 py-4 xl:flex">
+    <div className="relative hidden max-w-[29rem] flex-col items-center rounded-2xl bg-gray-800 py-4 xl:flex">
       <Image
         src={lewy}
         width={50}

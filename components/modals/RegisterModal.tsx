@@ -5,6 +5,7 @@ import { useModalStore } from '@/hooks/useStore'
 
 import { Input } from '../Input'
 import { useFormRegister } from './hooks/useFormRegister'
+import { Button } from '../Button'
 
 interface RegisterModalProps {
   changeFormHandler: () => void
@@ -22,12 +23,9 @@ export default function RegisterModal({ changeFormHandler }: RegisterModalProps)
     >
       <div className="flex w-full items-center justify-between">
         <h1 className="text-5xl font-bold text-white ">Register</h1>
-        <button>
-          <AiOutlineClose
-            className="p-1 text-4xl  text-white transition-all hover:rounded-full hover:bg-gray-500"
-            onClick={handlIsAuthModalOpen}
-          />
-        </button>
+        <Button onClick={handlIsAuthModalOpen} size="default">
+          <AiOutlineClose />
+        </Button>
       </div>
 
       <label className="font-medium" htmlFor="username">
@@ -44,7 +42,8 @@ export default function RegisterModal({ changeFormHandler }: RegisterModalProps)
             message: 'Your username is too short.',
           },
         })}
-        variant="auth"
+        variant="default"
+        theme="black"
       />
 
       {errors?.username?.message && <p className="text-white">{errors.username.message}</p>}
@@ -63,7 +62,8 @@ export default function RegisterModal({ changeFormHandler }: RegisterModalProps)
             message: 'This email is invalid.',
           },
         })}
-        variant="auth"
+        variant="default"
+        theme="black"
       />
       {errors?.email?.message && <p className="text-white">{errors.email.message}</p>}
 
@@ -81,7 +81,8 @@ export default function RegisterModal({ changeFormHandler }: RegisterModalProps)
             message: 'Your password is too short.',
           },
         })}
-        variant="auth"
+        variant="default"
+        theme="black"
       />
       {errors?.password?.message && <p className="text-white">{errors?.password?.message}</p>}
 
@@ -102,20 +103,17 @@ export default function RegisterModal({ changeFormHandler }: RegisterModalProps)
             }
           },
         })}
-        variant="auth"
+        variant="default"
+        theme="black"
       />
 
       {errors?.repeatPassword?.message && <p className="text-white">{errors?.repeatPassword?.message}</p>}
 
-      <input
-        className={`mt-8 rounded-full py-4 text-2xl ${
-          isLoading ? 'cursor-not-allowed bg-gray-500' : 'bg-sky-500'
-        } cursor-pointer font-bold text-white`}
-        name="Submit"
-        type="submit"
-        value="Submit"
-        disabled={isLoading}
-      />
+      <div className="py-2"></div>
+
+      <Button disabled={isLoading} type="submit" size="lg" theme="blue">
+        Register
+      </Button>
 
       <p className="mt-2 text-center text-[1.5rem] text-gray-300">
         Already have an account?
