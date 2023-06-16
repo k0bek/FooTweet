@@ -1,22 +1,32 @@
-import { ChangeEvent } from 'react';
+import { VariantProps, cva } from 'class-variance-authority'
+import { cn } from '@/lib/utils'
 
-interface TextareaProps {
-  placeholder: string;
-  value: string;
-  disabled: boolean;
-  onChange: (event: ChangeEvent<HTMLTextAreaElement>) => void;
+const textareaVariants = cva('overflow-auto resize-none rounded-2xl outline-none', {
+  variants: {
+    theme: {
+      default: 'bg-slate-500 text-white',
+    },
+    size: {
+      default: 'w-full sm:text-4xl p-4 text-xl sm:text-4xl',
+    },
+  },
+
+  defaultVariants: {
+    theme: 'default',
+    size: 'default',
+  },
+})
+
+export interface TextareaProps
+  extends React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+    VariantProps<typeof textareaVariants> {}
+
+const Textarea = ({ className, children, size, theme, ...props }: TextareaProps) => {
+  return (
+    <textarea className={cn(textareaVariants({ size, theme, className }))} {...props}>
+      {children}
+    </textarea>
+  )
 }
 
-const Textarea = ({ placeholder, value, disabled, onChange }: TextareaProps) => {
-  return (
-    <textarea
-      className="overflow-hidden resize-none rounded-2xl w-full bg-slate-500 text-xl p-4 text-white outline-none sm:text-4xl "
-      placeholder={placeholder}
-      onChange={onChange}
-      value={value}
-      disabled={disabled}
-    ></textarea>
-  );
-};
-
-export default Textarea;
+export { Textarea, textareaVariants }

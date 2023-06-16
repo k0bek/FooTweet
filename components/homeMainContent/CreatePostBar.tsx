@@ -9,7 +9,7 @@ import { useMutation } from 'react-query'
 import getCurrentData from '@/hooks/useCurrentData'
 import { PostAttributes } from '@/types/next-auth'
 
-import Textarea from '../Textarea'
+import { Textarea } from '../Textarea'
 import lewy from './../../assets/images/lewy.jpg'
 import { Button } from '../Button'
 

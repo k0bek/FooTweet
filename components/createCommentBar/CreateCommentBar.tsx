@@ -9,7 +9,7 @@ import { useMutation } from 'react-query'
 
 import useCurrentData from '@/hooks/useCurrentData'
 
-import Textarea from '../Textarea'
+import { Textarea } from '../Textarea'
 import lewy from './../../assets/images/lewy.jpg'
 import { Button } from '../Button'
 
