@@ -15,12 +15,14 @@ import { useUser } from '@/lib/hooks'
 import lewy from './../../assets/images/lewy.jpg'
 import { Input } from '../Input'
 import { Button } from '../Button'
+import { useState } from 'react'
 
 interface ChangeUserInfoModalProps {
   refetchUser: () => void
 }
 
 const ChangeUserInfoModal = ({ refetchUser }: ChangeUserInfoModalProps) => {
+  const [isLoading, setIsLoading] = useState(false)
   const session = useSession()
   const userId = session.data?.user.id as string
   const user = useUser(userId)
@@ -28,7 +30,7 @@ const ChangeUserInfoModal = ({ refetchUser }: ChangeUserInfoModalProps) => {
 
   const [handleIsUserInfoModalOpen] = useModalStore((state) => [state.handleIsUserInfoModalOpen])
 
-  const { register, handleSubmit, getValues } = useForm({
+  const { register, handleSubmit, getValues, reset } = useForm({
     defaultValues: {
       name: '',
       bio: '',
@@ -41,27 +43,35 @@ const ChangeUserInfoModal = ({ refetchUser }: ChangeUserInfoModalProps) => {
 
   const editUserInfo = useMutation({
     mutationFn: (newInfo: EditUserInfoAttributes) => {
+      setIsLoading(true)
       return axios.post(`/api/users/${router.query.profileId}`, newInfo)
     },
     onSuccess: () => {
-      toast.success('Changed password succesfully')
+      setIsLoading(false)
+      toast.success('Changed user info properly')
       refetchUser()
+      reset()
     },
 
     onError: () => {
+      setIsLoading(false)
       toast.error('Error with adding posts. Please try again')
     },
   })
 
   const changePassword = useMutation({
     mutationFn: (passwords: EditUserInfoAttributes) => {
+      setIsLoading(true)
       return axios.post(`/api/users/change-password`, passwords)
     },
     onSuccess: async () => {
+      setIsLoading(false)
       toast.success('Changed password succesfully')
+      reset()
     },
 
     onError: () => {
+      setIsLoading(false)
       toast.error('Error with changing password. Please try again')
     },
   })
@@ -70,9 +80,11 @@ const ChangeUserInfoModal = ({ refetchUser }: ChangeUserInfoModalProps) => {
     const { name, bio, oldPassword, newPassword } = getValues()
 
     const nameAndBio = {
-      ...(name !== '' && { name }),
-      ...(bio !== '' && { bio }),
+      ...(name !== '' ? { name } : { name: user.user.name }),
+      ...(bio !== '' ? { bio } : { bio: user.user.bio }),
     }
+
+    console.log(nameAndBio)
 
     if (newPassword && oldPassword) {
       changePassword.mutate({ oldPassword, newPassword })
@@ -90,7 +102,7 @@ const ChangeUserInfoModal = ({ refetchUser }: ChangeUserInfoModalProps) => {
             </Button>
             <p className="ml-[-1rem]">Edit profile</p>
           </div>
-          <Button size="default" theme="black" onClick={handleSubmit(onSubmit)}>
+          <Button size="default" theme="black" onClick={handleSubmit(onSubmit)} disabled={isLoading}>
             Save
           </Button>
         </div>
@@ -116,7 +128,7 @@ const ChangeUserInfoModal = ({ refetchUser }: ChangeUserInfoModalProps) => {
               placeholder={user?.user.name}
               type="text"
               id="name"
-              {...register('name')}
+              register={{ ...register('name') }}
               variant="default"
               theme="white"
             />
@@ -130,7 +142,7 @@ const ChangeUserInfoModal = ({ refetchUser }: ChangeUserInfoModalProps) => {
               placeholder={!user?.user.bio === undefined ? 'You have no bio' : user?.user.bio}
               type="text"
               id="bio"
-              {...register('bio')}
+              register={{ ...register('bio') }}
               theme="white"
               variant="default"
             />
@@ -140,14 +152,26 @@ const ChangeUserInfoModal = ({ refetchUser }: ChangeUserInfoModalProps) => {
             <label className="text-2xl font-medium" htmlFor="oldPassword">
               Old Password
             </label>
-            <Input type="password" id="oldPassword" {...register('oldPassword')} variant="default" theme="white" />
+            <Input
+              type="password"
+              id="oldPassword"
+              register={{ ...register('oldPassword') }}
+              variant="default"
+              theme="white"
+            />
           </div>
 
           <div className="flex flex-col gap-2">
             <label className="text-2xl font-medium" htmlFor="newPassword">
               New Password
             </label>
-            <Input type="password" id="newPassword" {...register('newPassword')} variant="default" theme="white" />
+            <Input
+              type="password"
+              id="newPassword"
+              register={{ ...register('newPassword') }}
+              variant="default"
+              theme="white"
+            />
           </div>
         </form>
       </div>

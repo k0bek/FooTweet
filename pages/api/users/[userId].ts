@@ -1,10 +1,7 @@
 import { ObjectId } from 'mongodb'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { getServerSession } from 'next-auth/next'
 
 import { connectToDatabase } from '@/lib/connectToDatabase'
-
-import { authOptions } from '../auth/[...nextauth]'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const client = await connectToDatabase()
@@ -12,22 +9,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { userId } = req.query
   const data = req.body
 
-  const session = await getServerSession(req, res, authOptions)
-  const user = session?.user
-
   if (req.method === 'POST') {
-    console.log(data)
     const updatedUser = await db.collection('users').updateOne(
       { _id: new ObjectId(userId as string) },
       {
         $set: {
-          name: data.name !== undefined ? data.name : user?.name,
-          bio: data.bio !== undefined ? data.bio : user?.bio,
+          name: data.name,
+          bio: data.bio,
         },
       }
     )
 
-    console.log(updatedUser)
     client.close()
     return res.status(201).json(updatedUser)
   }

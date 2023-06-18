@@ -30,5 +30,4 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement>, VariantProps
 const Input = ({ className, variant, theme, register, ...props }: InputProps) => {
   return <input className={cn(inputVariants({ variant, theme, className }))} {...props} {...register} />
 }
-
 export { Input, inputVariants }
