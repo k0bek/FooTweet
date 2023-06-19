@@ -110,6 +110,7 @@ const Profile = () => {
                 data_time={profilePost.data_time}
                 id={profilePost._id}
                 key={profilePost._id}
+                userId={profilePost.userId}
               />
             )
           })

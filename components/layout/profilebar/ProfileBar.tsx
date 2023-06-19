@@ -2,13 +2,16 @@ import 'react-loading-skeleton/dist/skeleton.css'
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useSession } from 'next-auth/react'
 import Skeleton from 'react-loading-skeleton'
 
 import lewy from './../../../assets/images/lewy.jpg'
+import { useUser } from '@/lib/hooks'
+import { useSession } from 'next-auth/react'
 
 const ProfileBar = () => {
-  const { data: session } = useSession()
+  const session = useSession()
+  const userId = session.data?.user.id
+  const { user } = useUser(userId as string)
 
   return (
     <div className="relative hidden max-w-[29rem] flex-col items-center rounded-2xl bg-gray-800 py-4 xl:flex">
@@ -20,16 +23,14 @@ const ProfileBar = () => {
         className="absolute left-0 top-0 h-28 w-full rounded-t-lg"
       />
       <Image src={lewy} width={80} height={40} alt="User's profile image" className="z-[1] mt-4 rounded-full" />
-      {session?.user ? (
-        <p className="mt-5 text-3xl font-medium text-white">
-          {session.user.name ? session.user?.name : session.user.username}
-        </p>
+      {user ? (
+        <p className="mt-5 text-3xl font-medium text-white">{user.name ? user?.name : user.username}</p>
       ) : (
         <Skeleton width={110} height={20} className="mt-5 text-3xl font-medium text-white" />
       )}
 
-      {session?.user ? (
-        <span className=" mt-2 text-xl text-gray-500">@{session?.user.username}</span>
+      {user ? (
+        <span className=" mt-2 text-xl text-gray-500">@{user.username}</span>
       ) : (
         <Skeleton width={110} height={20} className="mt-3 text-3xl font-medium text-white" />
       )}
@@ -44,7 +45,7 @@ const ProfileBar = () => {
           <span className="text-xl text-gray-500">Followers</span>
         </div>
       </div>
-      <Link href={`/profile/${session?.user?.id}`} className="mt-4 cursor-pointer px-4 text-2xl text-blue-500">
+      <Link href={`/profile/${userId}`} className="mt-4 cursor-pointer px-4 text-2xl text-blue-500">
         My profile
       </Link>
     </div>

@@ -12,6 +12,7 @@ import { PostAttributes } from '@/types/next-auth'
 import { Textarea } from '../Textarea'
 import lewy from './../../assets/images/lewy.jpg'
 import { Button } from '../Button'
+import { useUser } from '@/lib/hooks'
 
 interface CreatePostBarProps {
   refetchProfilePosts?: () => void
@@ -19,9 +20,12 @@ interface CreatePostBarProps {
 
 const CreatePostBar = ({ refetchProfilePosts }: CreatePostBarProps) => {
   const [postValue, setPostValue] = useState('')
-  const { data: session } = useSession()
   const router = useRouter()
-  const user = session?.user
+  const session = useSession()
+  const userId = session.data?.user.id
+  const { user } = useUser(userId as string)
+
+  console.log(user)
 
   const createdPost = useMutation({
     mutationFn: (newPost: PostAttributes) => {
@@ -58,10 +62,11 @@ const CreatePostBar = ({ refetchProfilePosts }: CreatePostBarProps) => {
         <Button
           onClick={async () => {
             createdPost.mutate({
-              userId: user?.id,
+              userId: userId,
               postValue,
               data_time: getCurrentData(),
               username: user?.username,
+              name: user?.name,
             })
           }}
           size="default"

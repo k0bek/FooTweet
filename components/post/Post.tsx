@@ -6,15 +6,20 @@ import { FaComments } from 'react-icons/fa'
 
 import lewy from './../../assets/images/lewy.jpg'
 import { Button } from '../Button'
+import { useUser } from '@/lib/hooks'
 interface PostProps {
   username: string
   postValue: string
   id?: string
   data_time: string
+  name: string
+  userId: string
 }
 
-const Post = ({ username, postValue, id, data_time }: PostProps) => {
+const Post = ({ postValue, id, data_time, userId }: PostProps) => {
   const router = useRouter()
+
+  const { user } = useUser(userId)
 
   const goToPost = () => {
     router.push(`/posts/${id}`)
@@ -29,15 +34,14 @@ const Post = ({ username, postValue, id, data_time }: PostProps) => {
             <div className="flex items-center">
               <div className="flex flex-col">
                 <div className="flex flex-col items-start xs:flex-row xs:items-end xs:gap-2">
-                  <span className="text-xl font-semibold text-white xs:text-2xl">{username}</span>
-                  <span className=" font-medium text-gray-400 xs:text-xl">@{username}</span>
+                  <span className="text-xl font-semibold text-white xs:text-2xl">{user && user.name}</span>
+                  <span className=" font-medium text-gray-400 xs:text-xl">@{user && user.username}</span>
                 </div>
                 <span className="text-gray-400 xs:text-xl">
                   {moment(data_time, 'YYYY-MM-DDTHH:mm:ss.SSSZ').fromNow()}
                 </span>
               </div>
             </div>
-
             <p className="break-all text-lg text-white xs:text-2xl">{postValue}</p>
           </div>
         </div>
@@ -60,6 +64,7 @@ const Post = ({ username, postValue, id, data_time }: PostProps) => {
           onClick={goToPost}
         >
           <FaComments />
+          Comments (1)
         </button>
       </div>
     </div>

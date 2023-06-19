@@ -23,6 +23,8 @@ const HomeMainContent = ({ posts }: HomeMainContentProps) => {
                 id={post._id}
                 data_time={post.data_time}
                 key={post._id}
+                name={post.name}
+                userId={post.userId}
               />
             )
           })}
