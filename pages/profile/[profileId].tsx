@@ -16,7 +16,7 @@ import Post from '@/components/post/Post'
 import Wrapper from '@/components/wrapper/Wrapper'
 import { useModalStore } from '@/hooks/useStore'
 import { useProfilePosts, useUser } from '@/lib/hooks'
-import { getSession } from 'next-auth/react'
+import { getSession, useSession } from 'next-auth/react'
 import { GetServerSidePropsContext } from 'next'
 import { Button } from '@/components/Button'
 
@@ -29,6 +29,9 @@ const Profile = () => {
     state.isUserInfoModalOpen,
     state.handleIsUserInfoModalOpen,
   ])
+  const session = useSession()
+
+  console.log(session)
 
   return (
     <Wrapper>
@@ -46,11 +49,13 @@ const Profile = () => {
             <Skeleton circle width={105} height={105} className="absolute top-[-8.5rem] rounded-full md:top-[-8rem]" />
           )}
 
-          <div className="absolute right-2 top-3 md:p-6">
-            <Button theme="white" size="default" onClick={handleIsUserInfoModalOpen} disabled={isLoadingUser}>
-              Edit profile
-            </Button>
-          </div>
+          {profileId === session?.data?.user.id && (
+            <div className="absolute right-2 top-3 md:p-6">
+              <Button theme="white" size="default" onClick={handleIsUserInfoModalOpen} disabled={isLoadingUser}>
+                Edit profile
+              </Button>
+            </div>
+          )}
         </div>
         <div className={`${'flex flex-col items-start px-8'} ${isLoadingUser && 'mt-[-10em]'}`}>
           <div className="flex flex-col gap-6">
@@ -100,7 +105,7 @@ const Profile = () => {
         </div>
       </div>
       <div className="flex flex-col items-center gap-10 px-5 py-10">
-        <CreatePostBar refetchProfilePosts={refetchProfilePosts} />
+        {profileId === session?.data?.user.id && <CreatePostBar refetchProfilePosts={refetchProfilePosts} />}
         {profilePosts && !isLoadingProfilePosts ? (
           profilePosts.map((profilePost: PostAttributes) => {
             return (

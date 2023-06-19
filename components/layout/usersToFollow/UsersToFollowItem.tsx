@@ -1,21 +1,30 @@
 import Image from 'next/image'
 import { Button } from '@/components/Button'
 import lewy from './../../../assets/images/lewy.jpg'
+import { useRouter } from 'next/router'
 interface UsersToFollowItemProps {
   image: string
   username: string
+  userId: string
 }
 
-const UsersToFollowItem = ({ image, username }: UsersToFollowItemProps) => {
+const UsersToFollowItem = ({ image, username, userId }: UsersToFollowItemProps) => {
+  const router = useRouter()
   return (
-    <li className="flex w-full cursor-pointer items-center justify-between gap-10 px-4 py-4 transition-all hover:bg-gray-700">
+    <li
+      className="flex w-full cursor-pointer items-center justify-between gap-10 px-4 py-4 transition-all hover:bg-gray-700"
+      onClick={() => {
+        router.push(`/profile/${userId}`)
+      }}
+      aria-hidden="true"
+    >
       <div className="flex items-center justify-center gap-4">
         <Image src={image ? lewy : lewy} width={50} height={40} alt="User's profile image" className="rounded-full" />
         <div className="flex flex-col justify-center">
           <p className="break-keep text-2xl font-medium text-white">
             {username.length > 13 ? `${username.slice(0, 13)}...` : username}
           </p>
-          <span className=" text-xl text-gray-500">@{username}</span>
+          <span className="text-xl text-gray-500">@{username}</span>
         </div>
       </div>
       <Button size="sm" theme="blue">

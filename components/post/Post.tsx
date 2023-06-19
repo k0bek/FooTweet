@@ -12,7 +12,6 @@ interface PostProps {
   postValue: string
   id?: string
   data_time: string
-  name: string
   userId: string
 }
 
