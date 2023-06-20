@@ -78,25 +78,28 @@ const Post = ({ postValue, id, data_time, userId, usersWhoLiked }: PostProps) =>
             })
             setIsPostLiked(!isPostLiked)
           }}
+          disabled={!session.data?.user}
         >
           <AiFillHeart />
           Like
         </Button>
-        <button
+        <Button
           className={`flex items-center gap-3 rounded-3xl border border-gray-600 px-3 py-3 text-xs font-medium text-white transition-all
           xs:px-6
           xs:text-xl`}
+          disabled={!session.data?.user}
         >
           <AiOutlineRetweet />
           Retweet
-        </button>
-        <button
+        </Button>
+        <Button
           className="flex items-center gap-3 rounded-3xl border border-gray-600 px-3 py-3 text-xs font-medium text-gray-300 transition-all hover:bg-zinc-500 xs:px-6 xs:text-xl"
           onClick={goToPost}
+          disabled={!session.data?.user}
         >
           <FaComments />
           Comments (1)
-        </button>
+        </Button>
       </div>
     </div>
   )
