@@ -22,6 +22,7 @@ declare module 'next-auth' {
     postValue: string
     data_time: string
     username: string
+    usersWhoLiked: string[]
   }
 
   interface CommentAttributes {
