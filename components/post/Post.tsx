@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react'
 
 import lewy from './../../assets/images/lewy.jpg'
 import { Button } from '../Button'
-import { useUser } from '@/lib/hooks'
+import { useComments, useUser } from '@/lib/hooks'
 import { useMutation } from 'react-query'
 import axios from 'axios'
 import { useSession } from 'next-auth/react'
@@ -25,13 +25,16 @@ const Post = ({ postValue, id, data_time, userId, usersWhoLiked }: PostProps) =>
   const router = useRouter()
   const { user } = useUser(userId)
   const session = useSession()
+  const { comments } = useComments(id)
   const [isPostLiked, setIsPostLiked] = useState<boolean>(false)
+  const [amountOfLikes, setAmountOfLikes] = useState(0)
 
-  console.log(session.data?.user.id)
+  console.log(comments)
 
   useEffect(() => {
     if (usersWhoLiked && session.data) {
       setIsPostLiked(usersWhoLiked.includes(session.data.user.id))
+      setAmountOfLikes(usersWhoLiked.length)
     }
   }, [usersWhoLiked, session.data])
 
@@ -79,11 +82,20 @@ const Post = ({ postValue, id, data_time, userId, usersWhoLiked }: PostProps) =>
               usersWhoLiked: userId,
             })
             setIsPostLiked(!isPostLiked)
+            if (isPostLiked) {
+              setAmountOfLikes((prev) => {
+                return prev - 1
+              })
+            } else {
+              setAmountOfLikes((prev) => {
+                return prev + 1
+              })
+            }
           }}
           disabled={!session.data?.user}
         >
           <AiFillHeart />
-          Like
+          Like ({amountOfLikes})
         </Button>
         <Button
           className={`flex items-center gap-3 rounded-3xl border border-gray-600 px-3 py-3 text-xs font-medium text-white transition-all
@@ -100,7 +112,7 @@ const Post = ({ postValue, id, data_time, userId, usersWhoLiked }: PostProps) =>
           disabled={!session.data?.user}
         >
           <FaComments />
-          Comments (1)
+          Comments ({comments && comments.length})
         </Button>
       </div>
     </div>
