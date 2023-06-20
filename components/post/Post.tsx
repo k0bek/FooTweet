@@ -25,7 +25,9 @@ const Post = ({ postValue, id, data_time, userId, usersWhoLiked }: PostProps) =>
   const router = useRouter()
   const { user } = useUser(userId)
   const session = useSession()
-  const [isPostLiked, setIsPostLiked] = useState<boolean>(false) // Dodajemy stan isPostLiked
+  const [isPostLiked, setIsPostLiked] = useState<boolean>(false)
+
+  console.log(session.data?.user.id)
 
   useEffect(() => {
     if (usersWhoLiked && session.data) {

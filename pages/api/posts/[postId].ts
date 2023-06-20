@@ -10,7 +10,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const client = await connectToDatabase()
   const db = client.db()
   const { postId } = req.query
-  const { usersWhoLiked } = req.body
   const session: Session | null = await getServerSession(req, res, authOptions)
 
   try {
@@ -25,7 +24,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         { _id: new ObjectId(postId as string) },
         {
           $push: {
-            usersWhoLiked: usersWhoLiked as string,
+            usersWhoLiked: session.user.id,
           },
         }
       )
