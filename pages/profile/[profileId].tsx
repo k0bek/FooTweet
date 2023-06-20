@@ -31,8 +31,6 @@ const Profile = () => {
   ])
   const session = useSession()
 
-  console.log(session)
-
   return (
     <Wrapper>
       <Header heading="Profile" />
@@ -108,6 +106,7 @@ const Profile = () => {
         {profileId === session?.data?.user.id && <CreatePostBar refetchProfilePosts={refetchProfilePosts} />}
         {profilePosts && !isLoadingProfilePosts ? (
           profilePosts.map((profilePost: PostAttributes) => {
+            console.log(profilePost)
             return (
               <Post
                 postValue={profilePost.postValue}
@@ -116,6 +115,7 @@ const Profile = () => {
                 id={profilePost._id}
                 key={profilePost._id}
                 userId={profilePost.userId}
+                usersWhoLiked={profilePost.usersWhoLiked}
               />
             )
           })

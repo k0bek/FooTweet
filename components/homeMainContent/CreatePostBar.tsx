@@ -25,8 +25,6 @@ const CreatePostBar = ({ refetchProfilePosts }: CreatePostBarProps) => {
   const userId = session.data?.user.id
   const { user } = useUser(userId as string)
 
-  console.log(user)
-
   const createdPost = useMutation({
     mutationFn: (newPost: PostAttributes) => {
       return axios.post('/api/posts', newPost)

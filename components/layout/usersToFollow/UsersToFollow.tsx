@@ -12,8 +12,6 @@ const UsersToFollow = () => {
     setVisibleUsers((prevCount) => prevCount + 3)
   }
 
-  console.log(items)
-
   return (
     <div className="h-82 hidden min-w-[29rem] max-w-[29rem] rounded-2xl bg-gray-800 py-6 xl:block">
       <h2 className="px-4 text-3xl font-bold text-white">Who to follow</h2>

@@ -11,41 +11,41 @@ import { useModalStore } from '@/hooks/useStore'
 import SidebarItem from './SidebarItem'
 import Link from 'next/link'
 
-const sidebarItems = [
-  {
-    label: 'Home',
-    icon: AiFillHome,
-    auth: false,
-    href: '/',
-  },
-  {
-    label: 'Search',
-    icon: BiSearch,
-    auth: true,
-    href: '/search',
-  },
-  {
-    label: 'Hashtags',
-    icon: FaHashtag,
-    auth: true,
-    href: '/hashtags',
-  },
-  {
-    label: 'Profile',
-    icon: FaUserAlt,
-    auth: true,
-    href: '/profile',
-  },
-  {
-    label: 'Messages',
-    icon: IoMdNotifications,
-    auth: true,
-    href: '/messages',
-  },
-]
-
 const Sidebar = () => {
   const { data: session } = useSession()
+
+  const sidebarItems = [
+    {
+      label: 'Home',
+      icon: AiFillHome,
+      auth: false,
+      href: '/',
+    },
+    {
+      label: 'Search',
+      icon: BiSearch,
+      auth: true,
+      href: '/search',
+    },
+    {
+      label: 'Hashtags',
+      icon: FaHashtag,
+      auth: true,
+      href: '/hashtags',
+    },
+    {
+      label: 'Profile',
+      icon: FaUserAlt,
+      auth: true,
+      href: `/profile/${session?.user.id}`,
+    },
+    {
+      label: 'Messages',
+      icon: IoMdNotifications,
+      auth: true,
+      href: '/messages',
+    },
+  ]
 
   const [handleIsAuthModalOpen] = useModalStore((state) => [state.handleIsAuthModalOpen])
 

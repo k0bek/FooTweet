@@ -3,22 +3,45 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { AiFillHeart, AiOutlineRetweet } from 'react-icons/ai'
 import { FaComments } from 'react-icons/fa'
+import { useState, useEffect } from 'react'
 
 import lewy from './../../assets/images/lewy.jpg'
 import { Button } from '../Button'
 import { useUser } from '@/lib/hooks'
+import { useMutation } from 'react-query'
+import axios from 'axios'
+import { useSession } from 'next-auth/react'
+
 interface PostProps {
   username: string
   postValue: string
   id?: string
   data_time: string
   userId: string
+  usersWhoLiked?: string[]
 }
 
-const Post = ({ postValue, id, data_time, userId }: PostProps) => {
+const Post = ({ postValue, id, data_time, userId, usersWhoLiked }: PostProps) => {
   const router = useRouter()
-
   const { user } = useUser(userId)
+  const session = useSession()
+  const [isPostLiked, setIsPostLiked] = useState<boolean>(false) // Dodajemy stan isPostLiked
+
+  useEffect(() => {
+    if (usersWhoLiked && session.data) {
+      setIsPostLiked(usersWhoLiked.includes(session.data.user.id))
+    }
+  }, [usersWhoLiked, session.data])
+
+  const mutation = useMutation({
+    mutationFn: (likedPost: { usersWhoLiked: string }) => {
+      if (isPostLiked) {
+        return axios.delete(`/api/posts/${id}`)
+      } else {
+        return axios.post(`/api/posts/${id}`, likedPost)
+      }
+    },
+  })
 
   const goToPost = () => {
     router.push(`/posts/${id}`)
@@ -46,7 +69,16 @@ const Post = ({ postValue, id, data_time, userId }: PostProps) => {
         </div>
       </div>
       <div className="mt-5 flex w-full justify-center gap-1 xs:gap-5">
-        <Button className="flex items-center gap-3 rounded-3xl border border-gray-600 px-3 py-3 text-xs font-medium text-gray-300 transition-all hover:bg-red-500 xs:px-6 xs:text-xl">
+        <Button
+          className={`flex items-center gap-3 rounded-3xl border border-gray-600 px-3 py-3 text-xs font-medium text-gray-300 transition-all hover:bg-red-500 xs:px-6 xs:text-xl 
+           ${isPostLiked ? 'bg-red-500 text-white' : ''}`}
+          onClick={async () => {
+            mutation.mutate({
+              usersWhoLiked: userId,
+            })
+            setIsPostLiked(!isPostLiked)
+          }}
+        >
           <AiFillHeart />
           Like
         </Button>

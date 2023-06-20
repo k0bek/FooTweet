@@ -25,6 +25,8 @@ export const useSinglePost = (postId?: string) => {
     queryFn: () => fetch(`/api/posts/${postId}`).then((res) => res.json()),
   })
 
+  console.log(post)
+
   return {
     post,
     isLoadingSinglePost: isLoading,

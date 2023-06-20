@@ -23,7 +23,14 @@ const SinglePost = () => {
       <Header heading="Post" />
       <div className="flex flex-col items-center gap-5 p-5">
         {!isLoadingSinglePost ? (
-          <Post postValue={post.postValue} data_time={post.data_time} username={post.username} userId={post.userId} />
+          <Post
+            postValue={post.postValue}
+            data_time={post.data_time}
+            username={post.username}
+            userId={post.userId}
+            id={post._id}
+            usersWhoLiked={post.usersWhoLiked}
+          />
         ) : (
           <div className="h-full w-full rounded-2xl">
             <Skeleton width="100%" height={130} style={{ borderRadius: 10 }} />

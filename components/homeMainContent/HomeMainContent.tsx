@@ -24,6 +24,7 @@ const HomeMainContent = ({ posts }: HomeMainContentProps) => {
                 data_time={post.data_time}
                 key={post._id}
                 userId={post.userId}
+                usersWhoLiked={post.usersWhoLiked}
               />
             )
           })}
