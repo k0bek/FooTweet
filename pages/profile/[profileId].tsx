@@ -89,11 +89,11 @@ const Profile = () => {
               <>
                 <p className="cursor-pointer text-xl md:text-2xl">
                   Following
-                  <span className="ml-2 font-bold">123</span>
+                  <span className="ml-2 font-bold">{user?.following ? user.following.length : 0}</span>
                 </p>
                 <p className="cursor-pointer text-xl transition-all hover:text-gray-300 md:text-2xl">
                   Followers
-                  <span className="ml-2 font-bold">123</span>
+                  <span className="ml-2 font-bold">{user?.followers ? user.followers.length : 0}</span>
                 </p>
               </>
             ) : (

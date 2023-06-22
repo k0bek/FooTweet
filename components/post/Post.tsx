@@ -27,9 +27,7 @@ const Post = ({ postValue, id, data_time, userId, usersWhoLiked }: PostProps) =>
   const session = useSession()
   const { comments } = useComments(id)
   const [isPostLiked, setIsPostLiked] = useState<boolean>(false)
-  const [amountOfLikes, setAmountOfLikes] = useState(0)
-
-  console.log(comments)
+  const [amountOfLikes, setAmountOfLikes] = useState(usersWhoLiked?.length as number)
 
   useEffect(() => {
     if (usersWhoLiked && session.data) {
@@ -52,15 +50,23 @@ const Post = ({ postValue, id, data_time, userId, usersWhoLiked }: PostProps) =>
     router.push(`/posts/${id}`)
   }
 
+  const goToProfile = () => {
+    router.push(`/profile/${userId}`)
+  }
+
   return (
     <div className="flex w-full cursor-pointer flex-col rounded-2xl bg-slate-700 p-7 font-semibold transition-all hover:bg-slate-700/90">
       <div className="flex h-full w-full flex-col items-start gap-4 xs:flex-row">
         <div className="flex items-start gap-3">
-          <Image src={lewy} height={50} alt="User's profile image" className="rounded-full" />
+          <Image src={lewy} height={50} alt="User's profile image" className="rounded-full" onClick={goToProfile} />
           <div className="flex flex-col gap-2">
             <div className="flex items-center">
               <div className="flex flex-col">
-                <div className="flex flex-col items-start xs:flex-row xs:items-end xs:gap-2">
+                <div
+                  onClick={goToProfile}
+                  aria-hidden={true}
+                  className="flex flex-col items-start xs:flex-row xs:items-end xs:gap-2"
+                >
                   <span className="text-xl font-semibold text-white xs:text-2xl">{user && user.name}</span>
                   <span className=" font-medium text-gray-400 xs:text-xl">@{user && user.username}</span>
                 </div>
@@ -83,11 +89,11 @@ const Post = ({ postValue, id, data_time, userId, usersWhoLiked }: PostProps) =>
             })
             setIsPostLiked(!isPostLiked)
             if (isPostLiked) {
-              setAmountOfLikes((prev) => {
+              setAmountOfLikes((prev: number) => {
                 return prev - 1
               })
             } else {
-              setAmountOfLikes((prev) => {
+              setAmountOfLikes((prev: number) => {
                 return prev + 1
               })
             }

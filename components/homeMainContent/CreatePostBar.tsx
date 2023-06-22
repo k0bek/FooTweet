@@ -65,6 +65,7 @@ const CreatePostBar = ({ refetchProfilePosts }: CreatePostBarProps) => {
               data_time: getCurrentData(),
               username: user?.username,
               name: user?.name,
+              usersWhoLiked: [],
             })
           }}
           size="default"

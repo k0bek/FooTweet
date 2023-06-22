@@ -84,8 +84,6 @@ const ChangeUserInfoModal = ({ refetchUser }: ChangeUserInfoModalProps) => {
       ...(bio !== '' ? { bio } : { bio: user.user.bio }),
     }
 
-    console.log(nameAndBio)
-
     if (newPassword && oldPassword) {
       changePassword.mutate({ oldPassword, newPassword })
     }
@@ -112,11 +110,7 @@ const ChangeUserInfoModal = ({ refetchUser }: ChangeUserInfoModalProps) => {
           </Button>
           <div className="absolute left-4 top-32">
             <Image src={lewy} className="h-32 w-32 rounded-full md:h-36 md:w-36" alt="Profile image" />
-            <div className="absolute inset-0 flex items-center justify-center text-4xl text-white">
-              <Button size="xl">
-                <MdAddPhotoAlternate />
-              </Button>
-            </div>
+            <div className="absolute inset-0 flex items-center justify-center text-4xl text-white"></div>
           </div>
         </div>
         <form className="mt-20 flex w-full flex-col gap-5 px-2">
@@ -131,6 +125,7 @@ const ChangeUserInfoModal = ({ refetchUser }: ChangeUserInfoModalProps) => {
               register={{ ...register('name') }}
               variant="default"
               theme="white"
+              disabled={isLoading}
             />
           </div>
 
@@ -145,6 +140,7 @@ const ChangeUserInfoModal = ({ refetchUser }: ChangeUserInfoModalProps) => {
               register={{ ...register('bio') }}
               theme="white"
               variant="default"
+              disabled={isLoading}
             />
           </div>
 
@@ -158,6 +154,7 @@ const ChangeUserInfoModal = ({ refetchUser }: ChangeUserInfoModalProps) => {
               register={{ ...register('oldPassword') }}
               variant="default"
               theme="white"
+              disabled={isLoading}
             />
           </div>
 
@@ -171,6 +168,7 @@ const ChangeUserInfoModal = ({ refetchUser }: ChangeUserInfoModalProps) => {
               register={{ ...register('newPassword') }}
               variant="default"
               theme="white"
+              disabled={isLoading}
             />
           </div>
         </form>

@@ -49,6 +49,10 @@ const Sidebar = () => {
 
   const [handleIsAuthModalOpen] = useModalStore((state) => [state.handleIsAuthModalOpen])
 
+  const signoutHandler = () => {
+    signOut()
+  }
+
   return (
     <div className="fixed left-0 top-0 flex h-full w-24 flex-col items-center gap-8 border-r-2 border-gray-700 bg-gray-800 py-10 text-5xl md:w-60">
       <Link href="/">
@@ -60,7 +64,7 @@ const Sidebar = () => {
         })}
       </ul>
       {session ? (
-        <Button size="lg" theme="blue" onClick={signOut}>
+        <Button size="lg" theme="blue" onClick={signoutHandler}>
           Logout
         </Button>
       ) : (

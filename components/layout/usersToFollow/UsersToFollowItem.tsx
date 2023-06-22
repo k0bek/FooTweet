@@ -1,15 +1,55 @@
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { Button } from '@/components/Button'
 import lewy from './../../../assets/images/lewy.jpg'
 import { useRouter } from 'next/router'
+import axios from 'axios'
+import { useMutation } from 'react-query'
+import { useSession } from 'next-auth/react'
+import { User } from 'next-auth/core/types'
+
 interface UsersToFollowItemProps {
   image: string
   username: string
   userId: string
+  user: User
+  refetchUser: () => void
 }
 
-const UsersToFollowItem = ({ image, username, userId }: UsersToFollowItemProps) => {
+const UsersToFollowItem = ({ image, username, userId, user, refetchUser }: UsersToFollowItemProps) => {
   const router = useRouter()
+  const session = useSession()
+
+  const [isUserFollowed, setIsUserFollowed] = useState(user?.following.includes(userId))
+
+  useEffect(() => {
+    setIsUserFollowed(user?.following && user?.following.includes(userId))
+  }, [userId, user?.following])
+
+  const handleIsUserFollowed = () => {
+    setIsUserFollowed((prev: boolean) => {
+      return !prev
+    })
+  }
+
+  const mutation = useMutation((likedPost: { following: string; userId: string }) => {
+    if (isUserFollowed) {
+      return axios.delete(`/api/follow/${userId}`)
+    } else {
+      return axios.post(`/api/follow/${userId}`, likedPost)
+    }
+  })
+
+  const handleFollowButtonClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    handleIsUserFollowed()
+    event.stopPropagation()
+    await mutation.mutateAsync({
+      userId: session.data?.user.id as string,
+      following: userId,
+    })
+    refetchUser()
+  }
+
   return (
     <li
       className="flex w-full cursor-pointer items-center justify-between gap-10 px-4 py-4 transition-all hover:bg-gray-700"
@@ -27,7 +67,12 @@ const UsersToFollowItem = ({ image, username, userId }: UsersToFollowItemProps) 
           <span className="text-xl text-gray-500">@{username}</span>
         </div>
       </div>
-      <Button size="sm" theme="blue">
+      <Button
+        size="sm"
+        theme="blue"
+        onClick={handleFollowButtonClick}
+        className={`${isUserFollowed && 'bg-gray-500'} z-10`}
+      >
         Follow
       </Button>
     </li>

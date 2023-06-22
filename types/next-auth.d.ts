@@ -14,6 +14,8 @@ declare module 'next-auth' {
     id: string
     username: string
     bio: string
+    followers: string[]
+    following: string[]
   }
 
   interface PostAttributes {

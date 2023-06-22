@@ -5,14 +5,14 @@ import Link from 'next/link'
 import Skeleton from 'react-loading-skeleton'
 
 import lewy from './../../../assets/images/lewy.jpg'
-import { useUser } from '@/lib/hooks'
-import { useSession } from 'next-auth/react'
+import { User } from 'next-auth/core/types'
 
-const ProfileBar = () => {
-  const session = useSession()
-  const userId = session.data?.user.id
-  const { user } = useUser(userId as string)
+interface ProfileBarProps {
+  user: User
+  userId: string
+}
 
+const ProfileBar = ({ user, userId }: ProfileBarProps) => {
   return (
     <div className="relative hidden max-w-[29rem] flex-col items-center rounded-2xl bg-gray-800 py-4 xl:flex">
       <Image
@@ -37,11 +37,11 @@ const ProfileBar = () => {
 
       <div className="mt-3 flex w-full border-b-2 border-t-2 border-gray-700">
         <div className="w-1/2 border-r-2 border-gray-700 p-2 text-center">
-          <p className="text-2xl font-bold text-white">124</p>
+          <p className="text-2xl font-bold text-white">{user?.following ? user.following.length : 0}</p>
           <span className="text-xl text-gray-500">Following</span>
         </div>
         <div className="w-1/2 p-2 text-center">
-          <p className="text-2xl font-bold text-white">124</p>
+          <p className="text-2xl font-bold text-white">{user?.followers ? user.followers.length : 0}</p>
           <span className="text-xl text-gray-500">Followers</span>
         </div>
       </div>
