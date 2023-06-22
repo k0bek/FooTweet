@@ -20,7 +20,7 @@ const UsersToFollowItem = ({ image, username, userId, user, refetchUser }: Users
   const router = useRouter()
   const session = useSession()
 
-  const [isUserFollowed, setIsUserFollowed] = useState(user?.following.includes(userId))
+  const [isUserFollowed, setIsUserFollowed] = useState(user?.following?.includes(userId))
 
   useEffect(() => {
     setIsUserFollowed(user?.following && user?.following.includes(userId))
@@ -72,6 +72,7 @@ const UsersToFollowItem = ({ image, username, userId, user, refetchUser }: Users
         theme="blue"
         onClick={handleFollowButtonClick}
         className={`${isUserFollowed && 'bg-gray-500'} z-10`}
+        disabled={!session.data?.user}
       >
         Follow
       </Button>
