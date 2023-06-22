@@ -55,6 +55,8 @@ export const authOptions: NextAuthOptions = {
           id: user._id.toString(),
           bio: user.bio,
           name: user.name,
+          followers: user.followers,
+          following: user.following,
         }
       },
     }),
