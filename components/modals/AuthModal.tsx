@@ -7,7 +7,7 @@ interface ModalProps {
 
 const Modal = ({ isLoginForm, changeFormHandler }: ModalProps) => {
   return (
-    <div className="fixed left-0 top-0 z-10 flex h-full w-full flex-col items-center justify-center overflow-hidden bg-black bg-opacity-30 px-5">
+    <div className="z-100 fixed left-0 top-0 flex h-full w-full flex-col items-center justify-center overflow-hidden bg-black bg-opacity-30 px-5">
       {isLoginForm ? (
         <LoginModal changeFormHandler={changeFormHandler} />
       ) : (

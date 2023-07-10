@@ -1,7 +1,6 @@
 import { useQuery } from 'react-query'
 
 export const useComments = (postId?: string) => {
-  console.log(postId)
   const { data, error, isLoading, refetch } = useQuery({
     queryKey: ['comments', postId],
     queryFn: () => fetch(`/api/comments/${postId}`).then((res) => res.json()),
@@ -24,8 +23,6 @@ export const useSinglePost = (postId?: string) => {
     queryKey: ['singlePost', postId],
     queryFn: () => fetch(`/api/posts/${postId}`).then((res) => res.json()),
   })
-
-  console.log(post)
 
   return {
     post,

@@ -19,16 +19,25 @@ import { useProfilePosts, useUser } from '@/lib/hooks'
 import { getSession, useSession } from 'next-auth/react'
 import { GetServerSidePropsContext } from 'next'
 import { Button } from '@/components/Button'
+import { useState } from 'react'
+import FollowersFollowingModal from '@/components/modals/FollowersFollowingModal'
 
 const Profile = () => {
   const { profileId } = useRouter().query
   const { user, isLoadingUser, refetchUser } = useUser(profileId as string)
   const { profilePosts, isLoadingProfilePosts, refetchProfilePosts } = useProfilePosts(profileId as string)
+  const [isFollowedList, setIsFollowedForm] = useState(false)
 
   const [isUserInfoModalOpen, handleIsUserInfoModalOpen] = useModalStore((state) => [
     state.isUserInfoModalOpen,
     state.handleIsUserInfoModalOpen,
   ])
+
+  const [isFollowersFollowingModalOpen, handleIsFollowersFollowingModalOpen] = useModalStore((state) => [
+    state.isFollowersFollowingModalOpen,
+    state.handleIsFollowersFollowingModalOpen,
+  ])
+
   const session = useSession()
 
   return (
@@ -87,11 +96,25 @@ const Profile = () => {
           <div className="mt-5 flex gap-5 text-white transition-all hover:text-gray-300">
             {!isLoadingUser && user ? (
               <>
-                <p className="cursor-pointer text-xl md:text-2xl">
+                <p
+                  className="cursor-pointer text-xl md:text-2xl"
+                  onClick={() => {
+                    handleIsFollowersFollowingModalOpen()
+                    setIsFollowedForm(false)
+                  }}
+                  aria-hidden="true"
+                >
                   Following
                   <span className="ml-2 font-bold">{user?.following ? user.following.length : 0}</span>
                 </p>
-                <p className="cursor-pointer text-xl transition-all hover:text-gray-300 md:text-2xl">
+                <p
+                  className="cursor-pointer text-xl transition-all hover:text-gray-300 md:text-2xl"
+                  onClick={() => {
+                    handleIsFollowersFollowingModalOpen()
+                    setIsFollowedForm(true)
+                  }}
+                  aria-hidden="true"
+                >
                   Followers
                   <span className="ml-2 font-bold">{user?.followers ? user.followers.length : 0}</span>
                 </p>
@@ -106,7 +129,6 @@ const Profile = () => {
         {profileId === session?.data?.user.id && <CreatePostBar refetchProfilePosts={refetchProfilePosts} />}
         {profilePosts && !isLoadingProfilePosts ? (
           profilePosts.map((profilePost: PostAttributes) => {
-            console.log(profilePost)
             return (
               <Post
                 postValue={profilePost.postValue}
@@ -124,6 +146,7 @@ const Profile = () => {
         )}
       </div>
       {isUserInfoModalOpen && <ChangeUserInfoModal refetchUser={refetchUser} />}
+      {isFollowersFollowingModalOpen && <FollowersFollowingModal isFollowedList={isFollowedList} />}
     </Wrapper>
   )
 }

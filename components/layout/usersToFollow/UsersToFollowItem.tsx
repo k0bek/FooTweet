@@ -7,6 +7,7 @@ import axios from 'axios'
 import { useMutation } from 'react-query'
 import { useSession } from 'next-auth/react'
 import { User } from 'next-auth/core/types'
+import { useUser } from '@/lib/hooks'
 
 interface UsersToFollowItemProps {
   image: string
@@ -20,10 +21,12 @@ const UsersToFollowItem = ({ image, username, userId, user, refetchUser }: Users
   const router = useRouter()
   const session = useSession()
 
-  const [isUserFollowed, setIsUserFollowed] = useState(user?.following?.includes(userId))
+  const [isUserFollowed, setIsUserFollowed] = useState<boolean>(user?.following?.some((obj) => obj._id === userId))
+
+  const followedUser = useUser(userId)
 
   useEffect(() => {
-    setIsUserFollowed(user?.following && user?.following.includes(userId))
+    setIsUserFollowed(user?.following && user?.following?.some((obj) => obj?._id === userId))
   }, [userId, user?.following])
 
   const handleIsUserFollowed = () => {
@@ -32,7 +35,7 @@ const UsersToFollowItem = ({ image, username, userId, user, refetchUser }: Users
     })
   }
 
-  const mutation = useMutation((likedPost: { following: string; userId: string }) => {
+  const mutation = useMutation((likedPost: { following: User; userId: string }) => {
     if (isUserFollowed) {
       return axios.delete(`/api/follow/${userId}`)
     } else {
@@ -45,7 +48,7 @@ const UsersToFollowItem = ({ image, username, userId, user, refetchUser }: Users
     event.stopPropagation()
     await mutation.mutateAsync({
       userId: session.data?.user.id as string,
-      following: userId,
+      following: followedUser.user,
     })
     refetchUser()
   }
@@ -71,7 +74,7 @@ const UsersToFollowItem = ({ image, username, userId, user, refetchUser }: Users
         size="sm"
         theme="blue"
         onClick={handleFollowButtonClick}
-        className={`${isUserFollowed && 'bg-gray-500'} z-10`}
+        className={`${isUserFollowed && 'bg-gray-500'} z-1`}
         disabled={!session.data?.user}
       >
         Follow

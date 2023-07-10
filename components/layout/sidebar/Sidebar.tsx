@@ -64,9 +64,14 @@ const Sidebar = () => {
         })}
       </ul>
       {session ? (
-        <Button size="lg" theme="blue" onClick={signoutHandler}>
-          Logout
-        </Button>
+        <>
+          <Button size="lg" theme="blue" onClick={signoutHandler} className="hidden md:block">
+            Logout
+          </Button>
+          <Button size="icon" theme="blue" onClick={signoutHandler} className="md:hidden">
+            Logout
+          </Button>
+        </>
       ) : (
         <Button size="lg" theme="blue" onClick={handleIsAuthModalOpen}>
           Login

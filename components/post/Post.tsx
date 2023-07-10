@@ -1,7 +1,7 @@
 import moment from 'moment'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { AiFillHeart, AiOutlineRetweet } from 'react-icons/ai'
+import { AiFillHeart } from 'react-icons/ai'
 import { FaComments } from 'react-icons/fa'
 import { useState, useEffect } from 'react'
 
@@ -67,7 +67,9 @@ const Post = ({ postValue, id, data_time, userId, usersWhoLiked }: PostProps) =>
                   aria-hidden={true}
                   className="flex flex-col items-start xs:flex-row xs:items-end xs:gap-2"
                 >
-                  <span className="text-xl font-semibold text-white xs:text-2xl">{user && user.name}</span>
+                  <span className="text-xl font-semibold text-white xs:text-2xl">
+                    {user?.name ? user?.name : user?.username}
+                  </span>
                   <span className=" font-medium text-gray-400 xs:text-xl">@{user && user.username}</span>
                 </div>
                 <span className="text-gray-400 xs:text-xl">
@@ -102,15 +104,6 @@ const Post = ({ postValue, id, data_time, userId, usersWhoLiked }: PostProps) =>
         >
           <AiFillHeart />
           Like ({amountOfLikes})
-        </Button>
-        <Button
-          className={`flex items-center gap-3 rounded-3xl border border-gray-600 px-3 py-3 text-xs font-medium text-white transition-all
-          xs:px-6
-          xs:text-xl`}
-          disabled={!session.data?.user}
-        >
-          <AiOutlineRetweet />
-          Retweet
         </Button>
         <Button
           className="flex items-center gap-3 rounded-3xl border border-gray-600 px-3 py-3 text-xs font-medium text-gray-300 transition-all hover:bg-zinc-500 xs:px-6 xs:text-xl"

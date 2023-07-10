@@ -24,10 +24,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       )
 
       const followedUser = await db.collection('users').updateOne(
-        { _id: new ObjectId(following as string) },
+        { _id: new ObjectId(following._id as string) },
         {
           $push: {
-            followers: userId,
+            followers: session?.user,
           },
         }
       )
@@ -45,14 +45,21 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     if (req.method === 'DELETE') {
       const user = await db.collection('users').findOne({ _id: new ObjectId(session?.user.id as string) })
+      const followedUser = await db.collection('users').findOne({ _id: new ObjectId(followedUserId as string) })
 
       if (user) {
-        console.log(user.following)
-        user.following = user.following.filter((id: string) => id !== followedUserId)
-        console.log(user.following)
+        user.following = user?.following.filter((item: { _id: string }) => item?._id !== followedUserId)
+        const updatedFollowedUser = followedUser?.followers.filter(
+          (item: { id: string }) => item?.id !== session?.user.id
+        )
 
         await db.collection('users').updateOne({ _id: new ObjectId(session?.user.id as string) }, { $set: user })
-
+        await db
+          .collection('users')
+          .updateOne(
+            { _id: new ObjectId(followedUser?._id) },
+            { $set: { followers: updatedFollowedUser?.followers ? updatedFollowedUser.followers : [] } }
+          )
         client.close()
         return res.status(200).json({ success: true })
       } else {
