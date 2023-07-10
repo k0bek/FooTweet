@@ -14,7 +14,7 @@ declare module 'next-auth' {
     id: string
     username: string
     bio: string
-    _id: string
+    _id?: string
     followers: User[]
     following: User[]
   }
