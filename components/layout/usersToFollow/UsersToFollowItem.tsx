@@ -15,9 +15,10 @@ interface UsersToFollowItemProps {
   userId: string
   user: User
   refetchUser: () => void
+  profileImage: string
 }
 
-const UsersToFollowItem = ({ image, username, userId, user, refetchUser }: UsersToFollowItemProps) => {
+const UsersToFollowItem = ({ profileImage, username, userId, user, refetchUser }: UsersToFollowItemProps) => {
   const router = useRouter()
   const session = useSession()
 
@@ -62,12 +63,18 @@ const UsersToFollowItem = ({ image, username, userId, user, refetchUser }: Users
       aria-hidden="true"
     >
       <div className="flex items-center justify-center gap-4">
-        <Image src={image ? lewy : lewy} width={50} height={40} alt="User's profile image" className="rounded-full" />
+        <Image
+          src={profileImage ? profileImage : lewy}
+          width={50}
+          height={50}
+          alt="User's profile image"
+          className="h-20 w-20 rounded-full"
+        />
         <div className="flex flex-col justify-center">
-          <p className="break-keep text-2xl font-medium text-white">
-            {username.length > 13 ? `${username.slice(0, 13)}...` : username}
-          </p>
-          <span className="text-xl text-gray-500">@{username}</span>
+          <p className="break-keep text-2xl font-medium text-white">{user?.name ? user.name : username}</p>
+          <span className="text-xl text-gray-500">
+            @{username.length > 13 ? `${username.slice(0, 13)}...` : username}
+          </span>
         </div>
       </div>
       <Button

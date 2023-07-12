@@ -1,13 +1,13 @@
-import { signIn } from 'next-auth/react';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { toast } from 'react-hot-toast';
+import { signIn } from 'next-auth/react'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'react-hot-toast'
 
-import { useModalStore } from '@/hooks/useStore';
+import { useModalStore } from '@/hooks/useStore'
 
 export const useFormRegister = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [handleIsAuthModalOpen] = useModalStore((state) => [state.handleIsAuthModalOpen]);
+  const [isLoading, setIsLoading] = useState(false)
+  const [handleIsAuthModalOpen] = useModalStore((state) => [state.handleIsAuthModalOpen])
 
   const {
     register,
@@ -24,44 +24,44 @@ export const useFormRegister = () => {
     },
     mode: 'onTouched',
     criteriaMode: 'all',
-  });
+  })
 
   const onSubmit = async () => {
-    const { username, email, password } = getValues();
+    const { username, email, password } = getValues()
 
     const createUser = async () => {
-      setIsLoading(true);
+      setIsLoading(true)
       const response = await fetch('api/auth/sign-up', {
         method: 'POST',
-        body: JSON.stringify({ username, email, password }),
+        body: JSON.stringify({ username, email, password, date_time: new Date() }),
         headers: {
           'Content-Type': 'application/json',
         },
-      });
+      })
 
       if (!response.ok) {
-        const errorData = await response.json();
+        const errorData = await response.json()
         setError(errorData.field, {
           type: 'manual',
           message: errorData.message,
-        });
-        setIsLoading(false);
-        return;
+        })
+        setIsLoading(false)
+        return
       } else {
-        toast.success('Successfully registered!');
-        handleIsAuthModalOpen();
+        toast.success('Successfully registered!')
+        handleIsAuthModalOpen()
       }
 
       await signIn('credentials', {
         redirect: false,
         email,
         password,
-      });
-      setIsLoading(false);
-    };
+      })
+      setIsLoading(false)
+    }
 
-    createUser();
-  };
+    createUser()
+  }
 
   return {
     onSubmit,
@@ -71,5 +71,5 @@ export const useFormRegister = () => {
     getValues,
     setError,
     isLoading,
-  };
-};
+  }
+}

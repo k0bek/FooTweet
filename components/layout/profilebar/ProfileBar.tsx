@@ -15,14 +15,24 @@ interface ProfileBarProps {
 const ProfileBar = ({ user, userId }: ProfileBarProps) => {
   return (
     <div className="relative hidden max-w-[29rem] flex-col items-center rounded-2xl bg-gray-800 py-4 xl:flex">
+      {user?.backgroundImage ? (
+        <Image
+          src={user?.backgroundImage}
+          width={500}
+          height={100}
+          alt="User's background image"
+          className="absolute left-0 top-0 h-28 w-full rounded-t-lg"
+        />
+      ) : (
+        <div className="h-2"></div>
+      )}
       <Image
-        src={lewy}
-        width={50}
+        src={user?.profileImage ? user?.profileImage : lewy}
+        width={80}
         height={40}
         alt="User's profile image"
-        className="absolute left-0 top-0 h-28 w-full rounded-t-lg"
+        className="z-[1] mt-4 h-32 w-32 rounded-full"
       />
-      <Image src={lewy} width={80} height={40} alt="User's profile image" className="z-[1] mt-4 rounded-full" />
       {user ? (
         <p className="mt-5 text-3xl font-medium text-white">{user.name ? user?.name : user.username}</p>
       ) : (

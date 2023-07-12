@@ -27,7 +27,7 @@ const UsersToFollow = ({ userId, user, refetchUser }: UsersToFollowProps) => {
           items
             .filter((item: { image: string; username: string; _id: string }) => item._id !== userId)
             .slice(0, visibleUsers)
-            .map((item: { image: string; username: string; _id: string }) => (
+            .map((item: { image: string; username: string; _id: string; profileImage: string }) => (
               <UsersToFollowItem
                 username={item.username}
                 image={item.image}
@@ -35,6 +35,7 @@ const UsersToFollow = ({ userId, user, refetchUser }: UsersToFollowProps) => {
                 userId={item._id}
                 user={user}
                 refetchUser={refetchUser}
+                profileImage={item.profileImage}
               />
             ))
         ) : (

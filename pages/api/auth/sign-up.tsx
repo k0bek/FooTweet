@@ -8,7 +8,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return
   }
 
-  const { username, email, password, bio, name } = req.body
+  const { username, email, password, bio, name, date_time } = req.body
 
   const client = await connectToDatabase()
   const db = client.db()
@@ -40,6 +40,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     password: hashedPasword,
     bio,
     name,
+    date_time,
   })
 
   res.status(201).json(result)

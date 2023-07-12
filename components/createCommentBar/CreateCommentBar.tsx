@@ -12,6 +12,7 @@ import useCurrentData from '@/hooks/useCurrentData'
 import { Textarea } from '../Textarea'
 import lewy from './../../assets/images/lewy.jpg'
 import { Button } from '../Button'
+import { useUser } from '@/lib/hooks'
 
 interface CreateCommentBarProps {
   refetchComments: () => void
@@ -22,6 +23,7 @@ const CreateCommentBar = ({ refetchComments }: CreateCommentBarProps) => {
   const session = useSession()
   const currentData = useCurrentData()
   const router = useRouter()
+  const { user } = useUser(session.data?.user.id as string)
 
   const mutation = useMutation({
     mutationFn: (newComment: CommentAttributes) => {
@@ -41,7 +43,13 @@ const CreateCommentBar = ({ refetchComments }: CreateCommentBarProps) => {
   return (
     <div className="flex w-full flex-col items-center rounded-2xl bg-slate-700 p-7">
       <div className="flex h-full w-full flex-col items-center gap-4 sm:flex-row">
-        <Image src={lewy} width={67} height={60} alt="User's profile image" className="rounded-full" />
+        <Image
+          src={user?.profileImage ? user?.profileImage : lewy}
+          width={67}
+          height={60}
+          alt="User's profile image"
+          className="h-24 w-24 rounded-full"
+        />
         <Textarea
           placeholder="Add your comment"
           value={commentValue}

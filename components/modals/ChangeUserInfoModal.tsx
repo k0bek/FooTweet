@@ -1,5 +1,4 @@
 import axios from 'axios'
-import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { EditUserInfoAttributes } from 'next-auth'
 import { useSession } from 'next-auth/react'
@@ -16,6 +15,8 @@ import lewy from './../../assets/images/lewy.jpg'
 import { Input } from '../Input'
 import { Button } from '../Button'
 import { useState } from 'react'
+import { CldImage, CldUploadWidget } from 'next-cloudinary'
+import Image from 'next/image'
 
 interface ChangeUserInfoModalProps {
   refetchUser: () => void
@@ -27,6 +28,8 @@ const ChangeUserInfoModal = ({ refetchUser }: ChangeUserInfoModalProps) => {
   const userId = session.data?.user.id as string
   const user = useUser(userId)
   const router = useRouter()
+  const [profileImage, setProfileImage] = useState<File | null>(null)
+  const [backgroundImage, setBackgroundImage] = useState<File | null>(null)
 
   const [handleIsUserInfoModalOpen] = useModalStore((state) => [state.handleIsUserInfoModalOpen])
 
@@ -82,6 +85,12 @@ const ChangeUserInfoModal = ({ refetchUser }: ChangeUserInfoModalProps) => {
     const nameAndBio = {
       ...(name !== '' ? { name } : { name: user.user.name }),
       ...(bio !== '' ? { bio } : { bio: user.user.bio }),
+      ...(profileImage !== null
+        ? { profileImage: `https://res.cloudinary.com/dedatowvi/image/upload/${profileImage}` }
+        : { profileImage: user.user.profileImage }),
+      ...(backgroundImage !== null
+        ? { backgroundImage: `https://res.cloudinary.com/dedatowvi/image/upload/${backgroundImage}` }
+        : { backgroundImage: user.user.backgroundImage }),
     }
 
     if (newPassword && oldPassword) {
@@ -105,15 +114,96 @@ const ChangeUserInfoModal = ({ refetchUser }: ChangeUserInfoModalProps) => {
           </Button>
         </div>
         <div className="relative flex h-52 w-full items-center justify-center bg-gray-700">
-          <Button size="xxl">
-            <MdAddPhotoAlternate />
-          </Button>
+          <div className="absolute">
+            <CldUploadWidget
+              uploadPreset="izvxat0t"
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              onUpload={(result: any) => {
+                setBackgroundImage(result.info.path)
+              }}
+            >
+              {({ open }) => {
+                function handleOnClick(e: React.MouseEvent<HTMLButtonElement>) {
+                  e.preventDefault()
+                  open()
+                }
+                return (
+                  <Button size="xxl" onClick={handleOnClick}>
+                    <MdAddPhotoAlternate />
+                  </Button>
+                )
+              }}
+            </CldUploadWidget>
+          </div>
+          {user.user?.backgroundImage && !backgroundImage ? (
+            <CldImage
+              width="500"
+              height="60"
+              src={user.user.backgroundImage}
+              sizes="100vw"
+              alt="Description of my image"
+              className="h-full w-full"
+            />
+          ) : (
+            <CldImage
+              width="85"
+              height="60"
+              src={`https://res.cloudinary.com/dedatowvi/image/upload/${backgroundImage}`}
+              sizes="100vw"
+              alt="Description of my image"
+              className="h-full w-full"
+            />
+          )}
           <div className="absolute left-4 top-32">
-            <Image src={lewy} className="h-32 w-32 rounded-full md:h-36 md:w-36" alt="Profile image" />
-            <div className="absolute inset-0 flex items-center justify-center text-4xl text-white"></div>
+            {user.user.profileImage || profileImage ? (
+              <CldImage
+                width="80"
+                height="80"
+                src={
+                  profileImage
+                    ? `https://res.cloudinary.com/dedatowvi/image/upload/${profileImage}`
+                    : user.user.profileImage
+                }
+                alt="Description of my image"
+                className="h-32 w-32 rounded-full"
+                sizes="100vw"
+              />
+            ) : (
+              <Image className="h-32 w-32 rounded-full" src={lewy} alt="Profile image" />
+            )}
+            <div className="absolute bottom-4 left-8">
+              <CldUploadWidget
+                uploadPreset="izvxat0t"
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                onUpload={(result: any) => {
+                  setProfileImage(result.info.path)
+                }}
+              >
+                {({ open }) => {
+                  function handleOnClick(e: React.MouseEvent<HTMLButtonElement>) {
+                    e.preventDefault()
+                    open()
+                  }
+                  return (
+                    <Button size="xxl" onClick={handleOnClick}>
+                      <MdAddPhotoAlternate />
+                    </Button>
+                  )
+                }}
+              </CldUploadWidget>
+            </div>
           </div>
         </div>
-        <form className="mt-20 flex w-full flex-col gap-5 px-2">
+        <form
+          className="mt-20 flex w-full flex-col gap-5 px-2"
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault()
+              handleSubmit(onSubmit)()
+            }
+          }}
+          aria-hidden="true"
+        >
           <div className="flex flex-col gap-2">
             <label className="text-2xl font-medium" htmlFor="name">
               Name
@@ -122,7 +212,12 @@ const ChangeUserInfoModal = ({ refetchUser }: ChangeUserInfoModalProps) => {
               placeholder={user?.user.name}
               type="text"
               id="name"
-              register={{ ...register('name') }}
+              register={register('name', {
+                maxLength: {
+                  value: 12,
+                  message: 'Your username is too long.',
+                },
+              })}
               variant="default"
               theme="white"
               disabled={isLoading}

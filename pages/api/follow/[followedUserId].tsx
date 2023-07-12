@@ -18,7 +18,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         { _id: new ObjectId(userId as string) },
         {
           $push: {
-            following: following,
+            following: { ...following, id: following._id },
           },
         }
       )

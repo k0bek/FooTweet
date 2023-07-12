@@ -16,6 +16,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         $set: {
           name: data.name,
           bio: data.bio,
+          backgroundImage: data.backgroundImage,
+          profileImage: data.profileImage,
         },
       }
     )

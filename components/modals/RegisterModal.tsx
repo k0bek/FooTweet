@@ -19,6 +19,13 @@ export default function RegisterModal({ changeFormHandler }: RegisterModalProps)
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault()
+          handleSubmit(onSubmit)()
+        }
+      }}
+      aria-hidden="true"
       className="relative flex w-[30rem] flex-col gap-3 rounded-2xl bg-black px-10 py-20 xs:w-[40rem] sm:w-[50rem]"
     >
       <div className="flex w-full items-center justify-between">
@@ -40,6 +47,10 @@ export default function RegisterModal({ changeFormHandler }: RegisterModalProps)
           minLength: {
             value: 5,
             message: 'Your username is too short.',
+          },
+          maxLength: {
+            value: 12,
+            message: 'Your username is too long.',
           },
         })}
         variant="default"

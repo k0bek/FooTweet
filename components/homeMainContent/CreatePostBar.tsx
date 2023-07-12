@@ -46,7 +46,13 @@ const CreatePostBar = ({ refetchProfilePosts }: CreatePostBarProps) => {
   return (
     <div className="flex w-full flex-col items-center rounded-2xl bg-slate-700 p-7">
       <div className="flex w-full flex-col items-center gap-4 sm:flex-row">
-        <Image src={lewy} width={67} height={60} alt="User's profile image" className="rounded-full" />
+        <Image
+          src={user?.profileImage ? user?.profileImage : lewy}
+          width={67}
+          height={60}
+          alt="User's profile image"
+          className="h-24 w-24 rounded-full"
+        />
         <Textarea
           placeholder="What's happening?"
           value={postValue}

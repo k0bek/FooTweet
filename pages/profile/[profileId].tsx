@@ -43,14 +43,28 @@ const Profile = () => {
   return (
     <Wrapper>
       <Header heading="Profile" />
-      <div className="h-60 bg-gray-700"></div>
+      <div className="h-60 bg-gray-700">
+        {user?.backgroundImage ? (
+          <Image
+            src={user?.backgroundImage}
+            width={500}
+            height={500}
+            className="h-full w-full"
+            alt="Users background image"
+          />
+        ) : (
+          ''
+        )}
+      </div>
       <div className="border-down flex w-full flex-col gap-10 border-b-2 border-gray-700 py-4">
         <div className="relative w-full p-4 md:p-7">
           {!isLoadingUser ? (
             <Image
-              src={lewy}
+              src={user?.profileImage ? user?.profileImage : lewy}
               className="absolute left-5 top-[-5.5rem] h-32 w-32 rounded-full md:top-[-8rem] md:h-48 md:w-48"
               alt="Profile image"
+              width={100}
+              height={100}
             />
           ) : (
             <Skeleton circle width={105} height={105} className="absolute top-[-8.5rem] rounded-full md:top-[-8rem]" />
@@ -87,7 +101,7 @@ const Profile = () => {
             </span>
             <span className="text-xl text-gray-400 md:text-2xl">
               {!isLoadingUser && user ? (
-                `Joined ${moment(user?.data_time).format('MMMM Do YYYY')}`
+                `Joined ${moment.utc(user?.date_time).format('MMMM Do YYYY')}`
               ) : (
                 <Skeleton width={150} height={20} />
               )}

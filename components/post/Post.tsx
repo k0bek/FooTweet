@@ -58,7 +58,14 @@ const Post = ({ postValue, id, data_time, userId, usersWhoLiked }: PostProps) =>
     <div className="flex w-full cursor-pointer flex-col rounded-2xl bg-slate-700 p-7 font-semibold transition-all hover:bg-slate-700/90">
       <div className="flex h-full w-full flex-col items-start gap-4 xs:flex-row">
         <div className="flex items-start gap-3">
-          <Image src={lewy} height={50} alt="User's profile image" className="rounded-full" onClick={goToProfile} />
+          <Image
+            src={user?.profileImage ? user?.profileImage : lewy}
+            height={50}
+            width={50}
+            alt="User's profile image"
+            className="mr-2 h-20 w-20 rounded-full"
+            onClick={goToProfile}
+          />
           <div className="flex flex-col gap-2">
             <div className="flex items-center">
               <div className="flex flex-col">
