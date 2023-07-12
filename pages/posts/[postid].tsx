@@ -30,6 +30,7 @@ const SinglePost = () => {
             userId={post.userId}
             id={post._id}
             usersWhoLiked={post.usersWhoLiked}
+            postImage={post.postImage}
           />
         ) : (
           <div className="h-full w-full rounded-2xl">
