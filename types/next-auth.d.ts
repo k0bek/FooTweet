@@ -28,6 +28,7 @@ declare module 'next-auth' {
     data_time: string
     username: string
     usersWhoLiked: string[]
+    postImage: string
   }
 
   interface CommentAttributes {

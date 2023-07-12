@@ -25,6 +25,7 @@ const HomeMainContent = ({ posts }: HomeMainContentProps) => {
                 key={post._id}
                 userId={post.userId}
                 usersWhoLiked={post.usersWhoLiked}
+                postImage={post.postImage}
               />
             )
           })}

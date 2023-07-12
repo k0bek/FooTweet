@@ -19,9 +19,10 @@ interface PostProps {
   data_time: string
   userId: string
   usersWhoLiked?: string[]
+  postImage: string
 }
 
-const Post = ({ postValue, id, data_time, userId, usersWhoLiked }: PostProps) => {
+const Post = ({ postValue, id, data_time, userId, usersWhoLiked, postImage }: PostProps) => {
   const router = useRouter()
   const { user } = useUser(userId)
   const session = useSession()
@@ -53,6 +54,8 @@ const Post = ({ postValue, id, data_time, userId, usersWhoLiked }: PostProps) =>
   const goToProfile = () => {
     router.push(`/profile/${userId}`)
   }
+
+  console.log(postImage)
 
   return (
     <div className="flex w-full cursor-pointer flex-col rounded-2xl bg-slate-700 p-7 font-semibold transition-all hover:bg-slate-700/90">
@@ -88,6 +91,15 @@ const Post = ({ postValue, id, data_time, userId, usersWhoLiked }: PostProps) =>
           </div>
         </div>
       </div>
+      {postImage && (
+        <Image
+          src={postImage}
+          width={500}
+          height={100}
+          className="m-right ml-24 mt-4 w-1/2 sm:w-1/3"
+          alt="Post image"
+        />
+      )}
       <div className="mt-5 flex w-full justify-center gap-1 xs:gap-5">
         <Button
           className={`flex items-center gap-3 rounded-3xl border border-gray-600 px-3 py-3 text-xs font-medium text-gray-300 transition-all hover:bg-red-500 xs:px-6 xs:text-xl 

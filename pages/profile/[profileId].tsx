@@ -152,6 +152,7 @@ const Profile = () => {
                 key={profilePost._id}
                 userId={profilePost.userId}
                 usersWhoLiked={profilePost.usersWhoLiked}
+                postImage={profilePost.postImage}
               />
             )
           })

@@ -13,12 +13,15 @@ import { Textarea } from '../Textarea'
 import lewy from './../../assets/images/lewy.jpg'
 import { Button } from '../Button'
 import { useUser } from '@/lib/hooks'
+import { BsFillImageFill } from 'react-icons/bs'
+import { CldImage, CldUploadWidget } from 'next-cloudinary'
 
 interface CreatePostBarProps {
   refetchProfilePosts?: () => void
 }
 
 const CreatePostBar = ({ refetchProfilePosts }: CreatePostBarProps) => {
+  const [postImage, setPostImage] = useState<string>('')
   const [postValue, setPostValue] = useState('')
   const router = useRouter()
   const session = useSession()
@@ -33,6 +36,7 @@ const CreatePostBar = ({ refetchProfilePosts }: CreatePostBarProps) => {
       router.replace(router.asPath)
       setPostValue('')
       toast.success('Added tweet correctly!')
+      setPostImage('')
       {
         refetchProfilePosts && refetchProfilePosts()
       }
@@ -60,9 +64,38 @@ const CreatePostBar = ({ refetchProfilePosts }: CreatePostBarProps) => {
           onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
             setPostValue(event.target.value)
           }}
-        />
+        ></Textarea>
       </div>
-      <div className="mt-5 flex w-full justify-end gap-1 sm:gap-5">
+      {postImage && (
+        <CldImage
+          width="250"
+          height="60"
+          src={`https://res.cloudinary.com/dedatowvi/image/upload/${postImage}`}
+          sizes="100vw"
+          alt="Description of my image"
+          className="mr-auto mt-5 h-40 w-40 rounded-xl"
+        />
+      )}
+      <div className="mt-5 flex w-full justify-end ">
+        <CldUploadWidget
+          uploadPreset="izvxat0t"
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          onUpload={(result: any) => {
+            setPostImage(result.info.path)
+          }}
+        >
+          {({ open }) => {
+            function handleOnClick(e: React.MouseEvent<HTMLButtonElement>) {
+              e.preventDefault()
+              open()
+            }
+            return (
+              <Button onClick={handleOnClick}>
+                <BsFillImageFill />
+              </Button>
+            )
+          }}
+        </CldUploadWidget>
         <Button
           onClick={async () => {
             createdPost.mutate({
@@ -72,11 +105,12 @@ const CreatePostBar = ({ refetchProfilePosts }: CreatePostBarProps) => {
               username: user?.username,
               name: user?.name,
               usersWhoLiked: [],
+              postImage: postImage ? `https://res.cloudinary.com/dedatowvi/image/upload/${postImage}` : null,
             })
           }}
           size="default"
           theme="blue"
-          disabled={createdPost.isLoading || !user}
+          disabled={createdPost.isLoading || !user || postValue.length === 0}
         >
           Tweet
         </Button>
