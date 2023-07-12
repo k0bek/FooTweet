@@ -16,9 +16,10 @@ interface UsersToFollowItemProps {
   user: User
   refetchUser: () => void
   profileImage: string
+  name: string
 }
 
-const UsersToFollowItem = ({ profileImage, username, userId, user, refetchUser }: UsersToFollowItemProps) => {
+const UsersToFollowItem = ({ profileImage, username, userId, user, refetchUser, name }: UsersToFollowItemProps) => {
   const router = useRouter()
   const session = useSession()
 
@@ -54,6 +55,8 @@ const UsersToFollowItem = ({ profileImage, username, userId, user, refetchUser }
     refetchUser()
   }
 
+  console.log(user)
+
   return (
     <li
       className="flex w-full cursor-pointer items-center justify-between gap-10 px-4 py-4 transition-all hover:bg-gray-700"
@@ -71,7 +74,7 @@ const UsersToFollowItem = ({ profileImage, username, userId, user, refetchUser }
           className="h-20 w-20 rounded-full"
         />
         <div className="flex flex-col justify-center">
-          <p className="break-keep text-2xl font-medium text-white">{user?.name ? user.name : username}</p>
+          <p className="break-keep text-2xl font-medium text-white">{name ? name : username}</p>
           <span className="text-xl text-gray-500">
             @{username.length > 13 ? `${username.slice(0, 13)}...` : username}
           </span>

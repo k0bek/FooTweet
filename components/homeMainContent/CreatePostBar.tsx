@@ -90,7 +90,7 @@ const CreatePostBar = ({ refetchProfilePosts }: CreatePostBarProps) => {
               open()
             }
             return (
-              <Button onClick={handleOnClick}>
+              <Button onClick={handleOnClick} disabled={createdPost.isLoading || !user}>
                 <BsFillImageFill />
               </Button>
             )
