@@ -15,6 +15,7 @@ import { Button } from '../Button'
 import { useUser } from '@/lib/hooks'
 import { BsFillImageFill } from 'react-icons/bs'
 import { CldImage, CldUploadWidget } from 'next-cloudinary'
+import { useModalStore } from '@/hooks/useStore'
 
 interface CreatePostBarProps {
   refetchProfilePosts?: () => void
@@ -27,6 +28,7 @@ const CreatePostBar = ({ refetchProfilePosts }: CreatePostBarProps) => {
   const session = useSession()
   const userId = session.data?.user.id
   const { user } = useUser(userId as string)
+  const [handlIsAuthModalOpen] = useModalStore((state) => [state.handleIsAuthModalOpen])
 
   const createdPost = useMutation({
     mutationFn: (newPost: PostAttributes) => {
@@ -60,11 +62,12 @@ const CreatePostBar = ({ refetchProfilePosts }: CreatePostBarProps) => {
         <Textarea
           placeholder="What's happening?"
           value={postValue}
-          disabled={createdPost.isLoading || !user}
+          disabled={createdPost.isLoading || !session?.data?.user}
           onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
             setPostValue(event.target.value)
           }}
-        ></Textarea>
+          className="disabled:cursor-not-allowed"
+        />
       </div>
       {postImage && (
         <CldImage
@@ -90,7 +93,17 @@ const CreatePostBar = ({ refetchProfilePosts }: CreatePostBarProps) => {
               open()
             }
             return (
-              <Button onClick={handleOnClick} disabled={createdPost.isLoading || !user}>
+              <Button
+                onClick={(event) => {
+                  if (session?.data?.user) {
+                    handleOnClick(event)
+                  } else {
+                    handlIsAuthModalOpen()
+                  }
+                }}
+                disabled={createdPost.isLoading}
+                className="disabled:bg-transparent"
+              >
                 <BsFillImageFill />
               </Button>
             )
@@ -98,19 +111,23 @@ const CreatePostBar = ({ refetchProfilePosts }: CreatePostBarProps) => {
         </CldUploadWidget>
         <Button
           onClick={async () => {
-            createdPost.mutate({
-              userId: userId,
-              postValue,
-              data_time: getCurrentData(),
-              username: user?.username,
-              name: user?.name,
-              usersWhoLiked: [],
-              postImage: postImage ? `https://res.cloudinary.com/dedatowvi/image/upload/${postImage}` : null,
-            })
+            if (session?.data?.user) {
+              createdPost.mutate({
+                userId: userId,
+                postValue,
+                data_time: getCurrentData(),
+                username: user?.username,
+                name: user?.name,
+                usersWhoLiked: [],
+                postImage: postImage ? `https://res.cloudinary.com/dedatowvi/image/upload/${postImage}` : null,
+              })
+            } else {
+              handlIsAuthModalOpen()
+            }
           }}
           size="default"
           theme="blue"
-          disabled={createdPost.isLoading || !user || postValue.length === 0}
+          disabled={createdPost.isLoading || (session.data?.user && !postValue)}
         >
           Tweet
         </Button>

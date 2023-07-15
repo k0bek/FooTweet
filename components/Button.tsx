@@ -2,7 +2,7 @@ import { VariantProps, cva } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 
 const buttonVariants = cva(
-  'flex items-center justify-center rounded-full transition-all hover:opacity-90 disabled:cursor-not-allowed disabled:bg-gray-500 py-3 font-bold',
+  'flex items-center justify-center rounded-full transition-all disabled:cursor-not-allowed disabled:bg-gray-500 hover:opacity-90 py-3 font-bold cursor-pointer',
   {
     variants: {
       theme: {

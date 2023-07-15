@@ -30,10 +30,17 @@ export default function RegisterModal({ changeFormHandler }: RegisterModalProps)
     >
       <div className="flex w-full items-center justify-between">
         <h1 className="text-5xl font-bold text-white ">Register</h1>
-        <Button onClick={handlIsAuthModalOpen} size="default">
-          <AiOutlineClose />
-        </Button>
       </div>
+      <Button
+        onClick={() => {
+          handlIsAuthModalOpen()
+          changeFormHandler()
+        }}
+        size="default"
+        className="absolute right-2 top-7 text-3xl"
+      >
+        <AiOutlineClose />
+      </Button>
 
       <label className="font-medium" htmlFor="username">
         Username

@@ -27,7 +27,9 @@ const Comment = ({ commentValue, data_time, userId }: CommentProps) => {
             <div className="flex items-center">
               <div className="flex flex-col">
                 <div className="flex flex-col items-start xs:flex-row xs:items-end xs:gap-2">
-                  <span className="text-xl font-semibold text-white xs:text-2xl">{user && user.name}</span>
+                  <span className="text-xl font-semibold text-white xs:text-2xl">
+                    {user?.name ? user.name : user.username}
+                  </span>
                   <span className=" font-medium text-gray-400 xs:text-xl">@{user && user.username}</span>
                 </div>
                 <span className="text-gray-400 xs:text-xl">

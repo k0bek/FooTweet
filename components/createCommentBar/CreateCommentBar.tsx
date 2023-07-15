@@ -69,7 +69,7 @@ const CreateCommentBar = ({ refetchComments }: CreateCommentBarProps) => {
               userId: session.data?.user.id,
             })
           }}
-          disabled={mutation.isLoading || !session.data}
+          disabled={mutation.isLoading || !session.data || !commentValue}
           theme="blue"
           size="sm"
         >

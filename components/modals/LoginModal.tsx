@@ -30,10 +30,10 @@ export default function LoginModal({ changeFormHandler }: LoginModalProps) {
     >
       <div className="flex w-full items-center justify-between">
         <h1 className="text-5xl font-bold text-white ">Login</h1>
-        <Button onClick={handlIsAuthModalOpen} size="default">
-          <AiOutlineClose />
-        </Button>
       </div>
+      <Button onClick={handlIsAuthModalOpen} size="default" className="absolute right-2 top-7 text-3xl">
+        <AiOutlineClose />
+      </Button>
       <label className="font-medium" htmlFor="email">
         Email address
       </label>

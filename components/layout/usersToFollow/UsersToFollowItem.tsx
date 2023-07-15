@@ -8,6 +8,7 @@ import { useMutation } from 'react-query'
 import { useSession } from 'next-auth/react'
 import { User } from 'next-auth/core/types'
 import { useUser } from '@/lib/hooks'
+import { useModalStore } from '@/hooks/useStore'
 
 interface UsersToFollowItemProps {
   image: string
@@ -24,6 +25,7 @@ const UsersToFollowItem = ({ profileImage, username, userId, user, refetchUser, 
   const session = useSession()
 
   const [isUserFollowed, setIsUserFollowed] = useState<boolean>(user?.following?.some((obj) => obj._id === userId))
+  const [handlIsAuthModalOpen] = useModalStore((state) => [state.handleIsAuthModalOpen])
 
   const followedUser = useUser(userId)
 
@@ -55,8 +57,6 @@ const UsersToFollowItem = ({ profileImage, username, userId, user, refetchUser, 
     refetchUser()
   }
 
-  console.log(user)
-
   return (
     <li
       className="flex w-full cursor-pointer items-center justify-between gap-10 px-4 py-4 transition-all hover:bg-gray-700"
@@ -83,9 +83,14 @@ const UsersToFollowItem = ({ profileImage, username, userId, user, refetchUser, 
       <Button
         size="sm"
         theme="blue"
-        onClick={handleFollowButtonClick}
+        onClick={(event) => {
+          if (session.data?.user) {
+            handleFollowButtonClick(event)
+          } else {
+            handlIsAuthModalOpen()
+          }
+        }}
         className={`${isUserFollowed && 'bg-gray-500'} z-1`}
-        disabled={!session.data?.user}
       >
         Follow
       </Button>

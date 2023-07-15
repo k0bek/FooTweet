@@ -7,10 +7,11 @@ import { useState, useEffect } from 'react'
 
 import lewy from './../../assets/images/lewy.jpg'
 import { Button } from '../Button'
-import { useComments, useUser } from '@/lib/hooks'
+import { useUser } from '@/lib/hooks'
 import { useMutation } from 'react-query'
 import axios from 'axios'
 import { useSession } from 'next-auth/react'
+import { useModalStore } from '@/hooks/useStore'
 
 interface PostProps {
   username: string
@@ -26,9 +27,9 @@ const Post = ({ postValue, id, data_time, userId, usersWhoLiked, postImage }: Po
   const router = useRouter()
   const { user } = useUser(userId)
   const session = useSession()
-  const { comments } = useComments(id)
   const [isPostLiked, setIsPostLiked] = useState<boolean>(false)
   const [amountOfLikes, setAmountOfLikes] = useState(usersWhoLiked?.length as number)
+  const [handlIsAuthModalOpen] = useModalStore((state) => [state.handleIsAuthModalOpen])
 
   useEffect(() => {
     if (usersWhoLiked && session.data) {
@@ -102,35 +103,43 @@ const Post = ({ postValue, id, data_time, userId, usersWhoLiked, postImage }: Po
       )}
       <div className="mt-5 flex w-full justify-center gap-1 xs:gap-5">
         <Button
-          className={`flex items-center gap-3 rounded-3xl border border-gray-600 px-3 py-3 text-xs font-medium text-gray-300 transition-all hover:bg-red-500 xs:px-6 xs:text-xl 
+          className={`flex items-center gap-3 rounded-3xl border border-gray-600 px-3 py-3 text-xs font-medium text-gray-300 transition-all ${
+            session.data?.user && 'hover:bg-red-500'
+          } xs:px-6 xs:text-xl 
            ${isPostLiked ? 'bg-red-500 text-white' : ''}`}
           onClick={async () => {
-            mutation.mutate({
-              usersWhoLiked: userId,
-            })
-            setIsPostLiked(!isPostLiked)
-            if (isPostLiked) {
-              setAmountOfLikes((prev: number) => {
-                return prev - 1
+            if (session.data?.user) {
+              mutation.mutate({
+                usersWhoLiked: userId,
               })
+              setIsPostLiked(!isPostLiked)
+              if (isPostLiked) {
+                setAmountOfLikes((prev: number) => prev - 1)
+              } else {
+                setAmountOfLikes((prev: number) => prev + 1)
+              }
             } else {
-              setAmountOfLikes((prev: number) => {
-                return prev + 1
-              })
+              handlIsAuthModalOpen()
             }
           }}
-          disabled={!session.data?.user}
         >
           <AiFillHeart />
           Like ({amountOfLikes})
         </Button>
         <Button
-          className="flex items-center gap-3 rounded-3xl border border-gray-600 px-3 py-3 text-xs font-medium text-gray-300 transition-all hover:bg-zinc-500 xs:px-6 xs:text-xl"
-          onClick={goToPost}
-          disabled={!session.data?.user}
+          className={`flex items-center gap-3 rounded-3xl border border-gray-600 px-3 py-3 text-xs font-medium text-gray-300 transition-all  xs:px-6 xs:text-xl ${
+            session?.data?.user && 'hover:bg-zinc-500'
+          }`}
+          onClick={() => {
+            if (session.data?.user) {
+              goToPost()
+            } else {
+              handlIsAuthModalOpen()
+            }
+          }}
         >
           <FaComments />
-          Comments ({comments && comments.length})
+          Comments
         </Button>
       </div>
     </div>
