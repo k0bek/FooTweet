@@ -1,3 +1,5 @@
+import { useMemo } from 'react'
+import { useQuery } from 'react-query'
 import { create } from 'zustand'
 
 interface ModalState {
@@ -18,3 +20,24 @@ export const useModalStore = create<ModalState>()((set) => ({
   handleIsFollowersFollowingModalOpen: () =>
     set((state) => ({ isFollowersFollowingModalOpen: !state.isFollowersFollowingModalOpen })),
 }))
+
+export const useUser = (userId: string) => {
+  const {
+    data: user,
+    error,
+    isLoading,
+    refetch,
+  } = useQuery(['user', userId], () => fetch(`/api/users/${userId}`).then((res) => res.json()), { staleTime: Infinity })
+
+  const userResult = useMemo(
+    () => ({
+      user,
+      isLoadingUser: isLoading,
+      isError: error,
+      refetchUser: refetch,
+    }),
+    [user, isLoading, error, refetch]
+  )
+
+  return userResult
+}

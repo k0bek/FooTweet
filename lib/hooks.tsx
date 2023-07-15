@@ -49,22 +49,3 @@ export const useProfilePosts = (profileId?: string) => {
     refetchProfilePosts,
   }
 }
-
-export const useUser = (userId: string) => {
-  const {
-    data: user,
-    error,
-    isLoading,
-    refetch,
-  } = useQuery({
-    queryKey: ['user', userId],
-    queryFn: () => fetch(`/api/users/${userId}`).then((res) => res.json()),
-  })
-
-  return {
-    user,
-    isLoadingUser: isLoading,
-    isError: error,
-    refetchUser: refetch,
-  }
-}

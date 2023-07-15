@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { useModalStore } from '@/hooks/useStore'
+import { useModalStore, useUser } from '@/hooks/useStore'
 
 import ProfileBar from './layout/profilebar/ProfileBar'
 import Sidebar from './layout/sidebar/Sidebar'
@@ -8,7 +8,6 @@ import UsersToFollow from './layout/usersToFollow/UsersToFollow'
 import Modal from './modals/AuthModal'
 import { useSession } from 'next-auth/react'
 import NewUserThumbnail from './layout/newUserThumbnail/NewUserThumbnail'
-import { useUser } from '@/lib/hooks'
 
 interface LayoutProps {
   children: React.ReactNode

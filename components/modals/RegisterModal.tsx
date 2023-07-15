@@ -59,6 +59,12 @@ export default function RegisterModal({ changeFormHandler }: RegisterModalProps)
             value: 12,
             message: 'Your username is too long.',
           },
+          validate: (val: string) => {
+            const trimmedUsername = val.trim()
+            if (trimmedUsername.length === 0) {
+              return 'Your username cannot be empty or contain only spaces.'
+            }
+          },
         })}
         variant="default"
         theme="black"
@@ -97,6 +103,12 @@ export default function RegisterModal({ changeFormHandler }: RegisterModalProps)
           minLength: {
             value: 7,
             message: 'Your password is too short.',
+          },
+          validate: (val: string) => {
+            const trimmedPassword = val.trim()
+            if (trimmedPassword.length === 0) {
+              return 'Your password cannot be empty or contain only spaces.'
+            }
           },
         })}
         variant="default"

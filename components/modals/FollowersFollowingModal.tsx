@@ -1,10 +1,10 @@
-import { useUser } from '@/lib/hooks'
+import { useUser, useModalStore } from '@/hooks/useStore'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import lewy from '@/assets/images/lewy.jpg'
 import { Button } from '../Button'
 import { AiOutlineClose } from 'react-icons/ai'
-import { useModalStore } from '@/hooks/useStore'
+
 import { useQuery } from 'react-query'
 import { User } from 'next-auth/core/types'
 

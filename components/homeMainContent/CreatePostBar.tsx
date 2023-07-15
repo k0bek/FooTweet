@@ -12,10 +12,9 @@ import { PostAttributes } from '@/types/next-auth'
 import { Textarea } from '../Textarea'
 import lewy from './../../assets/images/lewy.jpg'
 import { Button } from '../Button'
-import { useUser } from '@/lib/hooks'
 import { BsFillImageFill } from 'react-icons/bs'
 import { CldImage, CldUploadWidget } from 'next-cloudinary'
-import { useModalStore } from '@/hooks/useStore'
+import { useModalStore, useUser } from '@/hooks/useStore'
 
 interface CreatePostBarProps {
   refetchProfilePosts?: () => void

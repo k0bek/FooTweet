@@ -8,8 +8,7 @@ import { AiOutlineClose } from 'react-icons/ai'
 import { MdAddPhotoAlternate } from 'react-icons/md'
 import { useMutation } from 'react-query'
 
-import { useModalStore } from '@/hooks/useStore'
-import { useUser } from '@/lib/hooks'
+import { useModalStore, useUser } from '@/hooks/useStore'
 
 import lewy from './../../assets/images/lewy.jpg'
 import { Input } from '../Input'

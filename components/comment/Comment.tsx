@@ -2,7 +2,7 @@ import moment from 'moment'
 import Image from 'next/image'
 
 import lewy from './../../assets/images/lewy.jpg'
-import { useUser } from '@/lib/hooks'
+import { useUser } from '@/hooks/useStore'
 interface CommentProps {
   commentValue: string
   data_time: string

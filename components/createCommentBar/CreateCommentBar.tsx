@@ -12,7 +12,7 @@ import useCurrentData from '@/hooks/useCurrentData'
 import { Textarea } from '../Textarea'
 import lewy from './../../assets/images/lewy.jpg'
 import { Button } from '../Button'
-import { useUser } from '@/lib/hooks'
+import { useUser } from '@/hooks/useStore'
 
 interface CreateCommentBarProps {
   refetchComments: () => void

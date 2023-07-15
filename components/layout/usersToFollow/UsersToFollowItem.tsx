@@ -7,8 +7,7 @@ import axios from 'axios'
 import { useMutation } from 'react-query'
 import { useSession } from 'next-auth/react'
 import { User } from 'next-auth/core/types'
-import { useUser } from '@/lib/hooks'
-import { useModalStore } from '@/hooks/useStore'
+import { useUser, useModalStore } from '@/hooks/useStore'
 
 interface UsersToFollowItemProps {
   image: string

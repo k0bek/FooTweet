@@ -7,11 +7,10 @@ import { useState, useEffect } from 'react'
 
 import lewy from './../../assets/images/lewy.jpg'
 import { Button } from '../Button'
-import { useUser } from '@/lib/hooks'
 import { useMutation } from 'react-query'
 import axios from 'axios'
 import { useSession } from 'next-auth/react'
-import { useModalStore } from '@/hooks/useStore'
+import { useModalStore, useUser } from '@/hooks/useStore'
 
 interface PostProps {
   username: string
@@ -97,7 +96,7 @@ const Post = ({ postValue, id, data_time, userId, usersWhoLiked, postImage }: Po
           src={postImage}
           width={500}
           height={100}
-          className="m-right ml-24 mt-4 w-1/2 sm:w-1/3"
+          className="m-right bg- ml-24 mt-4 w-1/2 sm:w-1/3"
           alt="Post image"
         />
       )}
