@@ -8,7 +8,7 @@ import lewy from './../../../assets/images/lewy.jpg'
 import { User } from 'next-auth/core/types'
 
 interface ProfileBarProps {
-  user: User | void
+  user: User
 }
 
 const ProfileBar = ({ user }: ProfileBarProps) => {
