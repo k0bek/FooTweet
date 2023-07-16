@@ -11,7 +11,7 @@ interface ProfileBarProps {
   user: User | void
 }
 
-const ProfileBar = ({ user = { id: '', username: '', bio: '' } }: ProfileBarProps) => {
+const ProfileBar = ({ user }: ProfileBarProps) => {
   return (
     <div className="relative hidden max-w-[29rem] flex-col items-center rounded-2xl bg-gray-800 py-4 xl:flex">
       {user?.backgroundImage ? (
