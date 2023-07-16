@@ -3,14 +3,14 @@ import { useQuery } from 'react-query'
 import Loader from '@/components/loader/Loader'
 import UsersToFollowItem from './UsersToFollowItem'
 import { Button } from '@/components/Button'
-import { User } from '@/types/next-auth'
+import { User } from 'next-auth/core/types'
 
 interface UsersToFollowProps {
   user: User
   refetchUser: () => void
 }
 
-const UsersToFollow = ({ user = { id: '', username: '', bio: '' }, refetchUser }: UsersToFollowProps) => {
+const UsersToFollow = ({ user, refetchUser }: UsersToFollowProps) => {
   const { isLoading, data: items } = useQuery('users', () => fetch('../api/users').then((res) => res.json()))
   const [visibleUsers, setVisibleUsers] = useState(3)
 

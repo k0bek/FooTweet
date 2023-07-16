@@ -23,7 +23,10 @@ const CreateCommentBar = ({ refetchComments }: CreateCommentBarProps) => {
   const session = useSession()
   const currentData = useCurrentData()
   const router = useRouter()
-  const { user } = useUser(session.data?.user.id as string)
+  const userId = session.data?.user.id
+  const { user } = useUser(userId as string)
+
+  console.log(user)
 
   const mutation = useMutation({
     mutationFn: (newComment: CommentAttributes) => {
@@ -67,7 +70,7 @@ const CreateCommentBar = ({ refetchComments }: CreateCommentBarProps) => {
               data_time: currentData,
               postId: router.query.postid,
               userId: session.data?.user.id,
-              name: user.name,
+              name: user?.name,
               username: user.username,
               profileImage: user.profileImage,
             })

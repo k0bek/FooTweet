@@ -31,7 +31,7 @@ const SinglePost = () => {
             id={post._id}
             usersWhoLiked={post.usersWhoLiked}
             postImage={post.postImage}
-            name={post.name}
+            name={post.image}
             profileImage={post.profileImage}
           />
         ) : (
