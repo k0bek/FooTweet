@@ -153,6 +153,8 @@ const Profile = () => {
                 userId={profilePost.userId}
                 usersWhoLiked={profilePost.usersWhoLiked}
                 postImage={profilePost.postImage}
+                profileImage={profilePost.profileImage}
+                name={profilePost.name}
               />
             )
           })
@@ -160,7 +162,9 @@ const Profile = () => {
           <Loader />
         )}
       </div>
-      {isUserInfoModalOpen && <ChangeUserInfoModal refetchUser={refetchUser} />}
+      {isUserInfoModalOpen && (
+        <ChangeUserInfoModal refetchProfilePosts={refetchProfilePosts} refetchUser={refetchUser} />
+      )}
       {isFollowersFollowingModalOpen && <FollowersFollowingModal isFollowedList={isFollowedList} />}
     </Wrapper>
   )

@@ -1,3 +1,4 @@
+import { useSession } from 'next-auth/react'
 import { useMemo } from 'react'
 import { useQuery } from 'react-query'
 import { create } from 'zustand'
@@ -22,12 +23,17 @@ export const useModalStore = create<ModalState>()((set) => ({
 }))
 
 export const useUser = (userId: string) => {
+  const session = useSession()
   const {
     data: user,
     error,
     isLoading,
     refetch,
-  } = useQuery(['user', userId], () => fetch(`/api/users/${userId}`).then((res) => res.json()), { staleTime: Infinity })
+  } = useQuery(['user', userId], () => {
+    if (session.data) {
+      fetch(`/api/users/${userId}`).then((res) => res.json()), { staleTime: Infinity }
+    }
+  })
 
   const userResult = useMemo(
     () => ({

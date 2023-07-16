@@ -10,7 +10,7 @@ import { Button } from '../Button'
 import { useMutation } from 'react-query'
 import axios from 'axios'
 import { useSession } from 'next-auth/react'
-import { useModalStore, useUser } from '@/hooks/useStore'
+import { useModalStore } from '@/hooks/useStore'
 
 interface PostProps {
   username: string
@@ -20,11 +20,22 @@ interface PostProps {
   userId: string
   usersWhoLiked?: string[]
   postImage: string
+  name: string
+  profileImage: string
 }
 
-const Post = ({ postValue, id, data_time, userId, usersWhoLiked, postImage }: PostProps) => {
+const Post = ({
+  postValue,
+  id,
+  data_time,
+  userId,
+  usersWhoLiked,
+  postImage,
+  username,
+  name,
+  profileImage,
+}: PostProps) => {
   const router = useRouter()
-  const { user } = useUser(userId)
   const session = useSession()
   const [isPostLiked, setIsPostLiked] = useState<boolean>(false)
   const [amountOfLikes, setAmountOfLikes] = useState(usersWhoLiked?.length as number)
@@ -55,14 +66,12 @@ const Post = ({ postValue, id, data_time, userId, usersWhoLiked, postImage }: Po
     router.push(`/profile/${userId}`)
   }
 
-  console.log(postImage)
-
   return (
     <div className="flex w-full cursor-pointer flex-col rounded-2xl bg-slate-700 p-7 font-semibold transition-all hover:bg-slate-700/90">
       <div className="flex h-full w-full flex-col items-start gap-4 xs:flex-row">
         <div className="flex items-start gap-3">
           <Image
-            src={user?.profileImage ? user?.profileImage : lewy}
+            src={profileImage ? profileImage : lewy}
             height={50}
             width={50}
             alt="User's profile image"
@@ -77,10 +86,8 @@ const Post = ({ postValue, id, data_time, userId, usersWhoLiked, postImage }: Po
                   aria-hidden={true}
                   className="flex flex-col items-start xs:flex-row xs:items-end xs:gap-2"
                 >
-                  <span className="text-xl font-semibold text-white xs:text-2xl">
-                    {user?.name ? user?.name : user?.username}
-                  </span>
-                  <span className=" font-medium text-gray-400 xs:text-xl">@{user && user.username}</span>
+                  <span className="text-xl font-semibold text-white xs:text-2xl">{name ? name : username}</span>
+                  <span className=" font-medium text-gray-400 xs:text-xl">@{username}</span>
                 </div>
                 <span className="text-gray-400 xs:text-xl">
                   {moment(data_time, 'YYYY-MM-DDTHH:mm:ss.SSSZ').fromNow()}

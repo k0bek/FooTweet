@@ -8,11 +8,10 @@ import lewy from './../../../assets/images/lewy.jpg'
 import { User } from 'next-auth/core/types'
 
 interface ProfileBarProps {
-  user: User
-  userId: string
+  user: User | void
 }
 
-const ProfileBar = ({ user, userId }: ProfileBarProps) => {
+const ProfileBar = ({ user = { id: '', username: '', bio: '' } }: ProfileBarProps) => {
   return (
     <div className="relative hidden max-w-[29rem] flex-col items-center rounded-2xl bg-gray-800 py-4 xl:flex">
       {user?.backgroundImage ? (
@@ -55,7 +54,7 @@ const ProfileBar = ({ user, userId }: ProfileBarProps) => {
           <span className="text-xl text-gray-500">Followers</span>
         </div>
       </div>
-      <Link href={`/profile/${userId}`} className="mt-4 cursor-pointer px-4 text-2xl text-blue-500">
+      <Link href={`/profile/${user?._id}`} className="mt-4 cursor-pointer px-4 text-2xl text-blue-500">
         My profile
       </Link>
     </div>

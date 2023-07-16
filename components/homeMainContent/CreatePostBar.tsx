@@ -119,6 +119,7 @@ const CreatePostBar = ({ refetchProfilePosts }: CreatePostBarProps) => {
                 name: user?.name,
                 usersWhoLiked: [],
                 postImage: postImage ? `https://res.cloudinary.com/dedatowvi/image/upload/${postImage}` : null,
+                profileImage: user.profileImage,
               })
             } else {
               handlIsAuthModalOpen()

@@ -32,8 +32,8 @@ const Layout = ({ children }: LayoutProps) => {
       {children}
       <div className="absolute right-8 top-[25vh]">
         <div className="flex flex-col gap-5">
-          {session.data?.user ? <ProfileBar user={user} userId={userId as string} /> : <NewUserThumbnail />}
-          <UsersToFollow userId={userId as string} user={user} refetchUser={refetchUser} />
+          {session.data?.user ? <ProfileBar user={user} /> : <NewUserThumbnail />}
+          <UsersToFollow user={user} refetchUser={refetchUser} />
         </div>
       </div>
 

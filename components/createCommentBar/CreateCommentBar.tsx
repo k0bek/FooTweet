@@ -67,6 +67,9 @@ const CreateCommentBar = ({ refetchComments }: CreateCommentBarProps) => {
               data_time: currentData,
               postId: router.query.postid,
               userId: session.data?.user.id,
+              name: user.name,
+              username: user.username,
+              profileImage: user.profileImage,
             })
           }}
           disabled={mutation.isLoading || !session.data || !commentValue}

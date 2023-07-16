@@ -5,15 +5,18 @@ import { connectToDatabase } from '@/lib/connectToDatabase'
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const client = await connectToDatabase()
   const db = client.db()
-  const { commentValue, data_time, postId, userId } = req.body
+  const { commentValue, data_time, postId, userId, username, name, profileImage } = req.body
 
   try {
     if (req.method === 'POST') {
       const result = await db.collection('comments').insertOne({
-        commentValue: commentValue,
-        data_time: data_time,
-        postId: postId,
-        userId: userId,
+        commentValue,
+        data_time,
+        postId,
+        userId,
+        username,
+        name,
+        profileImage,
       })
 
       client.close()

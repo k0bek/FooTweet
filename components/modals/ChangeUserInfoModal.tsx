@@ -18,10 +18,11 @@ import { CldImage, CldUploadWidget } from 'next-cloudinary'
 import Image from 'next/image'
 
 interface ChangeUserInfoModalProps {
+  refetchProfilePosts: () => void
   refetchUser: () => void
 }
 
-const ChangeUserInfoModal = ({ refetchUser }: ChangeUserInfoModalProps) => {
+const ChangeUserInfoModal = ({ refetchUser, refetchProfilePosts }: ChangeUserInfoModalProps) => {
   const [isLoading, setIsLoading] = useState(false)
   const session = useSession()
   const userId = session.data?.user.id as string
@@ -51,6 +52,7 @@ const ChangeUserInfoModal = ({ refetchUser }: ChangeUserInfoModalProps) => {
     onSuccess: () => {
       setIsLoading(false)
       toast.success('Changed user info properly')
+      refetchProfilePosts()
       refetchUser()
       reset()
     },

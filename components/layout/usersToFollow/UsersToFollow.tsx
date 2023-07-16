@@ -3,15 +3,14 @@ import { useQuery } from 'react-query'
 import Loader from '@/components/loader/Loader'
 import UsersToFollowItem from './UsersToFollowItem'
 import { Button } from '@/components/Button'
-import { User } from 'next-auth/core/types'
+import { User } from '@/types/next-auth'
 
 interface UsersToFollowProps {
-  userId: string
   user: User
   refetchUser: () => void
 }
 
-const UsersToFollow = ({ userId, user, refetchUser }: UsersToFollowProps) => {
+const UsersToFollow = ({ user = { id: '', username: '', bio: '' }, refetchUser }: UsersToFollowProps) => {
   const { isLoading, data: items } = useQuery('users', () => fetch('../api/users').then((res) => res.json()))
   const [visibleUsers, setVisibleUsers] = useState(3)
 
@@ -25,7 +24,7 @@ const UsersToFollow = ({ userId, user, refetchUser }: UsersToFollowProps) => {
       <ul className="flex flex-col items-center py-5">
         {!isLoading && items ? (
           items
-            .filter((item: { image: string; username: string; _id: string }) => item._id !== userId)
+            .filter((item: { image: string; username: string; _id: string }) => item._id !== user?._id)
             .slice(0, visibleUsers)
             .map((item: { image: string; username: string; _id: string; profileImage: string; name: string }) => (
               <UsersToFollowItem

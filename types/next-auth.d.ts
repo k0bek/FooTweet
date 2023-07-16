@@ -15,8 +15,8 @@ declare module 'next-auth' {
     username: string
     bio: string
     _id?: string
-    followers: User[]
-    following: User[]
+    followers?: User[]
+    following?: User[]
     backgroundImage?: string
     profileImage?: string
   }
@@ -29,6 +29,8 @@ declare module 'next-auth' {
     username: string
     usersWhoLiked: string[]
     postImage: string
+    profileImage: string
+    name: string
   }
 
   interface CommentAttributes {
@@ -37,6 +39,9 @@ declare module 'next-auth' {
     commentValue: string
     postId: string | string[] | undefined
     userId: string | undefined
+    name: string
+    username: string
+    profileImage: string
   }
 
   interface EditUserInfoAttributes {

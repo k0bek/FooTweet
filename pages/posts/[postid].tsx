@@ -31,6 +31,8 @@ const SinglePost = () => {
             id={post._id}
             usersWhoLiked={post.usersWhoLiked}
             postImage={post.postImage}
+            name={post.name}
+            profileImage={post.profileImage}
           />
         ) : (
           <div className="h-full w-full rounded-2xl">
@@ -46,6 +48,9 @@ const SinglePost = () => {
                 data_time={comment.data_time}
                 key={comment._id}
                 userId={comment.userId}
+                name={comment.name}
+                username={comment.username}
+                profileImage={comment.profileImage}
               />
             )
           })

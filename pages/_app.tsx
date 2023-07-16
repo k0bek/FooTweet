@@ -10,10 +10,15 @@ import Layout from '@/components/Layout'
 const queryClient = new QueryClient()
 
 import { SkeletonTheme } from 'react-loading-skeleton'
+import Head from 'next/head'
 
 export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
     <SkeletonTheme baseColor="#334155" highlightColor="#1F2937">
+      <Head>
+        <title>FooTweet</title>
+        <meta property="og:title" content="FooTweet" key="title" />
+      </Head>
       <SessionProvider session={session}>
         <QueryClientProvider client={queryClient}>
           <Toaster />

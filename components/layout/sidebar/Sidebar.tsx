@@ -4,6 +4,7 @@ import { BiSearch } from 'react-icons/bi'
 import { FaHashtag, FaUserAlt } from 'react-icons/fa'
 import { IoMdNotifications } from 'react-icons/io'
 import { usePathname } from 'next/navigation'
+import { TbLogin, TbLogout } from 'react-icons/tb'
 
 import { Button } from '@/components/Button'
 import { useModalStore } from '@/hooks/useStore'
@@ -58,7 +59,7 @@ const Sidebar = () => {
   }
 
   return (
-    <div className="fixed left-0 top-0 flex h-full flex-col items-center gap-8 border-r-2 border-gray-700 bg-gray-800 py-10 text-5xl md:w-60">
+    <div className="fixed left-0 top-0 flex h-full w-24 flex-col items-center gap-8 border-r-2 border-gray-700 bg-gray-800 py-10 text-5xl md:w-60">
       <Link href="/" className="hidden font-bold text-white md:block md:text-[2.7rem]">
         Foo<span className="text-blue-400">Tweet</span>
       </Link>
@@ -84,14 +85,19 @@ const Sidebar = () => {
           <Button size="lg" theme="blue" onClick={signoutHandler} className="hidden md:block">
             Logout
           </Button>
-          <Button size="icon" theme="blue" onClick={signoutHandler} className="w-full md:hidden">
-            Logout
+          <Button size="lg" theme="blue" onClick={signoutHandler} className="p-4 md:hidden">
+            <TbLogout />
           </Button>
         </>
       ) : (
-        <Button size="lg" theme="blue" onClick={handleIsAuthModalOpen}>
-          Login
-        </Button>
+        <>
+          <Button size="lg" theme="blue" onClick={handleIsAuthModalOpen} className="hidden md:block">
+            Login
+          </Button>
+          <Button size="lg" theme="blue" onClick={handleIsAuthModalOpen} className="p-4 md:hidden">
+            <TbLogin />
+          </Button>
+        </>
       )}
     </div>
   )
