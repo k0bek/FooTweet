@@ -34,12 +34,12 @@ const CreateCommentBar = ({ refetchComments }: CreateCommentBarProps) => {
     },
     onSuccess: () => {
       setCommentValue('')
-      toast.success('Added tweet correctly!')
+      toast.success('Added comment correctly!')
       refetchComments()
     },
 
     onError: () => {
-      toast.error('Error with adding posts. Please try again')
+      toast.error('Error with adding comment. Please try again')
     },
   })
 

@@ -1,7 +1,7 @@
 import { useSession, signOut } from 'next-auth/react'
 import { AiFillHome } from 'react-icons/ai'
 import { BiSearch } from 'react-icons/bi'
-import { FaHashtag, FaUserAlt } from 'react-icons/fa'
+import { FaUserAlt } from 'react-icons/fa'
 import { IoMdNotifications } from 'react-icons/io'
 import { usePathname } from 'next/navigation'
 import { TbLogin, TbLogout } from 'react-icons/tb'
@@ -32,12 +32,6 @@ const Sidebar = () => {
       active: pathname === '/search',
     },
     {
-      label: 'Hashtags',
-      icon: FaHashtag,
-      auth: true,
-      href: '/hashtags',
-    },
-    {
       label: 'Profile',
       icon: FaUserAlt,
       auth: true,
@@ -66,7 +60,7 @@ const Sidebar = () => {
       <Link href="/" className="text-[2.7rem] font-bold text-white md:hidden md:text-[2.7rem]">
         F<span className="text-blue-400">T</span>
       </Link>
-      <ul className="flex flex-col gap-6 md:gap-8">
+      <ul className="flex flex-col gap-6 text-left md:gap-8">
         {sidebarItems.map((item) => {
           return (
             <SidebarItem

@@ -19,7 +19,7 @@ import { useUser, useModalStore } from '@/hooks/useStore'
 import { getSession, useSession } from 'next-auth/react'
 import { GetServerSidePropsContext } from 'next'
 import { Button } from '@/components/Button'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import FollowersFollowingModal from '@/components/modals/FollowersFollowingModal'
 
 const Profile = () => {
@@ -27,6 +27,8 @@ const Profile = () => {
   const { user, isLoadingUser, refetchUser } = useUser(profileId as string)
   const { profilePosts, isLoadingProfilePosts, refetchProfilePosts } = useProfilePosts(profileId as string)
   const [isFollowedList, setIsFollowedForm] = useState(false)
+  const session = useSession()
+  const currentUser = useUser(session.data?.user.id as string)
 
   const [isUserInfoModalOpen, handleIsUserInfoModalOpen] = useModalStore((state) => [
     state.isUserInfoModalOpen,
@@ -38,7 +40,9 @@ const Profile = () => {
     state.handleIsFollowersFollowingModalOpen,
   ])
 
-  const session = useSession()
+  useEffect(() => {
+    refetchUser()
+  }, [currentUser?.user?.following, currentUser?.user?.followers, refetchUser])
 
   return (
     <Wrapper>
@@ -107,11 +111,11 @@ const Profile = () => {
               )}
             </span>
           </div>
-          <div className="mt-5 flex gap-5 text-white transition-all hover:text-gray-300">
+          <div className="mt-5 flex gap-5 text-white transition-all ">
             {!isLoadingUser && user ? (
               <>
                 <p
-                  className="cursor-pointer text-xl md:text-2xl"
+                  className="cursor-pointer text-xl hover:text-gray-300 md:text-2xl"
                   onClick={() => {
                     handleIsFollowersFollowingModalOpen()
                     setIsFollowedForm(false)

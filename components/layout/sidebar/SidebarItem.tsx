@@ -29,7 +29,9 @@ const SidebarItem = ({ icon: Icon, label, href, active }: SidebarItemProps) => {
           active && 'bg-white'
         }`}
       >
-        <Icon className={`text-5xl ${active && 'text-sky-500'} mr-auto w-10 `} />
+        <div>
+          <Icon className={`text-5xl ${active && 'text-sky-500'} mr-auto w-10 `} />
+        </div>
         <p className={`hidden text-2xl md:block ${active && 'text-sky-500'} mr-auto`}>{label}</p>
       </li>
     </Link>
